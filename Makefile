@@ -14,10 +14,18 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-LIB_FLAGS = -lreadline 
-
+LIB_FLAGS = -lreadline -lncurses
+INCLUDES = -L$(READLINE_DIR) 
 
 HEADER = ./header/minishell.h
+
+READLINE_DIR = ./readline-8.1
+READLINE = $(READLINE_DIR)/libreadline.a
+READLINE_HEADER = $(READLINE_DIR)
+
+HISTORY_DIR = ./readline-8.1
+HISTORY = $(HISTORY_DIR)/libhistory.a
+HISTORY_HEADER = $(HISTORY_DIR)
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -33,39 +41,44 @@ OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LS:.c=.o))
 
 GRAY = \033[2;29m
 GREEN = \033[0;32m
+YELLOW = \033[0;33m
 NC = \033[0m
+
 
 all: $(NAME)
 
 #MINISHELL
-$(NAME): $(LIBFT) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
-	@$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) -o $@
-	@echo "$(GRAY)$(shell printf '%*s' $(shell tput cols) | tr ' ' '-')$(NC)"
-	@echo "$(GRAY)$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) -o $@ $(NC)"
-	@echo "$(GREEN)$(NAME) compiled succesfully$(NC)"
+$(NAME): $(LIBFT) $(READLINE) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
+	$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ 
 
 #OBJS
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
-	@$(CC) -c $(CFLAGS) $<  -o $@ 
-	@echo "$(GRAY)$(CC) -c $(CFLAGS) $< -o $@ $(NC)"
+	$(CC) -c $(CFLAGS) $<  -o $@ 
 
 $(OBJS_DIR):
-	@mkdir $@
+	mkdir $@
 
 #LIBFT
 $(LIBFT):
+	@echo "$(YELLOW)Compiling Libft$(NC)"
 	@make -s -C $(LIBFT_DIR)
+	@echo "$(GREEN)Libft compiled succesfully$(NC)"
+#READLINE
+$(READLINE):
+	@echo "$(YELLOW)Compiling readline$(NC)"
+	@make -s -C $(READLINE_DIR)
+	@echo "$(GREEN)readline compiled succesfully$(NC)"
 
 #CLEAN
 clean:
 	@make -s -C $(LIBFT_DIR) clean
-	@echo "$(GREEN)All objects  removed $(NC)"
 	@rm -rf $(OBJS_DIR)
-
+	@echo "$(GREEN)Objects removed$(NC)"
 fclean: clean
+	@make -s -C $(READLINE_DIR) clean
 	@rm -f $(LIBFT)
-	@echo "$(GREEN)All binaries removed\n$(NC)"
 	@rm -f $(NAME)
+	@echo "$(GREEN)Objects and executables removed$(NC)"
 
 re: fclean all
 

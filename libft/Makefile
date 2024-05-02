@@ -39,7 +39,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $^
-	@echo "$(GREEN)Libft compiled succesfully$(NC)"
+#	@echo "$(GREEN)Libft compiled succesfully$(NC)"
 
 bonus: .bonus
 
@@ -52,7 +52,7 @@ bonus: .bonus
 
 clean:
 	@rm -f $(OBJS) $(BONUS_OBJS)
-	@echo "$(GREEN)Libft objects removed$(NC)"
+#	@echo "$(GREEN)Libft objects removed$(NC)"
 
 fclean: clean
 	rm -f $(NAME)
