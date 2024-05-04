@@ -31,7 +31,7 @@ PACKAGE_TARNAME = readline
 srcdir = .
 
 top_srcdir = .
-BUILD_DIR = /Users/ilorenzo/minishell/readline-8.1
+BUILD_DIR = /Users/pde-masc/42/minishell/readline-8.1
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
@@ -74,7 +74,7 @@ DESTDIR =
 ETAGS = etags
 CTAGS = ctags -w
 
-CFLAGS = -g -O2 -Wno-parentheses -Wno-format-security 
+CFLAGS = -g -O2 -Wno-parentheses -Wno-format-security
 LOCAL_CFLAGS =  -DRL_LIBRARY_VERSION='"$(RL_LIBRARY_VERSION)"' -DBRACKETED_PASTE_DEFAULT=1
 CPPFLAGS = 
 
@@ -335,7 +335,7 @@ install-ps:
 check:
 installcheck:
 
-#dist:   force
+dist:   force
 	@echo Readline distributions are created using $(srcdir)/support/mkdist.
 	@echo Here is a sample of the necessary commands:
 	@echo bash $(srcdir)/support/mkdist -m $(srcdir)/MANIFEST -s $(srcdir) -r $(RL_LIBRARY_NAME) $(RL_LIBRARY_VERSION)

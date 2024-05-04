@@ -6,7 +6,7 @@
 #    By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/30 16:26:31 by ilorenzo          #+#    #+#              #
-#    Updated: 2024/04/30 16:26:32 by ilorenzo         ###   ########.fr        #
+#    Updated: 2024/05/04 19:03:53 by pde-masc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,11 +50,11 @@ all: $(NAME)
 
 #MINISHELL
 $(NAME): $(LIBFT) $(READLINE) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
-	$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ 
+	@$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ $< 
 
 #OBJS
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
-	$(CC) -c $(CFLAGS) $<  -o $@ 
+	@$(CC) -c $(CFLAGS) $<  -o $@ 
 $(OBJS_DIR):
 	@mkdir $@
 

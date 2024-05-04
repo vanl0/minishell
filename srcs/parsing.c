@@ -16,6 +16,8 @@ void    parse(char *line)
 {
     if (ft_strncmp(line, "pwd", 4) == 0)
         do_pwd();
+	else if (ft_strncmp(line, "cd ", 3) == 0)
+		chdir(line + 3);
     else if (ft_strncmp(line, "exit", 4) == 0)
         return;
 }
