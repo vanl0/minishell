@@ -11,24 +11,18 @@
 /* ************************************************************************** */
 #include "../header/minishell.h"
 
-int main() {
-    char *line = readline("Ingrese una línea: ");
-    rl_replace_line("Línea reemplazada", 0);
-    rl_redisplay();
-    free(line);
-    return 0;
-}
 
 
-/*
 int main(void)
 {
     char    *line;
 
-    line = readline("minishell>");
-    add_history(line);
-    printf("%s\n", line);
-    free(line);
+    while (1)
+    {
+        line = readline("minishell>");
+        add_history(line);
+        parse(line);
+        free(line);
+    }
     return (0);
 }
-*/

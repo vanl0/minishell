@@ -15,14 +15,19 @@
 # define MINISHELL_H
 
 #define READLINE_LIBRARY
-#include <stdio.h>     // printf
+#define MAX_PATH 1024
+
+
+#include <stdio.h>
 #include "../readline-8.1/history.h"
 #include "../readline-8.1/readline.h"
-
 #include "../libft/libft.h"
-#include <stdlib.h>    // malloc, free, exit
-#include <unistd.h>    // write, access, fork, execve, close, chdir
-#endif
+#include <stdlib.h>
+#include <unistd.h>
 
-//#include <readline/readline.h>
-//#include <readline/history.h>
+
+
+//PARSING
+void    parse(char *line);
+
+#endif

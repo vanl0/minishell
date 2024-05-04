@@ -14,8 +14,8 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-LIB_FLAGS = -lreadline -lncurses
-INCLUDES = -L$(READLINE_DIR) 
+LIB_FLAGS = -lreadline -lncurses -lft
+INCLUDES = -L$(READLINE_DIR) -L$(LIBFT_DIR)
 
 HEADER = ./header/minishell.h
 
@@ -34,7 +34,8 @@ LIBFT_HEADER = $(LIBFT_DIR)
 SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
-SRCS_LS = main.c
+SRCS_LS =	main.c\
+			parsing.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LS:.c=.o))
@@ -54,15 +55,15 @@ $(NAME): $(LIBFT) $(READLINE) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
 #OBJS
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $<  -o $@ 
-
 $(OBJS_DIR):
-	mkdir $@
+	@mkdir $@
 
 #LIBFT
 $(LIBFT):
 	@echo "$(YELLOW)Compiling Libft$(NC)"
 	@make -s -C $(LIBFT_DIR)
 	@echo "$(GREEN)Libft compiled succesfully$(NC)"
+
 #READLINE
 $(READLINE):
 	@echo "$(YELLOW)Compiling readline$(NC)"
