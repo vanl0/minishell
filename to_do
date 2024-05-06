@@ -1,0 +1,28 @@
+LEXER:	Scans input line, checks if there are tokens (| < << > >>)
+		using space as delimiter, if its not a token its interpreted
+		as a word. Add everything to a linked list of words and tokens.
+		to do:
+			-
+			-
+PARSER:	Takes the lexer list and separates into commands generating one
+		command per pipe in form of a linked list.
+		to do:
+			-
+			-
+EXECUTOR:	Executes the commands, also replaces env variables with their
+			actual value ($USER = (char *)ilorenzo).
+		to do:
+			-
+			-
+SIGNALS: CTRL+C prints newline, CTRL+D shuts down, CTRL+\ nothing.
+		to do:
+			-
+			-
+BUILTINS:
+	pwd
+	cd
+	echo
+	env
+	exit
+	export
+	unset
