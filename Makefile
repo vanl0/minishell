@@ -19,6 +19,8 @@ INCLUDES = -L$(READLINE_DIR) -L$(LIBFT_DIR)
 
 HEADER = ./header/minishell.h
 
+READLINE_URL = http://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
+READLINE_TAR = readline-8.1.tar.gz
 READLINE_DIR = ./readline-8.1
 READLINE = $(READLINE_DIR)/libreadline.a
 READLINE_HEADER = $(READLINE_DIR)
@@ -68,10 +70,18 @@ $(LIBFT):
 	@echo "$(GREEN)Libft compiled succesfully$(NC)"
 
 #READLINE
-$(READLINE):
+$(READLINE): $(READLINE_DIR)
 	@echo "$(YELLOW)Compiling readline$(NC)"
 	@make -s -C $(READLINE_DIR)
 	@echo "$(GREEN)readline compiled succesfully$(NC)"
+
+$(READLINE_DIR):
+	@echo "$(YELLOW)Downloading readline$(NC)"
+	@curl -O $(READLINE_URL)
+	@tar -xzvf $(READLINE_TAR)
+	@rm $(READLINE_TAR)
+	@echo "$(YELLOW)Configuring readline$(NC)"
+	@cd $(READLINE_DIR) && ./configure
 
 #CLEAN
 clean:
