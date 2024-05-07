@@ -19,15 +19,18 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "../readline-8.1/history.h"
 #include "../readline-8.1/readline.h"
 #include "../libft/libft.h"
-#include <stdlib.h>
-#include <unistd.h>
+#include "lexer.h"
+#include "parser.h"
 
 
 
 //PARSING
 void    parse(char *line);
-
+//ERROR
+void    *malloc_err(void);
 #endif
