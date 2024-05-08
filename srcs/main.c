@@ -11,14 +11,16 @@
 /* ************************************************************************** */
 #include "../header/minishell.h"
 
-//ABABABABB
+//parse(line);
 int main(void)
 {
     char    *line;
-
-    line = readline("minishell>");
-    add_history(line);
-    lex(line);
-    free(line);
+    while (1)
+    {
+        line = readline("minishell>");
+        add_history(line);
+        lex(line);
+        free(line);
+    }
     return (0);
 }

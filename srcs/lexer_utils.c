@@ -25,14 +25,14 @@ void	free_lexer(t_lexer **lex_lst)
 	lexer_i = lexer_free->next;
 	while (lexer_i)
 	{
-		printf("free %d\n", lexer_free->i);
+		//printf("free %d\n", lexer_free->i);
 		if (lexer_free->str)
 			free(lexer_free->str);
 		free(lexer_free);
 		lexer_free = lexer_i;
 		lexer_i = lexer_i->next;
 	}
-	printf("free %d\n", lexer_free->i);
+	//printf("free %d\n", lexer_free->i);
 	if (lexer_free->str)
 		free(lexer_free->str);
 	free(lexer_free);
