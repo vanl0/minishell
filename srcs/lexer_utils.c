@@ -1,34 +1,40 @@
 
 #include "../header/minishell.h"
 
-char	*join_free(char *s1, char *s2)
+void	print_lexer(t_lexer *lexer)
 {
-	char	*strjoin;
-	int		n;
-	int		i;
-	int		j;
+	t_lexer	*lexer_i;
 
-	if (!s1 || !s2)
-		return (NULL);
-	n = ft_strlen(s1) + ft_strlen(s2) + 1;
-	strjoin = malloc(n * sizeof(char));
-	if (!strjoin)
-    {
-        free(s1);
-		return (NULL);
-    }
-    i = 0;
-	j = 0;
-	while (s1[i])
+	lexer_i = lexer;
+	while (lexer_i)
 	{
-		strjoin[i] = s1[i];
-		i++;
+		printf("lexer: %d\nstr: %s\ntoken: %d\nprev: %p | next: %p\n", lexer_i->i, lexer_i->str, lexer_i->token, lexer_i->prev, lexer_i->next);
+		printf("-----------------------------------\n");
+		lexer_i = lexer_i->next;
 	}
-	while (s2[j])
+}
+
+void	free_lexer(t_lexer **lex_lst)
+{
+	t_lexer	*lexer_i;
+	t_lexer	*lexer_free;
+
+	if (!lex_lst || !(*lex_lst))
+		return ;
+	lexer_free = *lex_lst;
+	lexer_i = lexer_free->next;
+	while (lexer_i)
 	{
-		strjoin[i++] = s2[j++];
+		printf("free %d\n", lexer_free->i);
+		if (lexer_free->str)
+			free(lexer_free->str);
+		free(lexer_free);
+		lexer_free = lexer_i;
+		lexer_i = lexer_i->next;
 	}
-	strjoin[i] = '\0';
-	free (s1);
-	return (strjoin);
+	printf("free %d\n", lexer_free->i);
+	if (lexer_free->str)
+		free(lexer_free->str);
+	free(lexer_free);
+	*lex_lst = NULL;
 }

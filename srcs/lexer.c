@@ -12,18 +12,6 @@
 
 #include "../header/minishell.h"
 
-void	print_lexer(t_lexer *lexer)
-{
-	t_lexer	*lexer_i;
-
-	lexer_i = lexer;
-	while (lexer_i)
-	{
-		printf("lexer: %d\nstr: %s\ntoken: %d\nprev: %p | next: %p\n", lexer_i->i, lexer_i->str, lexer_i->token, lexer_i->prev, lexer_i->next);
-		printf("-----------------------------------\n");
-		lexer_i = lexer_i->next;
-	}
-}
 
 
 /*Mallocs and initializes lexer struct*/
@@ -81,9 +69,8 @@ t_lexer	*get_next(char	*str)
 		start = str;
 	if (!start || !(*start))
 		return (NULL);
-	if (*start == ' ')
+	while (*start == ' ')
 		start++;
-	//start = &str[i];
 	while (start[i] && start[i] != ' ')
 		i++;
 	if (i == 1)
@@ -121,6 +108,7 @@ t_lexer	*lex(char *str)
 		new_lex = get_next(str);
 	}
 	print_lexer(lexer_lst);
+	free_lexer(&lexer_lst);
 	return (lexer_lst);
 }
 

@@ -17,13 +17,11 @@ int main(void)
 {
     char    *line;
 
-    while (1)
-    {
         line = readline("minishell>");
         add_history(line);
         lex(line);
         //parse(line);
         free(line);
-    }
+    
     return (0);
 }
