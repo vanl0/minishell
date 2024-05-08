@@ -21,7 +21,8 @@ int main(void)
     {
         line = readline("minishell>");
         add_history(line);
-        parse(line);
+        lex(line);
+        //parse(line);
         free(line);
     }
     return (0);

@@ -56,7 +56,7 @@ t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex)
 	lexer_i = *lexer_lst;
 	if (!(*lexer_lst))
 	{
-		new_lex->next = new_lex;
+		new_lex->next = NULL;
 		new_lex->prev = NULL;
 		*lexer_lst = new_lex;
 		return (new_lex);
@@ -72,36 +72,39 @@ t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex)
 /*Reads till space found, then returns lexer, token or string*/
 t_lexer	*get_next(char	*str)
 {
-	static char		*start = str;
+	static char		*start = NULL;
 	int				i;
 	char			*res;
 	
 	i = 0;
+	if (!start)
+		start = str;
 	if (!start || !(*start))
 		return (NULL);
 	if (*start == ' ')
 		start++;
-	start = &str[i];
+	//start = &str[i];
 	while (start[i] && start[i] != ' ')
 		i++;
 	if (i == 1)
 	{
 		if (*start == '|')
-			return(set_lexer(NULL, PIPE));
+			return(start++, set_lexer(NULL, PIPE));
 		if (*start == '>')
-			return(set_lexer(NULL, GREAT));
-		if (*start == '-')
-			return(set_lexer(NULL, LESS));
+			return(start++, set_lexer(NULL, GREAT));
+		if (*start == '<')
+			return(start++, set_lexer(NULL, LESS));
 	}
 	if (i == 2)
 	{
 		if (ft_strncmp(start, ">>", 2) == 0)
-			return(set_lexer(NULL, GREATGREAT));
+			return(start += 2, set_lexer(NULL, GREATGREAT));
 		if (ft_strncmp(start, "<<", 2) == 0)
-			return(set_lexer(NULL, LESSLESS));
+			return(start += 2, set_lexer(NULL, LESSLESS));
 	}
 	res = malloc(sizeof(char) * (i + 1));
-	res = ft_strlcpy(res, start, i + 1);
+	ft_strlcpy(res, start, i + 1);
+	start = start + i;
 	return (set_lexer(res, 0));
 }
 
@@ -117,6 +120,7 @@ t_lexer	*lex(char *str)
 		add_lexer(&lexer_lst, new_lex);
 		new_lex = get_next(str);
 	}
+	print_lexer(lexer_lst);
 	return (lexer_lst);
 }
 
