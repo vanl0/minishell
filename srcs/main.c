@@ -17,11 +17,11 @@ int main(void)
 {
     char    *line;
 
-        line = readline("minishell>");
-        add_history(line);
-        lex(line);
-        //parse(line);
-        free(line);
-    
+    line = readline("minishell>");
+    add_history(line);
+    lex(line);
+    free(line);
+
     return (0);
 }
+//parse(line);
