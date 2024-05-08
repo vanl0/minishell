@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 #include "../header/minishell.h"
 
-
-
+//ABABABABB
 int main(void)
 {
     char    *line;
@@ -21,7 +20,5 @@ int main(void)
     add_history(line);
     lex(line);
     free(line);
-
     return (0);
 }
-//parse(line);
