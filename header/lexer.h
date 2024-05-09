@@ -5,8 +5,8 @@
 
 #define PIPE 1
 #define GREAT 2
-#define GREATGREAT 3
-#define LESS 4
+#define LESS 3
+#define GREATGREAT 4
 #define LESSLESS 5
 
 typedef struct s_lexer
@@ -20,7 +20,7 @@ typedef struct s_lexer
 
 
 //LEXER
-t_lexer	*lex(char *str);
+t_lexer	*lexer(char *str);
 t_lexer	*set_lexer(char	*str, int tkn);
 t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex);
 t_lexer	*get_next(char	*str);

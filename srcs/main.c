@@ -15,12 +15,10 @@
 int main(void)
 {
     char    *line;
-    while (1)
-    {
-        line = readline("minishell>");
-        add_history(line);
-        lex(line);
-        free(line);
-    }
+    line = readline("minishell>");
+    add_history(line);
+    lexer(line);
+    free(line);
+    
     return (0);
 }

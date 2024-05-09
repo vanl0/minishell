@@ -55,11 +55,11 @@ all: $(NAME)
 
 #MINISHELL
 $(NAME): $(LIBFT) $(READLINE) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
-	@$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ $< 
+	$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ $< 
 
 #OBJS
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
-	@$(CC) -c $(CFLAGS) $<  -o $@ 
+	$(CC) -c $(CFLAGS) $<  -o $@ 
 $(OBJS_DIR):
 	@mkdir $@
 

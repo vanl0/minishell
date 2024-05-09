@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/09 12:56:39 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/05/09 12:56:41 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 /*Mallocs and initializes lexer struct*/
@@ -54,22 +66,37 @@ int is_token(char c)
     return (0);
 }
 
-char    *get_next_lex(char *str)
+int get_token(char *str)
+{
+    if (str[1])
+    {
+        if (str[0] == '>' && str[1] == '>')
+            return (GREATGREAT);
+        if (str[0] == '<' && str[1] == '<')
+            return (LESSLESS);
+    }
+    if (str[0] == '|')
+        return (PIPE);
+    if (str[0] == '>')
+        return (GREAT);
+    if (str[0] == '<')
+        return (LESS);
+    return (0);
+}
+
+t_lexer    *get_next_lex(char *str)
 {
     int i;
-    int j;
+    char    *word;
 
     i = 0;
-    j = 0;
-    while (str[i] && str[i] != ' ')
-    {
-        if (is_token(str[i]))
-        {
-
-        }
-        
+    if (is_token(str[i]))
+        return (set_lexer(NULL, get_token(&str[i])));
+    while (str[i] && str[i] != ' ' && !is_token(str[i]))
         i++;
-    }
+    word = malloc((i + 1) * sizeof(char));
+    ft_strlcpy(word, str, i + 1);
+    return (set_lexer(word, 0));
 }
 
 int skip_i(char *str)
@@ -77,13 +104,22 @@ int skip_i(char *str)
     int i;
 
     i = 0;
-    if (str[i])
-    while (str[i] == )
+    if (is_token(str[0]))
+    {
+        if (get_token(&str[0]) > 3)
+            return (2);
+        return (1);
+    }
+    while (str[i] && str[i] != ' ' && !is_token(str[i]))
+        i++;
+    return (i);
 }
 
-char    *lexer(char *str)
+t_lexer    *lexer(char *str)
 {
     int i;
+    t_lexer *lexer_lst;
+    t_lexer *lexer_i;
 
     i = 0;
     if (!str)
@@ -94,9 +130,12 @@ char    *lexer(char *str)
             i++;
         if (str[i])
         {
-            
+            lexer_i = get_next_lex(&str[i]);
+            add_lexer(&lexer_lst, lexer_i);
         }
         i += skip_i(&str[i]);
     }
-    
+    print_lexer(lexer_lst);
+    free_lexer(&lexer_lst);
+    return (lexer_lst);
 }
