@@ -4,7 +4,7 @@
 /*Errors to handle
     - token at the end
     - two or more tokens in a row?
-    */
+*/
 
 char    *tk_to_str(int token)
 {

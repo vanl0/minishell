@@ -18,6 +18,13 @@ typedef struct s_lexer
 	struct s_lexer  *prev;
 }   t_lexer;
 
+typedef struct s_env
+{
+	char			*name;
+	char			*content;
+	struct s_env	*next;
+}	t_env;
+
 
 //LEXER
 t_lexer	*lexer(char *str);
@@ -30,5 +37,12 @@ int		get_token(char *str);
 //UTILS
 void	print_lexer(t_lexer *lexer);
 void	free_lexer(t_lexer **lex_lst);
+int		is_space(char c);
+
+//ENVIRONMENT
+t_env   *env_init(char **env);
+void    free_env(t_env **env_lst);
+//EXPANSOR
+char    *expand_env(char *env_str, t_env *env_lst);
 
 #endif
