@@ -6,7 +6,7 @@
 #    By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/30 16:26:31 by ilorenzo          #+#    #+#              #
-#    Updated: 2024/05/04 19:03:53 by pde-masc         ###   ########.fr        #
+#    Updated: 2024/05/12 15:22:20 by pde-masc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,10 +37,10 @@ SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
 SRCS_LS =	main.c\
-			parsing.c\
 			lexer.c\
 			lexer_utils.c\
-			error.c
+			error.c\
+			parsing_utils.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LS:.c=.o))

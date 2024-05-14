@@ -14,11 +14,14 @@
 //parse(line);
 int main(void)
 {
+    t_lexer *lexer_lst;
     char    *line;
+
     line = readline("minishell>");
     add_history(line);
-    lexer(line);
-    free(line);
+    lexer_lst = lexer(line);
     
+    free(line);
+    free_lexer(&lexer_lst);
     return (0);
 }
