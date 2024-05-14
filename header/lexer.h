@@ -9,7 +9,8 @@
 #define GREATGREAT 4
 #define LESSLESS 5
 
-#include "parser.h"
+#include "minishell.h"
+
 typedef struct s_lexer
 {
 	char            *str;
