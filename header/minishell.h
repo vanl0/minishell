@@ -24,10 +24,8 @@
 #include "../readline-8.1/history.h"
 #include "../readline-8.1/readline.h"
 #include "../libft/libft.h"
-#include "lexer.h"
 #include "parser.h"
-
-
+#include "lexer.h"
 
 //PARSING
 //void    parse(char *line);

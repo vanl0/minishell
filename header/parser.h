@@ -4,6 +4,22 @@
 
 # include "minishell.h"
 
+typedef struct s_lexer
+{
+	char            *str;
+	int             token;
+	int				i;
+	struct s_lexer  *next;
+	struct s_lexer  *prev;
+}   t_lexer;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*content;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_tools
 {
 	char					*args;
