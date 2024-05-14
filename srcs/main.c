@@ -11,11 +11,30 @@
 /* ************************************************************************** */
 #include "../header/minishell.h"
 
+t_tools *tools_init(void)
+{
+    t_tools *tools;
+
+    tools = malloc(sizeof(t_tools));
+    if (!tools)
+        return (NULL);
+    tools->args = NULL;
+    tools->paths = NULL;
+    tools->envp = NULL;
+    tools->lexer_list = NULL;
+    tools->pwd = NULL;
+    tools->old_pwd = NULL;
+    tools->pipes = 0;
+    tools->pid = NULL;
+    return (tools);
+}
+
 //parse(line);
 int main(int argc, char **argv, char **env)
 {
-    t_env   *env_lst;
+    //t_tools *tools;
 
+    env = NULL;
     if (argc != 1 || argv[1])
 	{
 		printf("This program does not accept arguments\n");
@@ -26,9 +45,13 @@ int main(int argc, char **argv, char **env)
     add_history(line);
     lexer(line);
     free(line);
-    free_env(&env_lst);
+    
+
     return (0);
 }
-/*    env_lst = NULL;
+/*  t_env   *env_lst;
+    env_lst = NULL;
     env_lst = env_init(env);
-    expand_env("$PATHo", env_lst);*/
+    //expand_env("$PATH", env_lst);
+    get_paths(&tools, env_lst);
+    free_env(&env_lst); */

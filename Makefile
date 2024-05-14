@@ -42,7 +42,8 @@ SRCS_LS =	main.c\
 			lexer_utils.c\
 			error.c\
 			environment.c\
-			expansor.c
+			expansor.c\
+			paths.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LS:.c=.o))

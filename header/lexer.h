@@ -9,6 +9,7 @@
 #define GREATGREAT 4
 #define LESSLESS 5
 
+#include "parser.h"
 typedef struct s_lexer
 {
 	char            *str;
@@ -25,6 +26,20 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_tools
+{
+	char					*args;
+	char					**paths;
+	char					**envp;
+	//struct s_simple_cmds	*simple_cmds;
+	t_lexer					*lexer_list;
+	char					*pwd;
+	char					*old_pwd;
+	int						pipes;
+	int						*pid;
+	//bool					heredoc;
+	//bool					reset;
+}	t_tools;
 
 //LEXER
 t_lexer	*lexer(char *str);
@@ -44,5 +59,6 @@ t_env   *env_init(char **env);
 void    free_env(t_env **env_lst);
 //EXPANSOR
 char    *expand_env(char *env_str, t_env *env_lst);
-
+//PATHS
+void    get_paths(t_tools *tools, t_env *env_lst);
 #endif
