@@ -32,6 +32,7 @@ t_tools *tools_init(void)
 //parse(line);
 int main(int argc, char **argv, char **env)
 {
+    t_lexer *lexer_lst;
     //t_tools *tools;
 
     env = NULL;
@@ -41,9 +42,11 @@ int main(int argc, char **argv, char **env)
 		exit(0);
 	}
     char    *line;
+
     line = readline("minishell>");
     add_history(line);
-    lexer(line);
+    lexer_lst = lexer(line);
+    
     free(line);
     
 

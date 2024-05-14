@@ -30,7 +30,8 @@
 
 
 //PARSING
-void    parse(char *line);
+//void    parse(char *line);
+
 //ERROR
 void    *malloc_err(void);
 #endif
