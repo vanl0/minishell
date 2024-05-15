@@ -42,14 +42,14 @@ int main(int argc, char **argv, char **env)
 		exit(0);
 	}
     char    *line;
+    t_simple_cmds   *commands;
 
     line = readline("minishell>");
     add_history(line);
     lexer_lst = lexer(line);
-    
+    commands = parse(lexer_lst);
     free(line);
-    
-
+    //free_lexer(&lexer_lst);
     return (0);
 }
 /*  t_env   *env_lst;
