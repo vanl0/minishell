@@ -38,7 +38,7 @@ void	delete_first(t_lexer **lex_lst)
     free(old);
 }
 
-void    print_matrix(char **str)
+void    print_mat(char **str)
 {
     while (*str != NULL)
     {
@@ -61,7 +61,7 @@ void    print_cmds(t_simple_cmds *cmds)
         printf("New Command:\nCommand ID: %d\n", i++);
         printf(". . .\n");
         printf("Arguments\n");
-        print_matrix(cmds_i->str);
+        print_mat(cmds_i->str);
         printf(". . .\n");
         if (cmds_i->redirections)
         {
