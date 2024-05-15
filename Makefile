@@ -14,8 +14,8 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-LIB_FLAGS = -lreadline -lncurses -lft
-INCLUDES = -L$(READLINE_DIR) -L$(LIBFT_DIR)
+LIB_FLAGS = -lreadline -lncurses -lft -L$(READLINE_DIR) -L$(LIBFT_DIR)
+INCLUDES = -I./header
 
 HEADER = ./header/minishell.h
 
@@ -37,18 +37,21 @@ SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
 SRCS_LS =	main.c\
-			lexer.c\
-			lexer_utils.c\
 			error.c\
-			parsing.c\
-			environment.c\
-			expansor.c\
-			paths.c\
-			parsing_utils.c\
-			quotes.c
+			lexer/lexer.c\
+			lexer/lexer_utils.c\
+			lexer/environment.c\
+			lexer/expansor.c\
+			lexer/paths.c\
+			parser/parsing.c\
+			parser/parsing_utils.c\
+			lexer/quotes.c
+
+LEXER_PATH = srcs/lexer/
+PARSER_PATH = srcs/parser/
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
-OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LS:.c=.o))
+OBJS = $(addprefix $(OBJS_DIR),$(notdir $(SRCS_LS:.c=.o)))
 
 GRAY = \033[2;29m
 GREEN = \033[0;32m
@@ -64,7 +67,11 @@ $(NAME): $(LIBFT) $(READLINE) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
 
 #OBJS
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
-	$(CC) -c $(CFLAGS) $<  -o $@ 
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
+$(OBJS_DIR)%.o: $(LEXER_PATH)%.c $(HEADER) Makefile
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
+$(OBJS_DIR)%.o: $(PARSER_PATH)%.c $(HEADER) Makefile
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
 $(OBJS_DIR):
 	@mkdir $@
 

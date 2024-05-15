@@ -9,7 +9,7 @@
 /*   Updated: 2024/04/30 16:30:35 by ilorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../header/minishell.h"
+#include "minishell.h"
 
 t_tools *tools_init(void)
 {
@@ -42,15 +42,13 @@ int main(int argc, char **argv, char **env)
 		exit(0);
 	}
     char    *line;
-    t_simple_cmds   *commands;
+    //t_simple_cmds   *commands;
 
     line = readline("minishell>");
-    line = clean_quotes(line);
-    printf("%s\n", line);
-    /*line = readline("minishell>");
-    add_history(line);
-    lexer_lst = lexer(line);
-    commands = parse(lexer_lst);
+    //line = clean_quotes(line);
+    //printf("%s\n", line);
+    //lexer_lst = lexer(line);
+    //commands = parse(lexer_lst);
     free(line);
     //free_lexer(&lexer_lst);
     return (0);
