@@ -135,6 +135,6 @@ t_lexer    *lexer(char *str)
         }
         i += skip_i(&str[i]);
     }
-    print_lexer(lexer_lst);
+    //print_lexer(lexer_lst);
     return (lexer_lst);
 }

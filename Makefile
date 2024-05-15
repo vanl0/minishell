@@ -40,6 +40,7 @@ SRCS_LS =	main.c\
 			lexer.c\
 			lexer_utils.c\
 			error.c\
+			parsing.c\
 			parsing_utils.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))

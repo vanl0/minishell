@@ -37,3 +37,40 @@ void	delete_first(t_lexer **lex_lst)
         free(old->str);
     free(old);
 }
+
+void    print_matrix(char **str)
+{
+    while (*str != NULL)
+    {
+        printf("[%s] ", *str);
+        ++str;
+    }
+    printf("\n");
+}
+
+void    print_cmds(t_simple_cmds *cmds)
+{
+    t_simple_cmds *cmds_i;
+    int i;
+    
+    cmds_i = cmds;
+    i = 0;
+    while (cmds_i)
+    {
+        printf("-----------------------------------\n");
+        printf("New Command:\nCommand ID: %d\n", i++);
+        printf(". . .\n");
+        printf("Arguments\n");
+        print_matrix(cmds_i->str);
+        printf(". . .\n");
+        if (cmds_i->redirections)
+        {
+            printf("Redirections Lexer List:\n");
+            print_lexer(cmds_i->redirections);
+        }
+        else
+            printf("No Redirections.\n");
+        cmds_i = cmds_i->next;
+        printf("-----------------------------------\n");
+    }
+}

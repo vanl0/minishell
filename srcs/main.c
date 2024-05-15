@@ -16,12 +16,13 @@ int main(void)
 {
     t_lexer *lexer_lst;
     char    *line;
+    t_simple_cmds   *commands;
 
     line = readline("minishell>");
     add_history(line);
     lexer_lst = lexer(line);
-    
+    commands = parse(lexer_lst);
     free(line);
-    free_lexer(&lexer_lst);
+    //free_lexer(&lexer_lst);
     return (0);
 }

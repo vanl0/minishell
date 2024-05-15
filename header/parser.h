@@ -31,11 +31,11 @@ typedef struct s_simple_cmds
 }	t_simple_cmds;
 
 // PARSER
-void    parse(t_lexer *lex_lst);
+t_simple_cmds   *parse(t_lexer *lex_lst);
 
 // PARSER UTILS
 int		count_args(t_lexer *lex_lst);
-void	delete_node(t_lexer **lex_lst);
+void	delete_first(t_lexer **lex_lst);
 
 // UTILS
 void    print_cmds(t_simple_cmds *cmds);
