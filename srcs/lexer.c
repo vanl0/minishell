@@ -22,6 +22,20 @@ A B=A B
 "'"='
 '""'=""
 '"'"'"="'
+"1"2'3'4 4"1"2'3' '3'4"1"2 2'3'4"1" "1""1"2'4' '4''4'"1"2 "'" '"' "'$USER'" '"$USER"'
+*/
+
+/*
+if quote found
+    curr_quote = 0 -> curr_quote = new one: CONTINUE
+    curr_quote = new one: QUOTE CLOSED
+    curr_quote != new one: CONTINUE
+if quote closed
+    next one is SPACE/NULL: RETURN string
+    next one is NEW QUOTE: CONTINUE UNTIL NEW CLOSING QUOTE
+    next one is NOT QUOTE/SPACE/END: CONTINUE UNTIL SPACE/NULL/NEW QUOTE
+else
+    ERROR
 */
 
 void    *quote_err(void)
@@ -31,7 +45,7 @@ void    *quote_err(void)
     return (NULL);
 }
 
-int quote_len(char *str)
+int quote_len2(char *str)
 {
     int     len;
     char    quote;
@@ -44,11 +58,12 @@ int quote_len(char *str)
     }
     return (len + 1);
 }
-t_lexer *quote_lexer(char *str)
+
+int quote_len(char *str)
 {
     int     i;
-    char    *word;
     char    quote;
+
 
     i = 1;
     quote = *str;
@@ -56,13 +71,33 @@ t_lexer *quote_lexer(char *str)
     {
         if (str[i] == quote)
         {
-            word = malloc((i + 2) * sizeof(char));
-            ft_strlcpy(word, str, i + 2);
-            return (set_lexer(word, 0));
+            if (is_space(str[i + 1]) || str[i + 1] == '\0')
+            {
+                return (i + 1);
+            }
+            if (str[i + 1] == '"' || str[i + 1] == '\'')
+            {
+                quote = str[i + 1];
+                i++;
+            }
+            else
+                quote = 0;
+        }
+        else
+        {
+            if ((str[i] == '"' || str[i] == '\'') && quote == 0)
+            {
+                quote = str[i];
+                i++;
+            }
+            if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
+            {
+                return (i + 1);
+            }
         }
         i++;
     }
-    return (quote_err());
+    return (printf("syntax error: open quotes\n"));
 }
 
 t_lexer *get_next_lex(char *str)
@@ -76,7 +111,9 @@ t_lexer *get_next_lex(char *str)
     while (str[i] && is_space(str[i]) == 0 && !is_token(str[i]))
     {
         if (str[i] == '"' || str[i] == '\'')
-            return (quote_lexer(&str[i]));
+        {
+            i += quote_len(&str[i]) - 1;
+        }
         i++;
     }
     word = malloc((i + 1) * sizeof(char));
@@ -99,11 +136,16 @@ int skip_i(char *str)
         return (quote_len(&str[i]));
     while (str[i] && is_space(str[i]) == 0 && !is_token(str[i]))
     {
+        if (str[i] == '"' || str[i] == '\'')
+        {
+            i += quote_len(&str[i]) - 1;
+        }
         i++;
     }
     return (i);
 }
 
+/*this is not eficient at all but works for now*/
 t_lexer    *lexer(char *str)
 {
     int i;
@@ -125,5 +167,53 @@ t_lexer    *lexer(char *str)
         i += skip_i(&str[i]);
     }
     print_lexer(lexer_lst);
+    //free_lexer(&lexer_lst);
     return (lexer_lst);
 }
+
+
+/*t_lexer *quote_lexer(char *str)
+{
+    int     i;
+    char    *word;
+    char    quote;
+
+
+    i = 1;
+    quote = *str;
+    while (str[i])
+    {
+        if (str[i] == quote)
+        {
+            if (is_space(str[i + 1]) || str[i + 1] == '\0')
+            {
+                word = malloc((i + 2) * sizeof(char));
+                ft_strlcpy(word, str, i + 2);
+                return (set_lexer(word, 0));
+            }
+            if (str[i + 1] == '"' || str[i + 1] == '\'')
+            {
+                quote = str[i + 1];
+                i++;
+            }
+            else
+                quote = 0;
+        }
+        else
+        {
+            if ((str[i] == '"' || str[i] == '\'') && quote == 0)
+            {
+                quote = str[i];
+                i++;
+            }
+            if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
+            {
+                word = malloc((i + 2) * sizeof(char));
+                ft_strlcpy(word, str, i + 2);
+                return (set_lexer(word, 0));
+            }
+        }
+        i++;
+    }
+    return (quote_err());
+}*/

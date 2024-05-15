@@ -2,9 +2,15 @@ LEXER:	Scans input line, checks if there are tokens (| < << > >>)
 		using space as delimiter, if its not a token its interpreted
 		as a word. Add everything to a linked list of words and tokens.
 		to do:
-			- create a delete_node function which removes a lex from lex_lst cleaning the strings (erasing "" and '')
+			- create a delete_node function which removes a lex from lex_lst 
+			- handle quotes when lexing
+				* handle unclosed quotes
+			- list all the env var ✅ 
+			- convert $vars to its content ✅ 
+			- list all the paths of $PATH ✅ 
+			- cleaning the strings (erasing "" and '') and expanding environment if found.
 			- syntax errors
-			- 
+			- we should organize .c in subfolders
 PARSER:	Takes the lexer list and separates into commands generating one
 		command per pipe in form of a linked list.
 		to do:
@@ -16,7 +22,7 @@ EXECUTOR:	Executes the commands, also replaces env variables with their
 			-
 SIGNALS: CTRL+C prints newline, CTRL+D shuts down, CTRL+\ nothing.
 		to do:
-			- 
+			- do the loop for readline
 			- 
 BUILTINS:
 	pwd

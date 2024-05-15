@@ -31,4 +31,7 @@ void    free_env(t_env **env_lst);
 char    *expand_env(char *env_str, t_env *env_lst);
 //PATHS
 void    get_paths(t_tools *tools, t_env *env_lst);
+//QUOTES
+char    *clean_quotes(char *str);
+
 #endif
