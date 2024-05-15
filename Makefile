@@ -44,7 +44,8 @@ SRCS_LS =	main.c\
 			environment.c\
 			expansor.c\
 			paths.c\
-			parsing_utils.c
+			parsing_utils.c\
+			quotes.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LS:.c=.o))
@@ -100,4 +101,6 @@ fclean: clean
 
 re: fclean all
 
+leaks:
+	leaks -atExit -- ./minishell
 .PHONY: all clean fclean re
