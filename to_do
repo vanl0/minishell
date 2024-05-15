@@ -15,8 +15,7 @@ PARSER:	Takes the lexer list and separates into commands generating one
 		command per pipe in form of a linked list.
 		to do:
 			- 
-EXECUTOR:	Executes the commands, also replaces env variables with their
-			actual value ($USER = (char *)ilorenzo).
+EXECUTOR:	Executes the commands
 		to do:
 			- make "$?", save the return value of the last command
 			-

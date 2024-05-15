@@ -110,4 +110,7 @@ re: fclean all
 
 leaks:
 	leaks -atExit -- ./minishell
+valg:
+	valgrind --leak-check=full ./minishell
+
 .PHONY: all clean fclean re

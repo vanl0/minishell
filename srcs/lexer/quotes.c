@@ -14,7 +14,7 @@
 #include "../header/minishell.h"
 
 //"1"2'3'4 4"1"2'3' '3'4"1"2 2'3'4"1" "1""1"2'4' '4''4'"1"2 "'" '"' "'$USER'" '"$USER"'
-char    *remove_quote(char *str, int start, int *end)
+char    *remove_quote(char *str, int start, int *end, t_env *env_lst)
 {
     char    *new_word;
     char    quote;
@@ -48,7 +48,7 @@ char    *remove_quote(char *str, int start, int *end)
     return (new_word);
 }
 
-char    *clean_quotes(char *str)
+char    *clean_quotes(char *str, t_env *env_lst)
 {
     char    quote;
     int     i;
@@ -63,7 +63,7 @@ char    *clean_quotes(char *str)
     {
         if (quote != 0 && str[i] == quote)//closed quote
         {
-            str = remove_quote(str, start, &i);
+            str = remove_quote(str, start, &i, env_lst);
             quote = 0;
             //i -= 2;
             //i++;
@@ -81,7 +81,7 @@ char    *clean_quotes(char *str)
     return (str);
 }
 
-void    check_quotes(t_lexer *lexer_lst)
+void    check_quotes(t_lexer *lexer_lst, t_env *env_lst)
 {
     t_lexer *lexer_i;
 
@@ -89,7 +89,7 @@ void    check_quotes(t_lexer *lexer_lst)
     while (lexer_i)
     {
         if (lexer_i->str)
-            lexer_i->str = clean_quotes(lexer_i->str);
+            lexer_i->str = clean_quotes(lexer_i->str, env_lst);
         lexer_i = lexer_i->next;
     }
 }

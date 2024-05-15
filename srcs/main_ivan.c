@@ -20,8 +20,8 @@ t_tools *tools_init(void)
         return (NULL);
     tools->args = NULL;
     tools->paths = NULL;
-    tools->envp = NULL;
-    tools->lexer_list = NULL;
+    tools->env_lst = NULL;
+    tools->lexer_lst = NULL;
     tools->pwd = NULL;
     tools->old_pwd = NULL;
     tools->pipes = 0;
@@ -32,31 +32,25 @@ t_tools *tools_init(void)
 //parse(line);
 int main(int argc, char **argv, char **env)
 {
-    t_lexer *lexer_lst = NULL;
+    //t_lexer *lexer_lst = NULL;
     char    *line;
-    //t_tools *tools;
+    t_tools *tools;
 
-    env = NULL;
     if (argc != 1 || argv[1])
 	{
 		printf("This program does not accept arguments\n");
 		exit(0);
 	}
-    /* while (1)
-    {
-        line = readline("minishell>");
-        printf("\n%s\n", line);
-        line = clean_quotes(line);
-        printf("\n>%s<\n\n", line);
-        free(line);
-    } */
+    tools = tools_init();
     line = readline("minishell>");
-    lexer_lst = lexer(line);
-    print_lexer(lexer_lst);
+    tools->lexer_lst = lexer(line);
+    tools->env_lst = env_init(env);
+    print_lexer(tools->lexer_lst);
     printf("//////////////////////////////////////////////////////////////\n");
-    check_quotes(lexer_lst);
-    print_lexer(lexer_lst);
+    check_quotes(tools->lexer_lst, tools->env_lst);
+    print_lexer(tools->lexer_lst);
     free(line);
-    free_lexer(&lexer_lst);
+    free_lexer(&(tools->lexer_lst));
+    free_env(&tools->env_lst);
     return (0);
 }
