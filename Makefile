@@ -45,10 +45,12 @@ SRCS_LS =	main.c\
 			lexer/paths.c\
 			parser/parsing.c\
 			parser/parsing_utils.c\
-			lexer/quotes.c
+			lexer/quotes.c\
+			executor/execution.c\
 
 LEXER_PATH = srcs/lexer/
 PARSER_PATH = srcs/parser/
+EXECUTOR_PATH = srcs/executor/
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR),$(notdir $(SRCS_LS:.c=.o)))
@@ -71,6 +73,8 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
 $(OBJS_DIR)%.o: $(LEXER_PATH)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
 $(OBJS_DIR)%.o: $(PARSER_PATH)%.c $(HEADER) Makefile
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
+$(OBJS_DIR)%.o: $(EXECUTOR_PATH)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
 $(OBJS_DIR):
 	@mkdir $@

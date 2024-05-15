@@ -30,6 +30,9 @@
 //PARSING
 //void    parse(char *line);
 
+// EXECUTION
+void    execute_all(t_simple_cmds *cmd, t_tools *tools);
+
 //ERROR
 void    *malloc_err(void);
 #endif

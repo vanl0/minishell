@@ -32,6 +32,5 @@ char    *find_path(t_env *env_lst)
 void    get_paths(t_tools *tools, t_env *env_lst)
 {
     tools->paths = ft_split(find_path(env_lst), ':');
-    print_matrix(tools->paths);
-    free_matrix(tools->paths);
+    //print_matrix(tools->paths);
 }

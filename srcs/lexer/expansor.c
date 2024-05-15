@@ -36,10 +36,10 @@ char    *expand_env(char *env_str, t_env *env_lst)
 {
     char    *env_name;
     char    *content;   
-    t_env   *env_i;
+    //t_env   *env_i;
 
     env_name = get_env_name(env_str);
-    env_i = env_lst;
+    //env_i = env_lst;
     if (!env_name)
         return (NULL);
     content = search_env(env_name, env_lst);

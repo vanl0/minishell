@@ -153,6 +153,7 @@ t_lexer    *lexer(char *str)
     t_lexer *lexer_i;
 
     i = 0;
+    lexer_lst = NULL;
     if (!str)
         return (NULL);
     while (str[i])
