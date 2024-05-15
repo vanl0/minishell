@@ -17,11 +17,13 @@
 char    *remove_quote(char *str, int start, int *end)
 {
     char    *new_word;
+    char    quote;
     int     i;
     int     j;
 
     i = 0;
     j = 0;
+    quote = str[start];
     new_word = malloc((ft_strlen(str) - 2) * sizeof(char));
     while (str[i])
     {
@@ -34,6 +36,10 @@ char    *remove_quote(char *str, int start, int *end)
             new_word[j] = str[i];
             j++;
             i++;
+        }
+        if (str[i] == '$' && quote == '\'')
+        {
+            //expand var and erase '' and realloc new_word and manage i value to change
         }
     }
     new_word[j] = '\0';
