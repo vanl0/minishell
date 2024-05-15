@@ -32,7 +32,8 @@ t_tools *tools_init(void)
 //parse(line);
 int main(int argc, char **argv, char **env)
 {
-    //t_lexer *lexer_lst;
+    t_lexer *lexer_lst = NULL;
+    char    *line;
     //t_tools *tools;
 
     env = NULL;
@@ -41,21 +42,21 @@ int main(int argc, char **argv, char **env)
 		printf("This program does not accept arguments\n");
 		exit(0);
 	}
-    char    *line;
-    //t_simple_cmds   *commands;
-
+    /* while (1)
+    {
+        line = readline("minishell>");
+        printf("\n%s\n", line);
+        line = clean_quotes(line);
+        printf("\n>%s<\n\n", line);
+        free(line);
+    } */
     line = readline("minishell>");
-    //line = clean_quotes(line);
-    //printf("%s\n", line);
-    //lexer_lst = lexer(line);
-    //commands = parse(lexer_lst);
+    lexer_lst = lexer(line);
+    print_lexer(lexer_lst);
+    printf("//////////////////////////////////////////////////////////////\n");
+    check_quotes(lexer_lst);
+    print_lexer(lexer_lst);
     free(line);
-    //free_lexer(&lexer_lst);
+    free_lexer(&lexer_lst);
     return (0);
 }
-/*  t_env   *env_lst;
-    env_lst = NULL;
-    env_lst = env_init(env);
-    //expand_env("$PATH", env_lst);
-    get_paths(&tools, env_lst);
-    free_env(&env_lst); */

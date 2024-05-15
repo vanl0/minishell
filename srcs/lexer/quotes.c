@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/15 17:38:50 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/05/15 17:38:51 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../header/minishell.h"
 
-
-char    *remove_quote(char *str, int start, int end)
+//"1"2'3'4 4"1"2'3' '3'4"1"2 2'3'4"1" "1""1"2'4' '4''4'"1"2 "'" '"' "'$USER'" '"$USER"'
+char    *remove_quote(char *str, int start, int *end)
 {
     char    *new_word;
-    //char    quote;
     int     i;
     int     j;
 
@@ -16,7 +27,7 @@ char    *remove_quote(char *str, int start, int end)
     {
         if (i == start)
             i++;
-        if (i == end)
+        if (i == *end)
             i++;
         if (str[i])
         {
@@ -27,14 +38,10 @@ char    *remove_quote(char *str, int start, int end)
     }
     new_word[j] = '\0';
     free(str);
+    *end = *end - 1;
     return (new_word);
 }
-/*
-"UNO"
-UNO
-UNO"DOS"TRES
-UNODOSTRES
-*/
+
 char    *clean_quotes(char *str)
 {
     char    quote;
@@ -50,9 +57,10 @@ char    *clean_quotes(char *str)
     {
         if (quote != 0 && str[i] == quote)//closed quote
         {
-            str = remove_quote(str, start, i);
+            str = remove_quote(str, start, &i);
             quote = 0;
-            i -= 2;
+            //i -= 2;
+            //i++;
             start = i;
         }
         else if (quote == 0 && (str[i] == '"' || str[i] == '\''))//new quote
@@ -78,5 +86,4 @@ void    check_quotes(t_lexer *lexer_lst)
             lexer_i->str = clean_quotes(lexer_i->str);
         lexer_i = lexer_i->next;
     }
-
 }

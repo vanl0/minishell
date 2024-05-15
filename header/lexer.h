@@ -32,6 +32,7 @@ char    *expand_env(char *env_str, t_env *env_lst);
 //PATHS
 void    get_paths(t_tools *tools, t_env *env_lst);
 //QUOTES
+void    check_quotes(t_lexer *lexer_lst);
 char    *clean_quotes(char *str);
 
 #endif

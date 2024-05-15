@@ -149,7 +149,7 @@ int skip_i(char *str)
 t_lexer    *lexer(char *str)
 {
     int i;
-    t_lexer *lexer_lst;
+    t_lexer *lexer_lst = NULL;
     t_lexer *lexer_i;
 
     i = 0;
@@ -166,7 +166,6 @@ t_lexer    *lexer(char *str)
         }
         i += skip_i(&str[i]);
     }
-    //print_lexer(lexer_lst);
     return (lexer_lst);
 }
 

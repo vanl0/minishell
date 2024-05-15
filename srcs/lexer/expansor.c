@@ -1,5 +1,17 @@
-#include "../header/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/15 17:38:16 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/05/15 17:38:17 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../header/minishell.h"
+// $ dentro de "" se expande
 /*Returns malloc'd string of the word in the $variable*/
 char    *get_env_name(char *env_str)
 {
