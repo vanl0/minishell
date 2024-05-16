@@ -47,11 +47,15 @@ typedef struct s_simple_cmds
 }	t_simple_cmds;
 
 // PARSER
+t_simple_cmds   *alloc_cmd(t_lexer *lex_lst);
 t_simple_cmds   *parse(t_lexer *lex_lst);
+void			setup_cmd(t_simple_cmds *cmd, t_lexer **lex_lst);
+
 
 // PARSER UTILS
-int		count_args(t_lexer *lex_lst);
-void	delete_first(t_lexer **lex_lst);
+int				count_args(t_lexer *lex_lst);
+void			delete_first(t_lexer **lex_lst);
+t_lexer			*make_redir(t_lexer **rd_node);
 
 // UTILS
 void    print_cmds(t_simple_cmds *cmds);

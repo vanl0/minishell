@@ -56,7 +56,7 @@ void    execute_cmd(t_simple_cmds *cmd, t_tools *tools)
         // handle error
         return ;
     }
-    execv(path, cmd->str + 1);
+    execv(path, cmd->str);
     free(path);
     // handle error: if execv fails, it returns.
 }

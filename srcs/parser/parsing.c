@@ -22,23 +22,6 @@ t_simple_cmds   *alloc_cmd(t_lexer *lex_lst)
     return (new_cmd);
 }
 
-/* Called whenever a redirection token is detected in the lexer.
-Returns a lexer with token of rd_node, and string of rd_node->next. 
-Also deletes rd_node from the list it was in. */
-t_lexer *make_redir(t_lexer **rd_node)
-{
-    char    *dest;
-    t_lexer *rd;
-
-    dest = ft_strdup((*rd_node)->next->str);
-    if (!dest)
-        return (NULL);
-    rd = set_lexer(dest, 0);
-    rd->token = (*rd_node)->token;
-    delete_first(rd_node);
-    return (rd);
-}
-
 /* Sets up a t_simple_cmds struct (cmd):
 - Checks first node, adds it as either an arg or a redirection in cmd.
 - Deletes first node.
@@ -117,6 +100,6 @@ t_simple_cmds   *parse(t_lexer *lex_lst)
         add_cmd(&cmds_lst, current);
         //printf("Added...\n");
     }
-    //print_cmds(cmds_lst);
+    print_cmds(cmds_lst);
     return (cmds_lst);
 }
