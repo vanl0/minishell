@@ -45,10 +45,11 @@ int main(int argc, char **argv, char **env)
     line = readline("minishell>");
     tools->lexer_lst = lexer(line);
     tools->env_lst = env_init(env);
-    print_lexer(tools->lexer_lst);
+    printf("expanded>%s<", search_env(line, tools->env_lst));
+    /* print_lexer(tools->lexer_lst);
     printf("//////////////////////////////////////////////////////////////\n");
     check_quotes(tools->lexer_lst, tools->env_lst);
-    print_lexer(tools->lexer_lst);
+    print_lexer(tools->lexer_lst); */
     free(line);
     free_lexer(&(tools->lexer_lst));
     free_env(&tools->env_lst);

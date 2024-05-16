@@ -21,15 +21,25 @@ char    *get_env_name(char *env_str)
     i = 1;
     if (!env_str[1])
         return (NULL);
-    while(env_str[i] && !is_space(env_str[i]))
+    while(env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'')
         i++;
     name = malloc(i * sizeof(char));
     ft_strlcpy(name, env_str + 1, i);
     return (name);
 }
 
+int get_env_name_len(char *env_str)
+{
+    int     i;
+
+    i = 0;
+    while(env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'')
+        i++;
+    return (i);
+}
+
 /*Searches the variable inside the list*/
-char    *search_env(char *name, t_env *env_lst)
+char    *find_env(char *name, t_env *env_lst)
 {
     t_env *env_i;
 
@@ -47,18 +57,78 @@ char    *search_env(char *name, t_env *env_lst)
 char    *expand_env(char *env_str, t_env *env_lst)
 {
     char    *env_name;
-    char    *content;   
-    //t_env   *env_i;
+    char    *content;
 
     env_name = get_env_name(env_str);
-    //env_i = env_lst;
     if (!env_name)
-        return (NULL);
-    content = search_env(env_name, env_lst);
+        return (ft_strdup("$"));
+    content = find_env(env_name, env_lst);
     free(env_name);
     if (!content)
-        return (NULL);
+        return (ft_strdup(""));
     printf("%s\n", content);
     //free(content);
     return (content);
+}
+
+/*
+     5    0    
+hola $USER ABC / begin j = 5, k = 0;
+hola ilorenzo ABC / end j = 13, k = 8, 13 - (8 - 5)
+     5       13
+     0       8
+*/
+char    *replace_env(char *str, int *i, t_env *env_lst)
+{
+    char    *new_str;
+    char    *env_str;
+    int     j;
+    int     k;
+    int     env_len;
+
+    j = 0;
+    k = 0;
+    env_str = expand_env(&str[*i], env_lst);
+    env_len = ft_strlen(str) - get_env_name_len(&str[*i]) + ft_strlen(env_str);
+    new_str = malloc(env_len * sizeof(char));
+
+    while (j < env_len)
+    {
+        if (j == *i)
+        {
+            while (env_str[k])
+            {
+                new_str[j] = env_str[k];
+                k++;
+                j++;
+                k = j - (ft_strlen(env_str) - get_env_name_len(&str[*i]));
+            }
+        }
+        new_str[j] = str[j - k];
+    }
+    *i += get_env_name_len(&str[*i]);
+    return (new_str);
+}
+
+char    *search_env(char *str, t_env *env_lst)
+{
+    char    *new_str;
+    char    quote;
+    int     i;
+    
+    quote = 0;
+    i = 0;
+    while (str[i])
+    {
+        if (quote == 0 && (str[i] == '"' || str[i] == '\''))//new quote
+            quote = str[i];
+        if (quote != 0 && str[i] == quote)//closed quote
+            quote = 0;
+        if (str[i] == '$' && quote != '\'')
+        {
+            new_str = replace_env(str, &i, env_lst);
+        }
+    }
+    free(str);
+    return (new_str);
 }
