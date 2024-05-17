@@ -17,13 +17,11 @@
 char    *remove_quote(char *str, int start, int *end)
 {
     char    *new_word;
-    char    quote;
     int     i;
     int     j;
 
     i = 0;
     j = 0;
-    quote = str[start];
     new_word = malloc((ft_strlen(str) - 2) * sizeof(char));
     while (str[i])
     {
