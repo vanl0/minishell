@@ -63,6 +63,7 @@ char    *clean_quotes(char *str)
             //i -= 2;
             //i++;
             start = i;
+            quote = 0;
         }
         else if (quote == 0 && (str[i] == '"' || str[i] == '\''))//new quote
         {

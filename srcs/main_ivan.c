@@ -29,6 +29,19 @@ t_tools *tools_init(void)
     return (tools);
 }
 
+void	print_lexer_str(t_lexer *lexer)
+{
+	t_lexer	*lexer_i;
+
+	lexer_i = lexer;
+	while (lexer_i)
+	{
+		printf("%s ", lexer_i->str);
+		lexer_i = lexer_i->next;
+	}
+    printf("\n");
+}
+
 //parse(line);
 int main(int argc, char **argv, char **env)
 {
@@ -45,13 +58,14 @@ int main(int argc, char **argv, char **env)
     line = readline("minishell>");
     tools->lexer_lst = lexer(line);
     tools->env_lst = env_init(env);
-    printf("expanded>%s<", search_env(line, tools->env_lst));
-    /* print_lexer(tools->lexer_lst);
-    printf("//////////////////////////////////////////////////////////////\n");
-    check_quotes(tools->lexer_lst, tools->env_lst);
-    print_lexer(tools->lexer_lst); */
-    free(line);
-    free_lexer(&(tools->lexer_lst));
+    //print_lexer(tools->lexer_lst);
+    //printf("//////////////////////////////////////////////////////////////\n");
+    expand(tools->lexer_lst, tools->env_lst);
+    check_quotes(tools->lexer_lst);
+    print_lexer_str(tools->lexer_lst);
+    free_lexer(&tools->lexer_lst);
     free_env(&tools->env_lst);
+    free(line);
+    free(tools);
     return (0);
 }

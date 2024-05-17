@@ -44,10 +44,11 @@ char    *find_env(char *name, t_env *env_lst)
     t_env *env_i;
 
     env_i = env_lst;
+    //int len =  ft_strlen(name);
     while (env_i)
     {
-        if (ft_strncmp(name, env_i->name, ft_strlen(name)) == 0)
-            return (env_i->content);
+        if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) && !ft_strncmp(name, env_i->name, ft_strlen(name)))
+            return (ft_strdup(env_i->content));
         env_i = env_i->next;
     }
     return (NULL);
@@ -66,7 +67,7 @@ char    *expand_env(char *env_str, t_env *env_lst)
     free(env_name);
     if (!content)
         return (ft_strdup(""));
-    printf("%s\n", content);
+    //printf("%s\n", content);
     //free(content);
     return (content);
 }
@@ -81,32 +82,35 @@ hola ilorenzo ABC / end j = 13, k = 8, 13 - (8 - 5)
 char    *replace_env(char *str, int *i, t_env *env_lst)
 {
     char    *new_str;
-    char    *env_str;
+    char    *env_cont;
     int     j;
     int     k;
     int     env_len;
 
     j = 0;
     k = 0;
-    env_str = expand_env(&str[*i], env_lst);
-    env_len = ft_strlen(str) - get_env_name_len(&str[*i]) + ft_strlen(env_str);
-    new_str = malloc(env_len * sizeof(char));
+    env_cont = expand_env(&str[*i], env_lst);
+    env_len = ft_strlen(str) - get_env_name_len(&str[*i]) + ft_strlen(env_cont);
+    new_str = malloc((env_len + 1) * sizeof(char));
 
     while (j < env_len)
     {
         if (j == *i)
         {
-            while (env_str[k])
+            while (env_cont[k])
             {
-                new_str[j] = env_str[k];
+                new_str[j] = env_cont[k];
                 k++;
                 j++;
-                k = j - (ft_strlen(env_str) - get_env_name_len(&str[*i]));
             }
+            k = (ft_strlen(env_cont) - get_env_name_len(&str[*i]));
         }
         new_str[j] = str[j - k];
+        j++;
     }
-    *i += get_env_name_len(&str[*i]);
+    new_str[j] = '\0';
+    free(env_cont);
+    *i += ft_strlen(env_cont);
     return (new_str);
 }
 
@@ -116,19 +120,41 @@ char    *search_env(char *str, t_env *env_lst)
     char    quote;
     int     i;
     
+    new_str = NULL;
     quote = 0;
     i = 0;
     while (str[i])
     {
         if (quote == 0 && (str[i] == '"' || str[i] == '\''))//new quote
             quote = str[i];
-        if (quote != 0 && str[i] == quote)//closed quote
+        else if (quote != 0 && str[i] == quote)//closed quote
             quote = 0;
         if (str[i] == '$' && quote != '\'')
         {
             new_str = replace_env(str, &i, env_lst);
+            free(str);
+            str = new_str;
         }
+        i++;
     }
-    free(str);
+    if (!new_str)
+        return (str);
     return (new_str);
+}
+
+t_lexer *expand(t_lexer *lexer_lst, t_env *env_lst)
+{
+    t_lexer *lexer_i;
+
+    lexer_i = lexer_lst;
+    while(lexer_i)
+    {
+        if (lexer_i->str)
+        {
+            if (ft_strchr(lexer_i->str, '$'))
+                lexer_i->str = search_env(lexer_i->str, env_lst);
+        }
+        lexer_i = lexer_i->next;
+    }
+    return(lexer_lst);
 }
