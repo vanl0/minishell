@@ -24,9 +24,9 @@ typedef struct s_tools
 {
 	char					*args;
 	char					**paths;
-	char					**envp;
+	t_env					*env_lst;
 	struct s_simple_cmds	*simple_cmds;
-	t_lexer					*lexer_list;
+	t_lexer					*lexer_lst;
 	char					*pwd;
 	char					*old_pwd;
 	int						pipes;

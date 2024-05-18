@@ -36,7 +36,7 @@ LIBFT_HEADER = $(LIBFT_DIR)
 SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
-SRCS_LS =	main.c\
+SRCS_LS =	main_ivan.c\
 			error.c\
 			lexer/lexer.c\
 			lexer/lexer_utils.c\
@@ -114,4 +114,7 @@ re: fclean all
 
 leaks:
 	leaks -atExit -- ./minishell
+valg:
+	valgrind --leak-check=full ./minishell
+
 .PHONY: all clean fclean re

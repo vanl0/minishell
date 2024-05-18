@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/15 17:38:26 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/05/15 17:38:27 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 t_env   *env_create(char *name, char *content)
@@ -61,7 +73,8 @@ void    print_env(t_env *env_lst)
     }
 }
 
-/*Returns linked list t_env with name and content taken from the main argument*/
+/*Returns linked list t_env with name and content taken from the main argument
+Also creates $? as an env variable, initialized at 0*/
 t_env   *env_init(char **env)
 {
     int     i;
@@ -77,6 +90,7 @@ t_env   *env_init(char **env)
         free(line);
         i++;
     }
+    add_env(&env_lst, env_create(ft_strdup("?"), ft_strdup("0")));
     //print_env(env_lst);
     //free_env(&env_lst);
     return (env_lst);
