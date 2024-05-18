@@ -36,7 +36,7 @@ LIBFT_HEADER = $(LIBFT_DIR)
 SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
-SRCS_LS =	main_ivan.c\
+SRCS_LS =	main.c\
 			error.c\
 			lexer/lexer.c\
 			lexer/lexer_utils.c\
@@ -51,6 +51,7 @@ SRCS_LS =	main_ivan.c\
 LEXER_PATH = srcs/lexer/
 PARSER_PATH = srcs/parser/
 EXECUTOR_PATH = srcs/executor/
+BUILTINS_PATH = srcs/builtins/
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR),$(notdir $(SRCS_LS:.c=.o)))
