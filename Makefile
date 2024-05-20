@@ -47,7 +47,8 @@ SRCS_LS =	main2.c\
 			parser/parsing_utils.c\
 			lexer/quotes.c\
 			executor/executor_ivan.c\
-			executor/redirections.c
+			executor/redirections.c\
+			executor/heredoc.c
 
 LEXER_PATH = srcs/lexer/
 PARSER_PATH = srcs/parser/

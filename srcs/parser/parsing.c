@@ -88,8 +88,9 @@ t_simple_cmds   *parse(t_lexer *lex_lst)
     t_simple_cmds   *current;
 
     cmds_lst = NULL;
-    if (!lex_lst)
+    if (!lex_lst){
         return (NULL);
+    }
 	while (lex_lst)
     {
         current = alloc_cmd(lex_lst);

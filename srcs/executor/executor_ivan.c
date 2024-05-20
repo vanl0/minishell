@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+#include <sys/wait.h>
 /*
 this is basically ft_strjoin with a '/' added between the 2 strings */
 char	*make_path(char *dir, char *command)
@@ -54,8 +54,8 @@ void    execute_cmd(t_simple_cmds *cmd, t_tools *tools)
     path = find_executable(cmd, tools);
     if (cmd->redirections)
     {
-        //should do something if this returns FAIL
-        check_redirections(cmd->redirections);
+        heredoc(cmd);
+        check_redirections(cmd);
     }
     if (!path)
     {

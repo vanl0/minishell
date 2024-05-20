@@ -33,11 +33,11 @@ int do_great(t_lexer *redirection)
     return (SUCCESS);
 }
 
-int do_less(t_lexer *redirections)
+int do_less(char *file)
 {
     int fd;
 
-    fd = open(redirections->str, O_RDONLY);
+    fd = open(file, O_RDONLY);
     if (fd < 0)
     {
         perror("minishell :");
@@ -53,11 +53,11 @@ int do_less(t_lexer *redirections)
     return (SUCCESS);
 }
 
-int check_redirections(t_lexer *redirections)
+int check_redirections(t_simple_cmds *cmd)
 {
     t_lexer *redir_i;
 
-    redir_i = redirections;
+    redir_i = cmd->redirections;
     while (redir_i)
     {
         if (redir_i->token == GREAT || redir_i->token == GREATGREAT)
@@ -67,12 +67,13 @@ int check_redirections(t_lexer *redirections)
         }
         if (redir_i->token == LESS)
         {
-            if (!do_less(redir_i))
+            if (!do_less(redir_i->str))
                 return (FAIL);
         }
         if (redir_i->token == LESSLESS)
         {
-            
+            if (!do_less(cmd->hd_file_name))
+                return (FAIL);
         }
         redir_i = redir_i->next;
     }

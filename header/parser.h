@@ -61,8 +61,12 @@ void			free_cmds(t_simple_cmds **cmds);
 void    		print_cmds(t_simple_cmds *cmds);
 
 //REDIRECTIONS
-int 			check_redirections(t_lexer *redirections);
+int 			check_redirections(t_simple_cmds *cmd);
 int 			do_great(t_lexer *redirection);
 int 			open_redir(t_lexer *redir);
+//HEREDOC
+int 			heredoc(t_simple_cmds *cmd);
+char    		*get_hd_name(void);
+int				do_heredoc(char *hd_file_name,  char *end);
 
 #endif
