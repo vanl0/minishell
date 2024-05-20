@@ -16,11 +16,13 @@
 
 #define READLINE_LIBRARY
 #define MAX_PATH 1024
-
+#define SUCCESS 1
+#define FAIL 0
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include "../readline-8.1/history.h"
 #include "../readline-8.1/readline.h"
 #include "../libft/libft.h"

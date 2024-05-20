@@ -33,6 +33,7 @@ char    *search_env(char *str, t_env *env_lst);
 char    *expand_env(char *env_str, t_env *env_lst);
 //PATHS
 void    get_paths(t_tools *tools, t_env *env_lst);
+void	free_matrix(char **matrix);
 //QUOTES
 void    check_quotes(t_lexer *lexer_lst);
 char    *clean_quotes(char *str);

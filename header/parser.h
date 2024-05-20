@@ -48,9 +48,8 @@ typedef struct s_simple_cmds
 
 // PARSER
 t_simple_cmds   *alloc_cmd(t_lexer *lex_lst);
-t_simple_cmds   *parse(char *line);
+t_simple_cmds   *parse(t_lexer *lexer_lst);
 void			setup_cmd(t_simple_cmds *cmd, t_lexer **lex_lst);
-
 
 // PARSER UTILS
 int				count_args(t_lexer *lex_lst);
@@ -59,6 +58,11 @@ t_lexer			*make_redir(t_lexer **rd_node);
 void			free_cmds(t_simple_cmds **cmds);
 
 // UTILS
-void    print_cmds(t_simple_cmds *cmds);
+void    		print_cmds(t_simple_cmds *cmds);
+
+//REDIRECTIONS
+int 			check_redirections(t_lexer *redirections);
+int 			do_great(t_lexer *redirection);
+int 			open_redir(t_lexer *redir);
 
 #endif
