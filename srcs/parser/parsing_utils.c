@@ -37,6 +37,26 @@ void    print_cmds(t_simple_cmds *cmds)
     }
 }
 
+void    free_cmds(t_simple_cmds **cmds)
+{
+    t_simple_cmds   *cmd_tmp;
+    int             i;
+
+    while (*cmds)
+    {
+        cmd_tmp = *cmds;
+        i = -1;
+        while (cmd_tmp->str && cmd_tmp->str[++i])
+            free(cmd_tmp->str[i]);
+        free(cmd_tmp->str);
+        free_lexer(&(cmd_tmp->redirections));
+        *cmds = (*cmds)->next;
+        if (*cmds)
+            (*cmds)->prev = NULL;
+        free(cmd_tmp);
+    }
+}
+
 /* Counts the number of args before a PIPE. */
 int count_args(t_lexer *lex_lst)
 {

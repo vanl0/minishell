@@ -48,6 +48,8 @@ char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
 void    execute_cmd(t_simple_cmds *cmd, t_tools *tools)
 {
     char    *path;
+    pid_t   child_pid;
+    int     status;
 
     path = find_executable(cmd, tools);
     if (!path)
@@ -56,7 +58,20 @@ void    execute_cmd(t_simple_cmds *cmd, t_tools *tools)
         // handle error
         return ;
     }
-    execv(path, cmd->str);
+    child_pid = fork();
+    if (child_pid < 0) // error
+    {
+        free(path);
+        return ;
+    }
+    else if (child_pid == 0)
+        execv(path, cmd->str);
+    else
+    {
+        waitpid(child_pid, &status, 0);
+        //if (WIFEXITED(status))
+        //   printf("Child process finished with exit code %d.\n", WEXITSTATUS(status));
+    }
     free(path);
     // handle error: if execv fails, it returns.
 }

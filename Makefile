@@ -36,7 +36,7 @@ LIBFT_HEADER = $(LIBFT_DIR)
 SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
-SRCS_LS =	main_ivan.c\
+SRCS_LS =	main.c\
 			error.c\
 			lexer/lexer.c\
 			lexer/lexer_utils.c\

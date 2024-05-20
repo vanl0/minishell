@@ -1,9 +1,6 @@
 
 #include "../header/minishell.h"
 
-/* Sets a string in the t_simple_cmds struct */
-t_simple_cmds   *set_str(t_simple_cmds *cmd, t_lexer *lex_lst);
-
 /* Allocates memory for a t_simple_cmds struct and sets NULL values. */
 t_simple_cmds   *alloc_cmd(t_lexer *lex_lst)
 {
@@ -85,12 +82,16 @@ void   add_cmd(t_simple_cmds **cmds_lst, t_simple_cmds *new_cmd)
 
 /* Takes a t_lexer list and loops through all its elements until it finds a PIPE.
 All the elements before a PIPE are added as one node in a t_simple_cmds list. */
-t_simple_cmds   *parse(t_lexer *lex_lst)
+t_simple_cmds   *parse(char *line)
 {
+    t_lexer         *lex_lst;
 	t_simple_cmds   *cmds_lst;
     t_simple_cmds   *current;
 
     cmds_lst = NULL;
+    lex_lst = lexer(line);
+    if (!lex_lst)
+        return (NULL);
 	while (lex_lst)
     {
         current = alloc_cmd(lex_lst);
@@ -100,6 +101,6 @@ t_simple_cmds   *parse(t_lexer *lex_lst)
         add_cmd(&cmds_lst, current);
         //printf("Added...\n");
     }
-    print_cmds(cmds_lst);
+    //print_cmds(cmds_lst);
     return (cmds_lst);
 }
