@@ -8,7 +8,7 @@ export 1UNO DOS - won't create any variable, it stops as soon as it finds an err
 export UNO 2DOS TRES- will display error and only create UNO. $? will save the error value.
 */
 
-void    split_env(char *str, char **name, char **value)
+void    split_env(char *str, char **name, char **content)
 {
     char    **split;
 
@@ -20,15 +20,15 @@ void    split_env(char *str, char **name, char **value)
         *content = ft_strdup("");
 }
 
-int check_name(char *str)
+int check_name(char *name)
 {
     if (ft_isdigit(name[0]) || ft_strchr(name, ' '))
         return (1);
-    while (*str)
+    while (*name)
     {
-        if (!ft_isdigit(*str) && !ft_isalnum(*str) && *str != '_')
+        if (!ft_isdigit(*name) && !ft_isalnum(*name) && *name != '_')
             return (1);
-        str++;
+        name++;
     }
     return (0);
 }
@@ -36,7 +36,7 @@ int check_name(char *str)
 int export_elem(char *str, t_env *env_lst)
 {
     char    *name;
-    char    *value;
+    char    *content;
 
     if (str[0] == '=')
     {
@@ -60,11 +60,11 @@ int export_elem(char *str, t_env *env_lst)
     return (setenv(name, content, 1));
 }
 
-int export_cmd(t_lexer *lexer_lst)
+int export_cmd(t_lexer *lexer_lst, t_env *env_lst)
 {
     while(lexer_lst)
     {
-        if (export_elem(lexer->str) != 0)
+        if (export_elem(lexer_lst->str, env_lst) != 0)
             return (1);
         lexer_lst = lexer_lst->next;
     }

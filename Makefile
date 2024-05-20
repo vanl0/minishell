@@ -51,6 +51,7 @@ SRCS_LS =	main.c\
 LEXER_PATH = srcs/lexer/
 PARSER_PATH = srcs/parser/
 EXECUTOR_PATH = srcs/executor/
+BUILTINS_PATH = srcs/builtins/
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR),$(notdir $(SRCS_LS:.c=.o)))

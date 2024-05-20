@@ -1,15 +1,14 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/15 17:38:05 by ilorenzo          #+#    #+#             */
-/*   Updated: 2024/05/15 17:38:07 by ilorenzo         ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::   */
+/*	 lexer_utils.c										:+:		 :+:	:+:   */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2024/05/15 17:38:05 by ilorenzo		   #+#	  #+#			  */
+/*	 Updated: 2024/05/15 17:38:07 by ilorenzo		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
-
 
 #include "../header/minishell.h"
 
@@ -17,7 +16,7 @@
 t_lexer	*set_lexer(char	*str, int tkn)
 {
 	t_lexer		*new_lex;
-	static	int	i = 0;
+	static int	i = 0;
 
 	new_lex = malloc(sizeof(t_lexer));
 	new_lex->i = i;
@@ -77,12 +76,12 @@ char	*token_print(int token)
 void	print_lexer(t_lexer *lexer)
 {
 	t_lexer	*lexer_i;
-	char 	*token;
+	char	*token;
 
 	lexer_i = lexer;
 	while (lexer_i)
 	{
-		token = token_print(lexer_i->token);	
+		token = token_print(lexer_i->token);
 		printf("lexer: %d\nstr: >%s<\ntoken: %s\nprev: %p | next: %p\n", lexer_i->i, lexer_i->str, token, lexer_i->prev, lexer_i->next);
 		printf("-----------------------------------\n");
 		lexer_i = lexer_i->next;
@@ -100,53 +99,51 @@ void	free_lexer(t_lexer **lex_lst)
 	lexer_i = lexer_free->next;
 	while (lexer_i)
 	{
-		//printf("free %d\n", lexer_free->i);
 		if (lexer_free->str)
 			free(lexer_free->str);
 		free(lexer_free);
 		lexer_free = lexer_i;
 		lexer_i = lexer_i->next;
 	}
-	//printf("free %d\n", lexer_free->i);
 	if (lexer_free->str)
 		free(lexer_free->str);
 	free(lexer_free);
 	*lex_lst = NULL;
 }
 
-int is_token(char c)
+int	is_token(char c)
 {
-    if (c == '|')
-        return (1);
-    if (c == '>')
-        return (1);
-    if (c == '<')
-        return (1);
-    return (0);
+	if (c == '|')
+		return (1);
+	if (c == '>')
+		return (1);
+	if (c == '<')
+		return (1);
+	return (0);
 }
 
 /*Maybe here should add all isspace() definitions idk*/
-int is_space(char c)
+int	is_space(char c)
 {
-    if (c == '\t' || c == ' ')
-        return (1);
-    return (0);
+	if (c == '\t' || c == ' ')
+		return (1);
+	return (0);
 }
 
-int get_token(char *str)
+int	get_token(char *str)
 {
-    if (str[1])
-    {
-        if (str[0] == '>' && str[1] == '>')
-            return (GREATGREAT);
-        if (str[0] == '<' && str[1] == '<')
-            return (LESSLESS);
-    }
-    if (str[0] == '|')
-        return (PIPE);
-    if (str[0] == '>')
-        return (GREAT);
-    if (str[0] == '<')
-        return (LESS);
-    return (0);
+	if (str[1])
+	{
+		if (str[0] == '>' && str[1] == '>')
+			return (GREATGREAT);
+		if (str[0] == '<' && str[1] == '<')
+			return (LESSLESS);
+	}
+	if (str[0] == '|')
+		return (PIPE);
+	if (str[0] == '>')
+		return (GREAT);
+	if (str[0] == '<')
+		return (LESS);
+	return (0);
 }
