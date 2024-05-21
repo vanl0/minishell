@@ -66,7 +66,7 @@ int main(int argc, char **argv, char **env)
     tools->lexer_lst = expand(tools->lexer_lst, tools->env_lst);
     check_quotes(tools->lexer_lst);
     commands = parse(tools->lexer_lst);
-    print_cmds(commands);
+    //print_cmds(commands);
     get_paths(tools, tools->env_lst);
     execute_all(commands, tools);
     free_cmds(&commands);
