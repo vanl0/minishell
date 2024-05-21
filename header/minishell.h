@@ -32,6 +32,10 @@
 //PARSING
 //void    parse(char *line);
 
+// EXECUTION UTILS
+void    handle_child(int pipefd[2], int in_fd, t_simple_cmds *cmd);
+void    handle_parent(int pipefd[2], int *in_fd, t_simple_cmds *cmd);
+
 // EXECUTION
 void    execute_all(t_simple_cmds *cmd, t_tools *tools);
 

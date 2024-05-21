@@ -31,6 +31,7 @@ t_tools *tools_init(void)
 }
 
 //parse(line);
+
 int main(int argc, char **argv, char **env)
 {
     char            *line;
@@ -50,13 +51,13 @@ int main(int argc, char **argv, char **env)
         if (line)
         {
             add_history(line);
-            commands = parse(line);
+            commands = parse(lexer(line));
             env_lst = NULL;
             env_lst = env_init(env);
             //expand_env("$PATH", env_lst);
             get_paths(&tools, env_lst);
             execute_all(commands, &tools);
-            free_cmds(&commands);
+            //free_cmds(&commands);
             free_env(&env_lst);
             free(line);
         }

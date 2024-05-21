@@ -36,7 +36,7 @@ LIBFT_HEADER = $(LIBFT_DIR)
 SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
-SRCS_LS =	main2.c\
+SRCS_LS =	main.c\
 			error.c\
 			lexer/lexer.c\
 			lexer/lexer_utils.c\
@@ -46,7 +46,8 @@ SRCS_LS =	main2.c\
 			parser/parsing.c\
 			parser/parsing_utils.c\
 			lexer/quotes.c\
-			executor/executor_ivan.c\
+			executor/execution_utils.c\
+			executor/execution.c\
 			executor/redirections.c\
 			executor/heredoc.c
 
