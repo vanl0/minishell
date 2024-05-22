@@ -58,8 +58,8 @@ int main(int argc, char **argv, char **env)
             get_paths(&tools, env_lst);
             execute_all(commands, &tools);
             //free_cmds(&commands);
-            free_env(&env_lst);
-            free(line);
+            //free_env(&env_lst);
+            //free(line);
         }
     }
     //free_lexer(&lexer_lst);

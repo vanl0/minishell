@@ -47,29 +47,36 @@ char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
     return (NULL);
 }
 
-void    execute_cmd(t_simple_cmds *cmd, t_tools *tools)
+// returns exit code of executing cmd (which is the exit code of the child process)
+int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
 {
     char    *path;
-    /*
     pid_t   child_pid;
-    int     status;
-    */
+    int     ret;
+
+    ret = EXIT_SUCCESS;
     path = find_executable(cmd, tools);
-    printf("path to command: %s\n", path);
-    if (cmd->redirections)
-    {
-        heredoc(cmd);
-        check_redirections(cmd);
-    }
+    //printf("path to command: %s\n", path);
+    // check redirections
     if (!path)
     {
         printf("%s: command not found\n", cmd->str[0]);
         // handle error
-        return ;
+        return (EXIT_FAILURE); // idk
     }
-    execv(path, cmd->str);
+    child_pid = fork();
+    if (child_pid < 0)
+    {   // Error
+        free(path);
+        perror("fork");
+        return (EXIT_FAILURE); // idk
+    }
+    if (child_pid == 0)
+        handle_child(in_fd, out_fd, path, cmd);
+    else
+        ret = handle_parent(in_fd, out_fd, child_pid);
     free(path);
-    // handle error: if execv fails, it returns.
+    return (ret);
 }
 
 void    execute_all(t_simple_cmds *cmds, t_tools *tools)
@@ -77,9 +84,8 @@ void    execute_all(t_simple_cmds *cmds, t_tools *tools)
     t_simple_cmds   *tmp;
     int             pipefd[2];
     int             in_fd;
-    pid_t           child_pid;
 
-    in_fd = STDIN_FILENO; // For the first command
+    in_fd = INVALID_FD; // For the first command
     tmp = cmds;
     while (tmp)
     {
@@ -87,20 +93,12 @@ void    execute_all(t_simple_cmds *cmds, t_tools *tools)
         {
             if (pipe(pipefd) == -1)
                 return ; // handle pipe error
-        }
-        child_pid = fork();
-        if (child_pid < 0)
-            return ; // handle fork error
-        else if (child_pid == 0)
-        {
-            handle_child(pipefd, in_fd, tmp);
-            execute_cmd(tmp, tools);
+            execute_cmd(tmp, tools, in_fd, pipefd[1]);
+            close(pipefd[1]);
+            in_fd = pipefd[0];
         }
         else
-        {
-            handle_parent(pipefd, &in_fd, tmp);
-            waitpid(child_pid, NULL, 0); // change to waitpid(child_pid, &status, 0) and if (WIFEXITED(status)
-        }
+            execute_cmd(tmp, tools, in_fd, INVALID_FD);
         tmp = tmp->next;
     }
 }

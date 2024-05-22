@@ -18,6 +18,7 @@
 #define MAX_PATH 1024
 #define SUCCESS 1
 #define FAIL 0
+#define INVALID_FD -1
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,8 +34,8 @@
 //void    parse(char *line);
 
 // EXECUTION UTILS
-void    handle_child(int pipefd[2], int in_fd, t_simple_cmds *cmd);
-void    handle_parent(int pipefd[2], int *in_fd, t_simple_cmds *cmd);
+void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
+int     handle_parent(int in_fd, int out_fd, pid_t child_pid);
 
 // EXECUTION
 void    execute_all(t_simple_cmds *cmd, t_tools *tools);
