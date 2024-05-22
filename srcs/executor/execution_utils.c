@@ -5,6 +5,13 @@
 - pipefd[1] is the fd for the write end */
 void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
+    if (cmd->redirections)
+    {
+        heredoc(cmd);
+        check_redirections(cmd);
+    }
+    else
+    {
     if (in_fd != INVALID_FD)
     { // Redirect input if needed
         dup2(in_fd, STDIN_FILENO);
@@ -14,6 +21,7 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
     { // Redirect output if needed
         dup2(out_fd, STDOUT_FILENO);
         close(out_fd);
+    }
     }
     execv(path, cmd->str);
     // if execv fails, handle error.

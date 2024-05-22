@@ -59,7 +59,7 @@ int main(int argc, char **argv, char **env)
             execute_all(commands, &tools);
             //free_cmds(&commands);
             //free_env(&env_lst);
-            //free(line);
+            free(line);
         }
     }
     //free_lexer(&lexer_lst);

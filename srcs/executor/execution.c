@@ -34,7 +34,11 @@ char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
 
     command = cmd->str[0];
     if (access(command, F_OK) == 0)
-        return (command);
+    {
+        full_path = ft_strdup(command);
+        // handle malloc error
+        return (full_path);
+    }
     i = -1;
     while (tools->paths[++i])
     {
