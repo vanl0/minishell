@@ -78,8 +78,10 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
     }
     if (cmd->child_pid == 0)
         handle_child(in_fd, out_fd, path, cmd);
-    //else
-        //ret = handle_parent(in_fd, out_fd, cmd->child_pid);
+    
+    else
+        handle_parent(in_fd, out_fd, cmd);
+    
     free(path);
     return (ret);
 }
@@ -87,8 +89,8 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
 void    execute_all(t_simple_cmds *cmds, t_tools *tools)
 {
     t_simple_cmds   *tmp;
-    int             pipefd[2];
     int             in_fd;
+    int             pipe_fd[2];
 
     in_fd = INVALID_FD; // For the first command
     tmp = cmds;
@@ -96,13 +98,13 @@ void    execute_all(t_simple_cmds *cmds, t_tools *tools)
     {
         if (tmp->next)
         {
-            if (pipe(pipefd) == -1)
+            if (pipe(pipe_fd) == -1)
                 return ; // handle pipe error
-            execute_cmd(tmp, tools, in_fd, pipefd[1]);
-            close(pipefd[1]);
+            execute_cmd(tmp, tools, in_fd, pipe_fd[1]);
+            close(pipe_fd[1]);
             if (in_fd != INVALID_FD)
                 close(in_fd);
-            in_fd = pipefd[0];
+            in_fd = pipe_fd[0];
         }
         else
             execute_cmd(tmp, tools, in_fd, INVALID_FD);

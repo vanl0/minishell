@@ -38,14 +38,8 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
     // if execv fails, handle error.
 }
 
-int handle_parent(int in_fd, int out_fd, pid_t child_pid)
+void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)
 {
-    int     status;
-
-    if (in_fd != INVALID_FD)
-        close(in_fd);
-    if (out_fd != INVALID_FD)
-        close(out_fd);
-    waitpid(child_pid, &status, 0);
-    return (WIFEXITED(status));
+    cmd->pipe_fd[0] = in_fd;
+    cmd->pipe_fd[1] = out_fd;
 }

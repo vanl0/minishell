@@ -56,6 +56,10 @@ void    free_cmds(t_simple_cmds **cmds)
         if (cmd_tmp->child_pid >= 0)
         {
             waitpid(cmd_tmp->child_pid, &status, 0);
+            if (cmd_tmp->pipe_fd[0] != INVALID_FD)
+                close(cmd_tmp->pipe_fd[0]);
+            if (cmd_tmp->pipe_fd[1] != INVALID_FD)
+                close(cmd_tmp->pipe_fd[1]);
         }
         *cmds = (*cmds)->next;
         /* if (*cmds)
