@@ -90,6 +90,6 @@ t_env	*env_init(char **env)
 		free(line);
 		i++;
 	}
-	add_env(&env_lst, env_create(ft_strdup("?"), ft_strdup("0")));
+	add_env(&env_lst, env_create(ft_strdup("?"), ft_strdup(ft_itoa(g_signals.exit_stat))));
 	return (env_lst);
 }

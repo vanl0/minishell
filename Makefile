@@ -49,12 +49,14 @@ SRCS_LS =	main.c\
 			executor/execution_utils.c\
 			executor/execution.c\
 			executor/redirections.c\
-			executor/heredoc.c
+			executor/heredoc.c\
+			signals/signals.c
 
 LEXER_PATH = srcs/lexer/
 PARSER_PATH = srcs/parser/
 EXECUTOR_PATH = srcs/executor/
 BUILTINS_PATH = srcs/builtins/
+SIGNALS_PATH = srcs/signals/
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LS))
 OBJS = $(addprefix $(OBJS_DIR),$(notdir $(SRCS_LS:.c=.o)))
@@ -79,7 +81,9 @@ $(OBJS_DIR)%.o: $(LEXER_PATH)%.c $(HEADER) Makefile
 $(OBJS_DIR)%.o: $(PARSER_PATH)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
 $(OBJS_DIR)%.o: $(EXECUTOR_PATH)%.c $(HEADER) Makefile
-	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@
+$(OBJS_DIR)%.o: $(SIGNALS_PATH)%.c $(HEADER) Makefile
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@
 $(OBJS_DIR):
 	@mkdir $@
 

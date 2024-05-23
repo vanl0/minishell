@@ -58,6 +58,7 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
     //pid_t   child_pid;
     int     ret;
 
+    
     ret = EXIT_SUCCESS;
     path = find_executable(cmd, tools);
     //printf("path to command: %s\n", path);

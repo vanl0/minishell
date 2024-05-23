@@ -12,15 +12,17 @@ int do_heredoc(char *hd_file_name,  char *end)
     char    *line;
     int     fd;
 
+    g_signals.in_hdoc = 1;
     fd = open(hd_file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
     line = readline("heredoc>");
-    while (line && ft_strncmp(end, line, ft_strlen(end)))
+    while (line && ft_strncmp(end, line, ft_strlen(end)) && g_signals.in_hdoc)
     {
         write(fd, line, ft_strlen(line));
         write(fd, "\n", 1);
         free(line);
         line = readline("heredoc>");
     }
+    g_signals.in_hdoc = 0;
     free(line);
     close(fd);
     return (SUCCESS);

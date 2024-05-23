@@ -56,6 +56,8 @@ void    free_cmds(t_simple_cmds **cmds)
         if (cmd_tmp->child_pid >= 0)
         {
             waitpid(cmd_tmp->child_pid, &status, 0);
+            if (WIFEXITED(status))
+		        g_signals.exit_stat = WEXITSTATUS(status);   
         }
         *cmds = (*cmds)->next;
         /* if (*cmds)

@@ -30,6 +30,15 @@
 #include "parser.h"
 #include "lexer.h"
 
+typedef struct s_signals
+{
+    int exit_stat;
+    int in_cmd;
+    int in_hdoc;
+}   t_signals;
+
+t_signals   g_signals;
+
 //PARSING
 //void    parse(char *line);
 
@@ -40,6 +49,10 @@ int     handle_parent(int in_fd, int out_fd, pid_t child_pid);
 
 // EXECUTION
 void    execute_all(t_simple_cmds *cmd, t_tools *tools);
+//SIGNALS
+void    start_signals(void);
+void    handle_sigquit(int sig);
+void    handle_sigint(int sig);
 
 //ERROR
 void    *malloc_err(void);
