@@ -99,6 +99,8 @@ void    execute_all(t_simple_cmds *cmds, t_tools *tools)
                 return ; // handle pipe error
             execute_cmd(tmp, tools, in_fd, pipefd[1]);
             close(pipefd[1]);
+            if (in_fd != INVALID_FD)
+                close(in_fd);
             in_fd = pipefd[0];
         }
         else

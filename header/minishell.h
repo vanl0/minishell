@@ -34,6 +34,7 @@
 //void    parse(char *line);
 
 // EXECUTION UTILS
+int     has_output(t_simple_cmds *cmd);
 void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
 int     handle_parent(int in_fd, int out_fd, pid_t child_pid);
 
