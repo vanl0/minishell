@@ -30,6 +30,7 @@ int do_great(t_lexer *redirection)
         perror("minishell :");
         return (FAIL);
     }
+    close(fd);
     return (SUCCESS);
 }
 

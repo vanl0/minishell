@@ -55,7 +55,7 @@ char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
 int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
 {
     char    *path;
-    pid_t   child_pid;
+    //pid_t   child_pid;
     int     ret;
 
     ret = EXIT_SUCCESS;
@@ -68,17 +68,18 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
         // handle error
         return (EXIT_FAILURE); // idk
     }
-    child_pid = fork();
-    if (child_pid < 0)
+    heredoc(cmd);
+    cmd->child_pid = fork();
+    if (cmd->child_pid < 0)
     {   // Error
         free(path);
         perror("fork");
         return (EXIT_FAILURE); // idk
     }
-    if (child_pid == 0)
+    if (cmd->child_pid == 0)
         handle_child(in_fd, out_fd, path, cmd);
-    else
-        ret = handle_parent(in_fd, out_fd, child_pid);
+    //else
+        //ret = handle_parent(in_fd, out_fd, cmd->child_pid);
     free(path);
     return (ret);
 }

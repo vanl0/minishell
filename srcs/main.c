@@ -57,7 +57,7 @@ int main(int argc, char **argv, char **env)
             //expand_env("$PATH", env_lst);
             get_paths(&tools, env_lst);
             execute_all(commands, &tools);
-            //free_cmds(&commands);
+            free_cmds(&commands);
             //free_env(&env_lst);
             free(line);
         }

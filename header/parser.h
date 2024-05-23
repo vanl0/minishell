@@ -40,6 +40,7 @@ typedef struct s_simple_cmds
 	char                    **str;
 	int                     (*builtin)(t_tools *, struct s_simple_cmds *);
 	int                     num_redirections;
+	pid_t					child_pid;
 	char                    *hd_file_name;
 	t_lexer                 *redirections;
 	struct s_simple_cmds	*next;
