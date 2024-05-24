@@ -29,6 +29,7 @@
 #include "../libft/libft.h"
 #include "parser.h"
 #include "lexer.h"
+#include "builtins.h"
 
 typedef struct s_signals
 {

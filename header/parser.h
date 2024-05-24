@@ -32,6 +32,7 @@ typedef struct s_tools
 	int						pipes;
 	int						*pid;
 	int                     heredoc;
+	void					*builtins[7];
 	int                     reset;
 }	t_tools;
 
