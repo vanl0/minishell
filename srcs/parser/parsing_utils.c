@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pde-masc <pde-masc@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 17:12:22 by pde-masc          #+#    #+#             */
+/*   Updated: 2024/05/24 17:12:25 by pde-masc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 void    print_mat(char **str)
@@ -56,6 +68,10 @@ void    free_cmds(t_simple_cmds **cmds)
         if (cmd_tmp->child_pid >= 0)
         {
             waitpid(cmd_tmp->child_pid, &status, 0);
+            if (cmd_tmp->pipe_fd[0] != INVALID_FD)
+                close(cmd_tmp->pipe_fd[0]);
+            if (cmd_tmp->pipe_fd[1] != INVALID_FD)
+                close(cmd_tmp->pipe_fd[1]);
             if (WIFEXITED(status))
 		        g_signals.exit_stat = WEXITSTATUS(status);   
         }

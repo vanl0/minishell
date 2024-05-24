@@ -41,6 +41,7 @@ typedef struct s_simple_cmds
 	int                     (*builtin)(t_tools *, struct s_simple_cmds *);
 	int                     num_redirections;
 	pid_t					child_pid;
+	int						pipe_fd[2];
 	char                    *hd_file_name;
 	t_lexer                 *redirections;
 	struct s_simple_cmds	*next;

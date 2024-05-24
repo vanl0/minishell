@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pde-masc <pde-masc@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 17:13:03 by pde-masc          #+#    #+#             */
+/*   Updated: 2024/05/24 17:13:51 by pde-masc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <sys/wait.h>
 /*
@@ -26,6 +38,10 @@ char	*make_path(char *dir, char *command)
 	return (path);
 }
 
+/* Allocates memory and returns the path to the command executable.
+If the command is a builtin, it returns the duplicated command.
+If the command is not found, it returns NULL.
+*/
 char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
 {
     int     i;
@@ -81,8 +97,10 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
     }
     if (cmd->child_pid == 0)
         handle_child(in_fd, out_fd, path, cmd);
-    //else
-        //ret = handle_parent(in_fd, out_fd, cmd->child_pid);
+    
+    else
+        handle_parent(in_fd, out_fd, cmd);
+    
     free(path);
     return (ret);
 }
@@ -90,8 +108,8 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
 void    execute_all(t_simple_cmds *cmds, t_tools *tools)
 {
     t_simple_cmds   *tmp;
-    int             pipefd[2];
     int             in_fd;
+    int             pipe_fd[2];
 
     in_fd = INVALID_FD; // For the first command
     tmp = cmds;
@@ -99,13 +117,13 @@ void    execute_all(t_simple_cmds *cmds, t_tools *tools)
     {
         if (tmp->next)
         {
-            if (pipe(pipefd) == -1)
+            if (pipe(pipe_fd) == -1)
                 return ; // handle pipe error
-            execute_cmd(tmp, tools, in_fd, pipefd[1]);
-            close(pipefd[1]);
+            execute_cmd(tmp, tools, in_fd, pipe_fd[1]);
+            close(pipe_fd[1]);
             if (in_fd != INVALID_FD)
                 close(in_fd);
-            in_fd = pipefd[0];
+            in_fd = pipe_fd[0];
         }
         else
             execute_cmd(tmp, tools, in_fd, INVALID_FD);
