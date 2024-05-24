@@ -35,6 +35,7 @@ typedef struct s_signals
     int exit_stat;
     int in_cmd;
     int in_hdoc;
+    int stop_hdoc;
 }   t_signals;
 
 t_signals   g_signals;

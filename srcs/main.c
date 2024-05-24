@@ -47,9 +47,10 @@ int main(int argc, char **argv, char **env)
 	}
     g_signals.exit_stat = 0;
     g_signals.in_cmd = 0;
-    g_signals.in_hdoc = 0;
     while (1)
     {
+        g_signals.in_hdoc = 0;
+        g_signals.stop_hdoc = 0;
         start_signals();
         line = readline("minishell>");
         if (!line)
@@ -64,12 +65,12 @@ int main(int argc, char **argv, char **env)
         check_quotes(lexer_lst);
         expand(lexer_lst, env_lst);
         commands = parse(lexer_lst);
-        //expand_env("$PATH", env_lst);
         get_paths(&tools, env_lst);
         g_signals.in_cmd = 1;
         execute_all(commands, &tools);
         free_cmds(&commands);
         g_signals.in_cmd = 0;
+        signal(SIGQUIT, SIG_IGN);
         //free_env(&env_lst);
         free(line);
     }

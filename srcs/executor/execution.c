@@ -69,7 +69,9 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
         // handle error
         return (EXIT_FAILURE); // idk
     }
-    heredoc(cmd);
+    
+    signal(SIGQUIT, handle_sigquit);
+    
     cmd->child_pid = fork();
     if (cmd->child_pid < 0)
     {   // Error

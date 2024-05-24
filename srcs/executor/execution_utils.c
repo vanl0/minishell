@@ -21,7 +21,7 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
     if (cmd->redirections)
     {
-        //heredoc(cmd);
+        heredoc(cmd);
         check_redirections(cmd);
     }
     if (in_fd != INVALID_FD)
