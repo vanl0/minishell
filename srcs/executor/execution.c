@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pde-masc <pde-masc@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 17:13:03 by pde-masc          #+#    #+#             */
+/*   Updated: 2024/05/24 17:13:51 by pde-masc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <sys/wait.h>
 /*
@@ -26,6 +38,10 @@ char	*make_path(char *dir, char *command)
 	return (path);
 }
 
+/* Allocates memory and returns the path to the command executable.
+If the command is a builtin, it returns the duplicated command.
+If the command is not found, it returns NULL.
+*/
 char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
 {
     int     i;
