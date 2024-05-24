@@ -113,6 +113,7 @@ void    execute_all(t_simple_cmds *cmds, t_tools *tools)
 
     in_fd = INVALID_FD; // For the first command
     tmp = cmds;
+    g_signals.in_cmd = 1;
     while (tmp)
     {
         if (tmp->next)

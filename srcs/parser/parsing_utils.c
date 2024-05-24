@@ -59,12 +59,12 @@ void    free_cmds(t_simple_cmds **cmds)
     {
         cmd_tmp = *cmds;
         i = -1;
-        /* while (cmd_tmp->str && cmd_tmp->str[++i])
+        while (cmd_tmp->str && cmd_tmp->str[++i])
             free(cmd_tmp->str[i]);
         free(cmd_tmp->str);
         free_lexer(&(cmd_tmp->redirections));
         if (cmd_tmp->hd_file_name)
-            free(cmd_tmp->hd_file_name); */
+            free(cmd_tmp->hd_file_name);
         if (cmd_tmp->child_pid >= 0)
         {
             waitpid(cmd_tmp->child_pid, &status, 0);
@@ -76,8 +76,8 @@ void    free_cmds(t_simple_cmds **cmds)
 		        g_signals.exit_stat = WEXITSTATUS(status);   
         }
         *cmds = (*cmds)->next;
-        /* if (*cmds)
-            (*cmds)->prev = NULL; */
+        if (*cmds)
+            (*cmds)->prev = NULL;
         free(cmd_tmp);
     }
 }

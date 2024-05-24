@@ -31,3 +31,10 @@ BUILTINS:
 	exit
 	export
 	unset
+
+ERROR RETURNS TO CHECK:
+- failed simple mallocs(exit)
+- lexer (exit/quote error/syntax error)
+- heredoc
+- redirections
+- builtins
