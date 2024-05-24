@@ -134,7 +134,7 @@ int	skip_i(char *str)
 }
 
 /*this is not eficient at all but works for now*/
-t_lexer	*lexer(char *str)
+t_lexer	*lexer(char *str, t_tools tools)
 {
 	int		i;
 	t_lexer	*lexer_lst;
@@ -155,6 +155,7 @@ t_lexer	*lexer(char *str)
 		}
 		i += skip_i(&str[i]);
 	}
-	
+	check_quotes(lexer_lst);
+	expand(lexer_lst, tools.env_lst);
 	return (lexer_lst);
 }
