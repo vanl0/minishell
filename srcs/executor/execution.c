@@ -42,23 +42,24 @@ char	*make_path(char *dir, char *command)
 If the command is a builtin, it returns the duplicated command.
 If the command is not found, it returns NULL.
 */
-char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
+char    *find_executable(t_simple_cmds *cmd, char **paths)
 {
     int     i;
     char    *command;
     char    *full_path;
 
     command = cmd->str[0];
-    if (access(command, F_OK) == 0)
+    set_builtin(cmd);
+    if (access(command, F_OK) == 0 || cmd->builtin != NULL)
     {
         full_path = ft_strdup(command);
         // handle malloc error
         return (full_path);
     }
     i = -1;
-    while (tools->paths[++i])
+    while (paths[++i])
     {
-        full_path = make_path(tools->paths[i], command);
+        full_path = make_path(paths[i], command);
         // handle malloc error
         if (access(full_path, F_OK) == 0)
             return (full_path);
@@ -68,17 +69,13 @@ char    *find_executable(t_simple_cmds *cmd, t_tools *tools)
 }
 
 // returns exit code of executing cmd (which is the exit code of the child process)
-int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
+int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 {
     char    *path;
-    //pid_t   child_pid;
     int     ret;
-
     
     ret = EXIT_SUCCESS;
-    path = find_executable(cmd, tools);
-    //printf("path to command: %s\n", path);
-    // check redirections
+    path = find_executable(cmd, cmd->tools->paths);
     if (!path)
     {
         printf("%s: command not found\n", cmd->str[0]);
@@ -95,15 +92,13 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
     }
     if (cmd->child_pid == 0)
         handle_child(in_fd, out_fd, path, cmd);
-    
     else
         handle_parent(in_fd, out_fd, cmd);
-    
     free(path);
     return (ret);
 }
 
-void    execute_all(t_simple_cmds *cmds, t_tools *tools)
+void    execute_all(t_simple_cmds *cmds)
 {
     t_simple_cmds   *tmp;
     int             in_fd;
@@ -118,14 +113,14 @@ void    execute_all(t_simple_cmds *cmds, t_tools *tools)
         {
             if (pipe(pipe_fd) == -1)
                 return ; // handle pipe error
-            execute_cmd(tmp, tools, in_fd, pipe_fd[1]);
+            execute_cmd(tmp, in_fd, pipe_fd[1]);
             close(pipe_fd[1]);
             if (in_fd != INVALID_FD)
                 close(in_fd);
             in_fd = pipe_fd[0];
         }
         else
-            execute_cmd(tmp, tools, in_fd, INVALID_FD);
+            execute_cmd(tmp, in_fd, INVALID_FD);
         tmp = tmp->next;
     }
 }

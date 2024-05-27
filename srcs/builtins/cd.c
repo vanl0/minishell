@@ -1,7 +1,7 @@
 #include "minishell.h"
 
-int cd(t_simple_cmds *cmd)
+int	cd(t_simple_cmds *simple_cmd)
 {
-
-    return (EXIT_SUCCESS);
+	printf("trying to execute %s\n", simple_cmd->str[0]);
+	return (EXIT_SUCCESS);
 }

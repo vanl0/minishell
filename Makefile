@@ -92,6 +92,8 @@ $(OBJS_DIR)%.o: $(EXECUTOR_PATH)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@
 $(OBJS_DIR)%.o: $(SIGNALS_PATH)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@
+$(OBJS_DIR)%.o: $(BUILTINS_PATH)%.c $(HEADER) Makefile
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@
 $(OBJS_DIR):
 	@mkdir $@
 

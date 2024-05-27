@@ -20,6 +20,12 @@
 #define FAIL 0
 #define INVALID_FD -1
 
+#define QUOTE_ERROR 0
+#define SYNTAX_ERROR 1
+#define CMD_NOT_FOUND 2
+#define FORK_ERROR 3
+#define EXECV_ERROR 4
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,6 +35,7 @@
 #include "../libft/libft.h"
 #include "parser.h"
 #include "lexer.h"
+#include "builtins.h"
 
 typedef struct s_signals
 {
@@ -50,7 +57,7 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
 void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd);
 
 // EXECUTION
-void    execute_all(t_simple_cmds *cmd, t_tools *tools);
+void    execute_all(t_simple_cmds *cmd);
 //SIGNALS
 void    start_signals(void);
 void    handle_sigquit(int sig);
