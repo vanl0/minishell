@@ -51,7 +51,14 @@ SRCS_LS =	main.c\
 			executor/execution.c\
 			executor/redirections.c\
 			executor/heredoc.c\
-			signals/signals.c
+			signals/signals.c\
+			builtins/builtins.c\
+			builtins/echo.c\
+			builtins/cd.c\
+			builtins/exit.c\
+			builtins/export.c\
+			builtins/pwd.c\
+			builtins/unset.c
 
 LEXER_PATH = srcs/lexer/
 PARSER_PATH = srcs/parser/
