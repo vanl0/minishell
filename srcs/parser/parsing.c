@@ -27,6 +27,7 @@ t_simple_cmds   *alloc_cmd(t_lexer *lex_lst)
     new_cmd->str[args_count] = NULL;
     new_cmd->num_redirections = 0;
     new_cmd->redirections = NULL;
+    new_cmd->hd_file_name = NULL;
     new_cmd->next = NULL;
     new_cmd->prev = NULL;
     return (new_cmd);
@@ -95,11 +96,13 @@ void   add_cmd(t_simple_cmds **cmds_lst, t_simple_cmds *new_cmd)
 
 /* Takes a t_lexer list and loops through all its elements until it finds a PIPE.
 All the elements before a PIPE are added as one node in a t_simple_cmds list. */
-t_simple_cmds   *parse(t_lexer *lex_lst)
+t_simple_cmds   *parse(t_lexer **lex_lst_p)
 {
 	t_simple_cmds   *cmds_lst;
     t_simple_cmds   *current;
+    t_lexer         *lex_lst;
 
+    lex_lst = *lex_lst_p;
     cmds_lst = NULL;
     if (!lex_lst){
         return (NULL);
@@ -114,5 +117,6 @@ t_simple_cmds   *parse(t_lexer *lex_lst)
         //printf("Added...\n");
     }
     //print_cmds(cmds_lst);
+    *lex_lst_p = NULL;
     return (cmds_lst);
 }

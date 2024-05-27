@@ -22,16 +22,16 @@ int do_great(t_lexer *redirection)
     fd = open_redir(redirection);
     if (fd < 0)
     {
-        perror("minishell :");
-        return (FAIL);
+        perror("minishell");
+        return (EXIT_FAILURE);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
-        perror("minishell :");
-        return (FAIL);
+        perror("minishell");
+        return (EXIT_FAILURE);
     }
     close(fd);
-    return (SUCCESS);
+    return (EXIT_SUCCESS);
 }
 
 int do_less(char *file)
@@ -41,19 +41,23 @@ int do_less(char *file)
     fd = open(file, O_RDONLY);
     if (fd < 0)
     {
-        perror("minishell :");
-        return (FAIL);
+        perror("minishell");
+        return (EXIT_FAILURE);
     }
     if (dup2(fd, STDIN_FILENO) == -1)
     {
         close(fd);
-        perror("minishell :");
-        return (FAIL);
+        perror("minishell");
+        return (EXIT_FAILURE);
     }
     close(fd);
-    return (SUCCESS);
+    return (EXIT_SUCCESS);
 }
 
+/*errors
+- < redir file doesnt exist
+- > failed to open
+*/
 int check_redirections(t_simple_cmds *cmd)
 {
     t_lexer *redir_i;
@@ -63,20 +67,20 @@ int check_redirections(t_simple_cmds *cmd)
     {
         if (redir_i->token == GREAT || redir_i->token == GREATGREAT)
         {
-            if (!do_great(redir_i))
-                return (FAIL);
+            if (do_great(redir_i))
+                return (EXIT_FAILURE);
         }
         if (redir_i->token == LESS)
         {
-            if (!do_less(redir_i->str))
-                return (FAIL);
+            if (do_less(redir_i->str))
+                return (EXIT_FAILURE);
         }
         if (redir_i->token == LESSLESS)
         {
-            if (!do_less(cmd->hd_file_name))
-                return (FAIL);
+            if (do_less(cmd->hd_file_name))
+                return (EXIT_FAILURE);
         }
         redir_i = redir_i->next;
     }
-    return (SUCCESS);
+    return (EXIT_SUCCESS);
 }

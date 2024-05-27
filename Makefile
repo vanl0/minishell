@@ -43,6 +43,7 @@ SRCS_LS =	main.c\
 			lexer/environment.c\
 			lexer/expansor.c\
 			lexer/paths.c\
+			lexer/syntax.c\
 			parser/parsing.c\
 			parser/parsing_utils.c\
 			lexer/quotes.c\

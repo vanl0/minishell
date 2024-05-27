@@ -22,7 +22,7 @@ typedef struct s_env
 
 typedef struct s_tools
 {
-	char					*args;
+	char					*line;
 	char					**paths;
 	t_env					*env_lst;
 	struct s_simple_cmds	*simple_cmds;
@@ -50,7 +50,7 @@ typedef struct s_simple_cmds
 
 // PARSER
 t_simple_cmds   *alloc_cmd(t_lexer *lex_lst);
-t_simple_cmds   *parse(t_lexer *lexer_lst);
+t_simple_cmds   *parse(t_lexer **lexer_lst);
 void			setup_cmd(t_simple_cmds *cmd, t_lexer **lex_lst);
 
 // PARSER UTILS

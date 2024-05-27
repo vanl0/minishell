@@ -34,7 +34,8 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
     if (cmd->redirections)
     {
         heredoc(cmd);
-        check_redirections(cmd);
+        if (check_redirections(cmd))
+            exit(EXIT_FAILURE);
     }
     if (in_fd != INVALID_FD)
     { // Redirect input if needed

@@ -12,8 +12,8 @@
 #include "minishell.h"
 
 //LEXER
-t_lexer	*lexer(char *str, t_tools tools);
-t_lexer	*get_next_lex(char *str);
+t_lexer	*lexer(t_tools *tools);
+t_lexer	*get_next_lex(char *str, t_tools *tools);
 t_lexer	*set_lexer(char	*str, int tkn);
 t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex);
 int		is_token(char c);
@@ -24,6 +24,8 @@ void	print_lexer(t_lexer *lexer);
 void	free_lexer(t_lexer **lex_lst);
 int		is_space(char c);
 
+//SYNTAX
+int check_double_tk(t_tools *tools);
 //ENVIRONMENT
 t_env   *env_init(char **env);
 void    free_env(t_env **env_lst);
