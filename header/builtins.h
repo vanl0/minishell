@@ -12,7 +12,13 @@
 #define ENV 5
 #define EXIT 6
 
+// BUILTINS MANAGEMENT
+void    set_builtin_array(t_tools *tools);
+int     builtin_key(char *command);
+void    set_builtin(t_simple_cmds *cmd);
+
 // BUILTINS
-int builtin_key(char *command);
+int     echo(t_simple_cmds *simple_cmd);
+int     cd(t_simple_cmds *simple_cmd);
 
 #endif

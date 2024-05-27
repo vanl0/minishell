@@ -37,18 +37,23 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
         if (check_redirections(cmd))
             exit(EXIT_FAILURE);
     }
-    if (in_fd != INVALID_FD)
-    { // Redirect input if needed
-        dup2(in_fd, STDIN_FILENO);
-        close(in_fd);
+    if (cmd->builtin == NULL)
+    {
+        if (in_fd != INVALID_FD)
+        { // Redirect input if needed
+            dup2(in_fd, STDIN_FILENO);
+            close(in_fd);
+        }
+        if (out_fd != INVALID_FD && has_output(cmd))
+        { // Redirect output if needed
+            dup2(out_fd, STDOUT_FILENO);
+            close(out_fd);
+        }
+        execv(path, cmd->str);
+        // if execv fails, handle error.
     }
-    if (out_fd != INVALID_FD && has_output(cmd))
-    { // Redirect output if needed
-        dup2(out_fd, STDOUT_FILENO);
-        close(out_fd);
-    }
-    execv(path, cmd->str);
-    // if execv fails, handle error.
+    else
+        cmd->builtin(cmd);
 }
 
 void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)

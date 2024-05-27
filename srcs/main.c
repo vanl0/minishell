@@ -87,8 +87,9 @@ int minishell(t_tools *tools)
         exit(g_signals.exit_stat);
     }
     lexer(tools);
-    tools->simple_cmds = parse(&tools->lexer_lst);
-    execute_all(tools->simple_cmds, tools);
+    set_builtin_array(tools);
+    tools->simple_cmds = parse(&tools->lexer_lst, tools);
+    execute_all(tools->simple_cmds);
     clean_tools(tools);
     minishell(tools);
     return (EXIT_FAILURE);

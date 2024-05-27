@@ -38,8 +38,9 @@ typedef struct s_tools
 
 typedef struct s_simple_cmds
 {
+	t_tools					*tools;
 	char                    **str;
-	int                     (*builtin)(t_tools *, struct s_simple_cmds *);
+	int						(*builtin)(struct s_simple_cmds *);
 	int                     num_redirections;
 	pid_t					child_pid;
 	int						pipe_fd[2];
@@ -51,7 +52,7 @@ typedef struct s_simple_cmds
 
 // PARSER
 t_simple_cmds   *alloc_cmd(t_lexer *lex_lst);
-t_simple_cmds   *parse(t_lexer **lexer_lst);
+t_simple_cmds   *parse(t_lexer **lexer_lst, t_tools *tools);
 void			setup_cmd(t_simple_cmds *cmd, t_lexer **lex_lst);
 
 // PARSER UTILS
