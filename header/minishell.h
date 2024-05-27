@@ -30,6 +30,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "../readline-8.1/history.h"
 #include "../readline-8.1/readline.h"
 #include "../libft/libft.h"
@@ -45,7 +47,7 @@ typedef struct s_signals
     int stop_hdoc;
 }   t_signals;
 
-t_signals   g_signals;
+extern t_signals   g_signals;
 
 
 int minishell(t_tools *tools);

@@ -68,7 +68,7 @@ void	print_env(t_env *env_lst)
 	env_i = env_lst;
 	while (env_i)
 	{
-		printf("name: %s, contnent: %s\n", env_i->name, env_i->content);
+		printf("%s=%s\n", env_i->name, env_i->content);
 		env_i = env_i->next;
 	}
 }

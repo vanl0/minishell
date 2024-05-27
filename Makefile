@@ -54,11 +54,9 @@ SRCS_LS =	main.c\
 			signals/signals.c\
 			builtins/builtins.c\
 			builtins/echo.c\
-			builtins/cd.c\
-			builtins/exit.c\
 			builtins/export.c\
-			builtins/pwd.c\
-			builtins/unset.c
+			builtins/pwd.c
+		
 
 LEXER_PATH = srcs/lexer/
 PARSER_PATH = srcs/parser/

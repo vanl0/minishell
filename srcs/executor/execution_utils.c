@@ -50,12 +50,13 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
             dup2(out_fd, STDOUT_FILENO);
             close(out_fd);
         }
-    unlink(cmd->hd_file_name);
+        unlink(cmd->hd_file_name);
         execv(path, cmd->str);
         // if execv fails, handle error.
     }
     else
-        cmd->builtin(cmd);
+        exit(cmd->builtin(cmd));
+
 }
 
 void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)

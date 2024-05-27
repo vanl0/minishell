@@ -23,14 +23,14 @@ void    split_env(char *str, char **name, char **content)
 int check_name(char *name)
 {
     if (ft_isdigit(name[0]) || ft_strchr(name, ' '))
-        return (1);
+        return (EXIT_FAILURE);
     while (*name)
     {
         if (!ft_isdigit(*name) && !ft_isalnum(*name) && *name != '_')
-            return (1);
+            return (EXIT_FAILURE);
         name++;
     }
-    return (0);
+    return (EXIT_SUCCESS);
 }
 
 int export_elem(char *str, t_env *env_lst)
@@ -41,7 +41,7 @@ int export_elem(char *str, t_env *env_lst)
     if (str[0] == '=')
     {
         printf("export: %s: bad variable name\n", str);
-        return(1);
+        return(EXIT_FAILURE);
     }
     if (ft_strchr(str, '='))
         split_env(str, &name, &content);
@@ -55,18 +55,37 @@ int export_elem(char *str, t_env *env_lst)
         printf("export: %s: bad variable name\n", name);
         free(name);
         free(content);
-        return (1);
+        return (EXIT_FAILURE);
     }
-    return (setenv(name, content, 1));
+    add_env(&env_lst, env_create(name, content));
+    return (EXIT_SUCCESS);
 }
 
-int export_cmd(t_lexer *lexer_lst, t_env *env_lst)
+/*
+reads args and adds env variable to the t_env linked list,
+NAME of the variable can only contain letters numbers(not the first) and underscore
+a variable can be set with or without content, also can set multiple variables in one line
+every declaration separated by space.  
+errors:
+- env name error
+*/
+int export(t_simple_cmds *cmd)
 {
-    while(lexer_lst)
+    char    **args;
+    int     i;
+
+    args = cmd->str;
+    i = 1;
+    if (!args[i])
     {
-        if (export_elem(lexer_lst->str, env_lst) != 0)
-            return (1);
-        lexer_lst = lexer_lst->next;
+        print_env(cmd->tools->env_lst);
+        return (EXIT_SUCCESS);
     }
-    return (0);
+    while (args[i])
+    {
+        if (export_elem(args[i], cmd->tools->env_lst))
+            return (EXIT_FAILURE);
+        i++;
+    }
+    return (EXIT_SUCCESS);
 }

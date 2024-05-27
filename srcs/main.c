@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+ t_signals   g_signals;
+ 
 t_tools tools_init(char **env)
 {
     t_tools tools;
