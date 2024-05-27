@@ -85,10 +85,10 @@ int	quote_len(char *str)
 		}
 		i++;
 	}
-	return (printf("syntax error: open quotes\n"));
+	return (-1);
 }
 
-t_lexer	*get_next_lex(char *str)
+t_lexer	*get_next_lex(char *str, t_tools *tools)
 {
 	int		i;
 	char	*word;
@@ -100,6 +100,11 @@ t_lexer	*get_next_lex(char *str)
 	{
 		if (str[i] == '"' || str[i] == '\'')
 		{
+			if (quote_len(&str[i]) < 0)
+			{
+				do_error(0, tools);
+				return (NULL);
+			}
 			i += quote_len(&str[i]) - 1;
 		}
 		i++;
@@ -125,37 +130,41 @@ int	skip_i(char *str)
 	while (str[i] && is_space(str[i]) == 0 && !is_token(str[i]))
 	{
 		if (str[i] == '"' || str[i] == '\'')
-		{
 			i += quote_len(&str[i]) - 1;
-		}
 		i++;
 	}
 	return (i);
 }
 
-/*this is not eficient at all but works for now*/
-t_lexer	*lexer(char *str, t_tools tools)
+/*this is not eficient at all but works for now
+
+Error ctrl: 
+- unclosed quotes
+- syntax
+- */
+t_lexer	*lexer(t_tools *tools)
 {
 	int		i;
-	t_lexer	*lexer_lst;
 	t_lexer	*lexer_i;
 
 	i = 0;
-	lexer_lst = NULL;
-	if (!str)
+	if (!tools->line)
 		return (NULL);
-	while (str[i])
+	while (tools->line[i])
 	{
-		while (is_space(str[i]))
+		while (is_space(tools->line[i]))
 			i++;
-		if (str[i])
+		if (tools->line[i])
 		{
-			lexer_i = get_next_lex(&str[i]);
-			add_lexer(&lexer_lst, lexer_i);
+			lexer_i = get_next_lex(&tools->line[i], tools);
+			if (!lexer_i)
+				return (NULL);
+			add_lexer(&tools->lexer_lst, lexer_i);
 		}
-		i += skip_i(&str[i]);
+		i += skip_i(&tools->line[i]);
 	}
-	check_quotes(lexer_lst);
-	expand(lexer_lst, tools.env_lst);
-	return (lexer_lst);
+	check_double_tk(tools);
+	check_quotes(tools->lexer_lst);
+	expand(tools->lexer_lst, tools->env_lst);
+	return (tools->lexer_lst);
 }

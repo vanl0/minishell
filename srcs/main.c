@@ -16,7 +16,7 @@ t_tools tools_init(char **env)
 {
     t_tools tools;
 
-    tools.args = NULL;
+    tools.line = NULL;
     tools.env_lst = env_init(env);
     tools.paths = ft_split(find_path(tools.env_lst), ':');
     tools.lexer_lst = NULL;
@@ -32,40 +32,68 @@ t_tools tools_init(char **env)
     return (tools);
 }
 
-int clean_tools(t_tools tools)
+
+int clean_tools(t_tools *tools)
 {
-    if (tools.env_lst)
-        free_env(&tools.env_lst);
-    if (tools.paths)
-        free_matrix(tools.paths);
+    if (tools->line)
+    {
+        free(tools->line);
+        tools->line = NULL;   
+    }
+    if (tools->paths)
+    {
+        free_matrix(tools->paths);
+        tools->paths = ft_split(find_path(tools->env_lst), ':');
+    }
+    if (tools->lexer_lst)
+        free_lexer(&tools->lexer_lst);
+    if (tools->simple_cmds)
+    {
+        free_cmds(&tools->simple_cmds);
+        tools->simple_cmds = NULL;
+    }
+    if (tools->pwd)
+    {
+        free(tools->pwd);
+        tools->pwd = NULL;
+    }
+    if (tools->old_pwd)
+    {
+        free(tools->old_pwd);
+        tools->pwd = NULL;
+    }
+    /*if (tools->env_lst)
+    {
+       free_env(&tools->env_lst);
+       tools->env_lst = NULL;
+    }*/
+    //tools->pipes = 0;
+    //tools->pid = NULL;
+    //g_signals.exit_stat = 0;
+    g_signals.in_cmd = 0;
+    g_signals.in_hdoc = 0;
+    g_signals.stop_hdoc = 0;
+    start_signals();
     return (EXIT_SUCCESS);
 }
 
-int minishell(t_tools tools)
+int minishell(t_tools *tools)
 {
-    char            *line;
-    t_lexer         *lexer_lst;
-    t_simple_cmds   *commands;
-
-    for(int i = 0; i < 2; i++)
+    tools->line = readline("minishell>");
+    add_history(tools->line);
+    if (!tools->line)
     {
-        line = readline("minishell>");
-        add_history(line);
-        if (!line)
-        {
-            printf("exit\n");
-            exit(g_signals.exit_stat);
-        }
-        lexer_lst = lexer(line, tools);
-        commands = parse(lexer_lst);
-        execute_all(commands, &tools);
-        free_cmds(&commands);
-        free(line);
-        clean_tools(tools);
-        tools = tools_init(env);
+        printf("exit\n");
+        exit(g_signals.exit_stat);
     }
-    return (0);
+    lexer(tools);
+    tools->simple_cmds = parse(&tools->lexer_lst);
+    execute_all(tools->simple_cmds, tools);
+    clean_tools(tools);
+    minishell(tools);
+    return (EXIT_FAILURE);
 }
+
 
 int main(int argc, char **argv, char **env)
 {
@@ -74,7 +102,7 @@ int main(int argc, char **argv, char **env)
     tools = tools_init(env);
     if (argc != 1 || argv[1])
 		exit(printf("This program does not accept arguments\n"));
-    minishell(tools);
+    minishell(&tools);
     return (g_signals.exit_stat);
 }
 

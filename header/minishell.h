@@ -41,8 +41,9 @@ typedef struct s_signals
 
 t_signals   g_signals;
 
-//PARSING
-//void    parse(char *line);
+
+int minishell(t_tools *tools);
+int clean_tools(t_tools *tools);
 
 // EXECUTION UTILS
 int     has_output(t_simple_cmds *cmd);
@@ -57,5 +58,5 @@ void    handle_sigquit(int sig);
 void    handle_sigint(int sig);
 
 //ERROR
-void    *malloc_err(void);
+int    do_error(int flg, t_tools *tools);
 #endif
