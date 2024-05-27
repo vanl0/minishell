@@ -29,6 +29,7 @@ int check_double_tk(t_tools *tools);
 //ENVIRONMENT
 t_env   *env_init(char **env);
 void    free_env(t_env **env_lst);
+int     update_exit(t_env *env_lst);
 //EXPANSOR
 t_lexer *expand(t_lexer *lexer_lst, t_env *env_lst);
 char    *search_env(char *str, t_env *env_lst);

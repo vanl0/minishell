@@ -35,6 +35,11 @@ t_tools tools_init(char **env)
 
 int clean_tools(t_tools *tools)
 {
+    if (tools->simple_cmds)
+    {
+        free_cmds(&tools->simple_cmds);
+        tools->simple_cmds = NULL;
+    }
     if (tools->line)
     {
         free(tools->line);
@@ -47,11 +52,8 @@ int clean_tools(t_tools *tools)
     }
     if (tools->lexer_lst)
         free_lexer(&tools->lexer_lst);
-    if (tools->simple_cmds)
-    {
-        free_cmds(&tools->simple_cmds);
-        tools->simple_cmds = NULL;
-    }
+   
+    update_exit(tools->env_lst);
     if (tools->pwd)
     {
         free(tools->pwd);

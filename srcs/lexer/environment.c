@@ -93,3 +93,18 @@ t_env	*env_init(char **env)
 	add_env(&env_lst, env_create(ft_strdup("?"), ft_itoa(g_signals.exit_stat)));
 	return (env_lst);
 }
+
+int	update_exit(t_env *env_lst)
+{
+	while (env_lst)
+	{
+		if (!ft_strncmp(env_lst->name, "?", 1))
+		{
+			free(env_lst->content);
+			env_lst->content = ft_itoa(g_signals.exit_stat);
+			return (EXIT_SUCCESS);
+		}
+		env_lst = env_lst->next;
+	}
+	return (EXIT_FAILURE);
+}

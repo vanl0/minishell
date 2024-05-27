@@ -82,12 +82,10 @@ int execute_cmd(t_simple_cmds *cmd, t_tools *tools, int in_fd, int out_fd)
     if (!path)
     {
         printf("%s: command not found\n", cmd->str[0]);
+        //set error code to 127
         // handle error
         return (EXIT_FAILURE); // idk
-    }
-    
-    signal(SIGQUIT, handle_sigquit);
-    
+    } 
     cmd->child_pid = fork();
     if (cmd->child_pid < 0)
     {   // Error

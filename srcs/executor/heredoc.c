@@ -14,6 +14,7 @@ int do_heredoc(char *hd_file_name,  char *end)
 
    
     fd = open(hd_file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+    
     line = readline("heredoc>");
     while (line && ft_strncmp(end, line, ft_strlen(end)) && !g_signals.stop_hdoc)
     {
@@ -36,10 +37,19 @@ char    *get_hd_name(void)
     char        *num;
     char        *name;
 
+    
     num = ft_itoa(n);
-    name = ft_strjoin("hd_file_", num);
-    n++;
+    name = ft_strjoin("/tmp/hd_file_", num);
     free(num);
+    n++;
+    while (!access(name,F_OK))
+    {
+        free(name);
+        n++;
+        num = ft_itoa(n);
+        name = ft_strjoin("/tmp/hd_file_", num);
+        free(num);
+    }
     return (name);
 }
 

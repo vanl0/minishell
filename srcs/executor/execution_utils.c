@@ -37,6 +37,7 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
         if (check_redirections(cmd))
             exit(EXIT_FAILURE);
     }
+    signal(SIGQUIT, handle_sigquit);
     if (in_fd != INVALID_FD)
     { // Redirect input if needed
         dup2(in_fd, STDIN_FILENO);
@@ -47,6 +48,7 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
         dup2(out_fd, STDOUT_FILENO);
         close(out_fd);
     }
+    unlink(cmd->hd_file_name);
     execv(path, cmd->str);
     // if execv fails, handle error.
 }
