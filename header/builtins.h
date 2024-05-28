@@ -38,6 +38,7 @@ int     export(t_simple_cmds *cmd);
 int     pwd(t_simple_cmds *cmd);
 int     ft_exit(t_simple_cmds *cmd);
 int     unset(t_simple_cmds *cmd);
+void    search_n_destroy(char *name, t_tools *tools);
 int     env(t_simple_cmds *cmd);
 
 

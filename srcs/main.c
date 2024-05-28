@@ -26,6 +26,7 @@ t_tools tools_init(char **env)
     tools.old_pwd = NULL;
     tools.pipes = 0;
     tools.pid = NULL;
+    tools.simple_cmds = NULL;
     g_signals.exit_stat = 0;
     g_signals.in_cmd = 0;
     g_signals.in_hdoc = 0;
@@ -89,6 +90,11 @@ int minishell(t_tools *tools)
     {
         printf("exit\n");
         exit(g_signals.exit_stat);
+    }
+    if (tools->line[0] == '\0')
+    {
+        clean_tools(tools);
+        minishell(tools);
     }
     lexer(tools);
     set_builtin_array(tools);

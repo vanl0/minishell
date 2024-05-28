@@ -39,7 +39,7 @@ int unset_env(char *name, t_tools *tools)
     {
         ft_putstr_fd("unset: '", STDERR_FILENO);
         ft_putstr_fd(name, STDERR_FILENO);
-        ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
+        ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
         return (EXIT_FAILURE);
     }
     search_n_destroy(name, tools);
@@ -55,7 +55,7 @@ int unset(t_simple_cmds *cmd)
     i = 1;
     if (!str[1])
     {
-        ft_putstr_fd("unset: not enough arguments", STDERR_FILENO);
+        ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
         return (EXIT_FAILURE);
     }
     while (str[i])

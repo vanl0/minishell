@@ -47,7 +47,7 @@ int export_elem(char *str, t_env *env_lst)
         split_env(str, &name, &content);
     else
     {
-        name = str;
+        name = ft_strdup(str);
         content = NULL;
     }
     if (check_name(name))
@@ -61,6 +61,27 @@ int export_elem(char *str, t_env *env_lst)
     printf("export added\n");
     return (EXIT_SUCCESS);
 }
+
+void	print_exp(t_env *env_lst)
+{
+	t_env	*env_i;
+
+	env_i = env_lst;
+	while (env_i)
+	{
+		if (!ft_strncmp(env_i->name, "?", 1))
+			env_i = env_i->next;
+		else
+		{
+            if (env_i->content)
+			    printf("export %s=%s\n", env_i->name, env_i->content);
+            else
+                printf("export %s\n", env_i->name);
+			env_i = env_i->next;
+		}
+	}
+}
+
 
 /*
 reads args and adds env variable to the t_env linked list,
@@ -79,11 +100,12 @@ int export(t_simple_cmds *cmd)
     i = 1;
     if (!args[i])
     {
-        print_env(cmd->tools->env_lst);
+        print_exp(cmd->tools->env_lst);
         return (EXIT_SUCCESS);
     }
     while (args[i])
     {
+        search_n_destroy(args[i], cmd->tools);
         if (export_elem(args[i], cmd->tools->env_lst))
             return (EXIT_FAILURE);
         i++;
