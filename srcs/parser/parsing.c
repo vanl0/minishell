@@ -24,7 +24,7 @@ t_simple_cmds   *alloc_cmd(t_lexer *lex_lst)
     args_count = count_args(lex_lst);
     new_cmd->str = (char **)malloc((args_count + 1) * sizeof(char *));
     new_cmd->builtin = NULL;
-    new_cmd->child_pid = -1;
+    new_cmd->child_pid = -2;
     new_cmd->str[args_count] = NULL;
     new_cmd->num_redirections = 0;
     new_cmd->redirections = NULL;
