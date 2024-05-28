@@ -86,7 +86,15 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
     if (cmd->prev || cmd->next || builtin_key(path) == NOT_BUILTIN)
         execute_normal(in_fd, out_fd, path, cmd);
     else
+    {
+        if (cmd->redirections)
+        {
+            heredoc(cmd);
+            if (check_redirections(cmd))
+                exit(EXIT_FAILURE);
+        }
         ret = cmd->builtin(cmd);
+    }
     free(path);
     return (ret);
 }
