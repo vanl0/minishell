@@ -8,9 +8,9 @@ void    set_builtin_array(t_tools *tools)
     //tools->builtins[CD] = cd;
     tools->builtins[PWD] = pwd;
     tools->builtins[EXPORT] = export;
-    // set UNSET
+    tools->builtins[UNSET] = unset;
     // set ENV
-    // set EXIT
+    tools->builtins[EXIT] = ft_exit;
 }
 
 /* Returns the command's builtin key. -1 if not a builtin. */

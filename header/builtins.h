@@ -21,7 +21,12 @@ void    set_builtin(t_simple_cmds *cmd);
 int     echo(t_simple_cmds *simple_cmd);
 int     cd(t_simple_cmds *simple_cmd);
 int     export(t_simple_cmds *cmd);
+int     check_name(char *name);
+int     export(t_simple_cmds *cmd);
 int     pwd(t_simple_cmds *cmd);
+int     ft_exit(t_simple_cmds *cmd);
+int     unset(t_simple_cmds *cmd);
+
 
 
 #endif

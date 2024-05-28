@@ -50,7 +50,8 @@ void	free_env(t_env **env_lst)
 	while (env_i)
 	{
 		free(env_free->name);
-		free(env_free->content);
+		if (env_free->content)
+			free(env_free->content);
 		free(env_free);
 		env_free = env_i;
 		env_i = env_i->next;

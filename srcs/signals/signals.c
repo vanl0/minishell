@@ -20,7 +20,6 @@ void    handle_sigint(int sig)
 	(void) sig;
 }
 
-
 void    handle_sigquit(int sig)
 {
     ft_putstr_fd("Quit: ", STDERR_FILENO);
@@ -29,7 +28,6 @@ void    handle_sigquit(int sig)
 	rl_redisplay();
 	exit(0);
 }
-
 
 void start_signals(void)
 {
