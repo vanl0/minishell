@@ -5,11 +5,11 @@ Every function takes (t_tools *, t_simple_cmds *) as arguments */
 void    set_builtin_array(t_tools *tools)
 {
     tools->builtins[ECHO] = echo;
-    //tools->builtins[CD] = cd;
+    tools->builtins[CD] = cd;
     tools->builtins[PWD] = pwd;
     tools->builtins[EXPORT] = export;
     tools->builtins[UNSET] = unset;
-    // set ENV
+    tools->builtins[ENV] = env;
     tools->builtins[EXIT] = ft_exit;
 }
 

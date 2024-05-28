@@ -57,7 +57,9 @@ SRCS_LS =	main.c\
 			builtins/export.c\
 			builtins/pwd.c\
 			builtins/unset.c\
-			builtins/exit.c
+			builtins/exit.c\
+			builtins/cd.c\
+			builtins/env.c
 		
 
 LEXER_PATH = srcs/lexer/

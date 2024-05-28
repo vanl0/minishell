@@ -31,7 +31,6 @@ int has_output(t_simple_cmds *cmd)
 - pipefd[1] is the fd for the write end */
 void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
-    int status;
 
     if (cmd->redirections)
     {

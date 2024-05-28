@@ -60,7 +60,7 @@ int ft_exit(t_simple_cmds *cmd)
     int exit_code;
 
     exit_code = 0;
-    if (cmd->str[2])
+    if (cmd->str[1] && cmd->str[2])
     {
         ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
         return (EXIT_FAILURE);
