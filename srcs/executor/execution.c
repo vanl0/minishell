@@ -82,18 +82,11 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
         //set error code to 127
         // handle error
         return (EXIT_FAILURE); // idk
-    } 
-    cmd->child_pid = fork();
-    if (cmd->child_pid < 0)
-    {   // Error
-        free(path);
-        perror("fork");
-        return (EXIT_FAILURE); // idk
     }
-    if (cmd->child_pid == 0)
-        handle_child(in_fd, out_fd, path, cmd);
+    if (cmd->prev || cmd->next || builtin_key(path) == NOT_BUILTIN)
+        execute_normal(in_fd, out_fd, path, cmd);
     else
-        handle_parent(in_fd, out_fd, cmd);
+        ret = cmd->builtin(cmd);
     free(path);
     return (ret);
 }

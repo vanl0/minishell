@@ -19,6 +19,7 @@
 #define SUCCESS 1
 #define FAIL 0
 #define INVALID_FD -1
+#define NO_PID -2
 
 #define QUOTE_ERROR 0
 #define SYNTAX_ERROR 1
@@ -57,6 +58,7 @@ int clean_tools(t_tools *tools);
 int     has_output(t_simple_cmds *cmd);
 void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
 void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd);
+void    execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
 
 // EXECUTION
 void    execute_all(t_simple_cmds *cmd);

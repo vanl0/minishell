@@ -72,9 +72,10 @@ int ft_exit(t_simple_cmds *cmd)
         else
         {
             exit_code = ft_atoi(cmd->str[1]);
-            return (EXIT_SUCCESS);
+            //return (EXIT_SUCCESS);
         }
     }
     free_tools(cmd->tools);
     exit(exit_code);
+    return (EXIT_SUCCESS);
 }
