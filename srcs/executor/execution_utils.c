@@ -31,8 +31,6 @@ int has_output(t_simple_cmds *cmd)
 - pipefd[1] is the fd for the write end */
 void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
-    int status;
-
     if (cmd->redirections)
     {
         heredoc(cmd);
@@ -64,4 +62,19 @@ void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)
 {
     cmd->pipe_fd[0] = in_fd;
     cmd->pipe_fd[1] = out_fd;
+}
+
+void    execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
+{
+    cmd->child_pid = fork();
+    if (cmd->child_pid < 0)
+    {   // Error
+        free(path);
+        perror("fork");
+        exit(EXIT_FAILURE); // idk
+    }
+    if (cmd->child_pid == 0)
+        handle_child(in_fd, out_fd, path, cmd);
+    else
+        handle_parent(in_fd, out_fd, cmd);
 }
