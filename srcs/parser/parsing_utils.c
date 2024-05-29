@@ -65,7 +65,7 @@ void    free_cmds(t_simple_cmds **cmds)
         free_lexer(&(cmd_tmp->redirections));
         if (cmd_tmp->hd_file_name)
             free(cmd_tmp->hd_file_name);
-        if (cmd_tmp->child_pid >= 0)
+        if (cmd_tmp->child_pid > 0)
         {
             waitpid(cmd_tmp->child_pid, &status, 0);
             if (cmd_tmp->pipe_fd[0] != INVALID_FD)

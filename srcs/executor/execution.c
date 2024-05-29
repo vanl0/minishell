@@ -72,6 +72,7 @@ char    *find_executable(t_simple_cmds *cmd, char **paths)
 int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 {
     char    *path;
+    int     og_stdout;
     
     path = find_executable(cmd, cmd->tools->paths);
     if (!path)
@@ -87,11 +88,17 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
     {
         if (cmd->redirections)
         {
+            og_stdout = dup(STDOUT_FILENO);
             heredoc(cmd);
             if (check_redirections(cmd))
                 exit(EXIT_FAILURE);
         }
         g_signals.exit_stat = cmd->builtin(cmd);
+        if (cmd->redirections)
+        {
+            dup2(og_stdout, STDOUT_FILENO);
+            close(og_stdout);
+        }
     }
     free(path);
     return (EXIT_SUCCESS);
