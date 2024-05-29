@@ -25,6 +25,7 @@
 #define EXIT 6
 
 // BUILTINS MANAGEMENT
+void    search_n_destroy(char *name, t_tools *tools);
 void    set_builtin_array(t_tools *tools);
 int     builtin_key(char *command);
 void    set_builtin(t_simple_cmds *cmd);
