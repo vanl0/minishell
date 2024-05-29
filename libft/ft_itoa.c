@@ -58,7 +58,7 @@ char	*ft_itoa(int n)
 		neg = 1;
 	}
 	len = getlen(n);
-	num = (char *)malloc((neg + len + 1) * sizeof(char));
+	num = (char *)ft_malloc((neg + len + 1) * sizeof(char));
 	if (!num)
 		return (NULL);
 	fill(num, n, len, neg);

@@ -18,7 +18,7 @@ t_lexer	*set_lexer(char	*str, int tkn)
 	t_lexer		*new_lex;
 	static int	i = 0;
 
-	new_lex = malloc(sizeof(t_lexer));
+	new_lex = ft_malloc(sizeof(t_lexer));
 	new_lex->i = i;
 	if (str)
 	{

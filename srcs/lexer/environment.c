@@ -92,10 +92,18 @@ t_env	*env_init(char **env)
 	env_lst = NULL;
 	while (env[i])
 	{
-		line = ft_split(env[i], '=');
-		add_env(&env_lst, env_create(line[0], line[1]));
-		free(line);
-		i++;
+		if (!ft_strncmp(env[i], "OLDPWD", 6))
+		{
+			printf("AAAASDAFFFAFSFS\n");
+			i++;
+		}
+		else
+		{
+			line = ft_split(env[i], '=');
+			add_env(&env_lst, env_create(line[0], line[1]));
+			free(line);
+			i++;
+		}
 	}
 	add_env(&env_lst, env_create(ft_strdup("?"), ft_itoa(g_signals.exit_stat)));
 	return (env_lst);

@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 #include <sys/wait.h>
-
 /* Allocates memory and returns the path to the command executable.
 If the command is a builtin, it returns the duplicated command.
 If the command is not found, it returns NULL.
