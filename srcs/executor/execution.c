@@ -12,32 +12,6 @@
 
 #include "minishell.h"
 #include <sys/wait.h>
-/*
-this is basically ft_strjoin with a '/' added between the 2 strings */
-char	*make_path(char *dir, char *command)
-{
-	char	*path;
-	int		n;
-	int		i;
-	int		j;
-
-	if (!dir || !command)
-		return (NULL);
-	n = ft_strlen(dir) + ft_strlen(command) + 2;
-	path = ft_malloc(n * sizeof(char));
-	if (path == NULL)
-		return (NULL);
-	i = -1;
-	while (dir[++i])
-		path[i] = dir[i];
-    path[i++] = '/';
-    j = -1;
-	while (command[++j])
-		path[i++] = command[j];
-	path[i] = '\0';
-	return (path);
-}
-
 /* Allocates memory and returns the path to the command executable.
 If the command is a builtin, it returns the duplicated command.
 If the command is not found, it returns NULL.
