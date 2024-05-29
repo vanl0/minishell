@@ -55,12 +55,11 @@ int minishell(t_tools *tools);
 int clean_tools(t_tools *tools);
 
 // EXECUTION UTILS
-int     has_output(t_simple_cmds *cmd);
-void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
-void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd);
+char	*make_path(char *dir, char *to_add);
 void    execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
 
 // EXECUTION
+char	*make_path(char *dir, char *to_add);
 void    execute_all(t_simple_cmds *cmd);
 //SIGNALS
 void    start_signals(void);

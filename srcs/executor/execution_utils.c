@@ -12,7 +12,33 @@
 
 #include "minishell.h"
 
-int has_output(t_simple_cmds *cmd)
+/*
+this is basically ft_strjoin with a '/' added between the 2 strings */
+char	*make_path(char *dir, char *to_add)
+{
+	char	*path;
+	int		n;
+	int		i;
+	int		j;
+
+	if (!dir || !to_add)
+		return (NULL);
+	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
+	path = malloc(n * sizeof(char));
+	if (path == NULL)
+		return (NULL);
+	i = -1;
+	while (dir[++i])
+		path[i] = dir[i];
+    path[i++] = '/';
+    j = -1;
+	while (to_add[++j])
+		path[i++] = to_add[j];
+	path[i] = '\0';
+	return (path);
+}
+
+static int  has_output(t_simple_cmds *cmd)
 {
     t_lexer *redir_i;
 
@@ -29,7 +55,7 @@ int has_output(t_simple_cmds *cmd)
 /* reminder: 
 - pipefd[0] is the fd for the read end
 - pipefd[1] is the fd for the write end */
-void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
+static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
     if (cmd->redirections)
     {
@@ -38,7 +64,8 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
             exit(EXIT_FAILURE);
     }
     signal(SIGQUIT, handle_sigquit);
-    
+    if (cmd->builtin == NULL)
+    {
         if (in_fd != INVALID_FD)
         { // Redirect input if needed
             dup2(in_fd, STDIN_FILENO);
@@ -49,8 +76,6 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
             dup2(out_fd, STDOUT_FILENO);
             close(out_fd);
         }
-        if (cmd->builtin == NULL)
-    {
         unlink(cmd->hd_file_name);
         execv(path, cmd->str);
         // if execv fails, handle error.
@@ -59,7 +84,7 @@ void    handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
         exit(cmd->builtin(cmd));
 }
 
-void    handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)
+static void handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)
 {
     cmd->pipe_fd[0] = in_fd;
     cmd->pipe_fd[1] = out_fd;
