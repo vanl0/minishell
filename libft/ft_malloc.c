@@ -10,6 +10,6 @@ void *ft_malloc(size_t size)
         ft_putstr_fd("malloc fail\n", STDERR_FILENO);
         exit(EXIT_FAILURE);
     }
-    ft_putstr_fd("malloc success\n", STDERR_FILENO);
+    //ft_putstr_fd("malloc success\n", STDERR_FILENO);
     return (var);
 }

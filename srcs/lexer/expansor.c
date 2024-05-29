@@ -23,7 +23,7 @@ char	*get_env_name(char *env_str)
 		return (NULL);
 	while (env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'')
 		i++;
-	name = malloc(i * sizeof(char));
+	name = ft_malloc(i * sizeof(char));
 	ft_strlcpy(name, env_str + 1, i);
 	return (name);
 }
@@ -81,7 +81,7 @@ char	*replace_env(char *str, int *i, t_env *env_lst)
 	k = 0;
 	env_cont = expand_env(&str[*i], env_lst);
 	env_len = ft_strlen(str) - get_env_name_len(&str[*i]) + ft_strlen(env_cont);
-	new_str = malloc((env_len + 1) * sizeof(char));
+	new_str = ft_malloc((env_len + 1) * sizeof(char));
 	while (j < env_len)
 	{
 		if (j == *i)

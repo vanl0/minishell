@@ -20,9 +20,9 @@ t_simple_cmds   *alloc_cmd(t_lexer *lex_lst)
     t_simple_cmds   *new_cmd;
     int             args_count;
 
-    new_cmd = (t_simple_cmds *)malloc(sizeof(t_simple_cmds));
+    new_cmd = (t_simple_cmds *)ft_malloc(sizeof(t_simple_cmds));
     args_count = count_args(lex_lst);
-    new_cmd->str = (char **)malloc((args_count + 1) * sizeof(char *));
+    new_cmd->str = (char **)ft_malloc((args_count + 1) * sizeof(char *));
     new_cmd->builtin = NULL;
     new_cmd->child_pid = NO_PID;
     new_cmd->str[args_count] = NULL;

@@ -109,7 +109,7 @@ t_lexer	*get_next_lex(char *str, t_tools *tools)
 		}
 		i++;
 	}
-	word = malloc((i + 1) * sizeof(char));
+	word = ft_malloc((i + 1) * sizeof(char));
 	ft_strlcpy(word, str, i + 1);
 	return (set_lexer(word, 0));
 }
