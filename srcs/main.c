@@ -113,7 +113,6 @@ int main(int argc, char **argv, char **env)
     tools = tools_init(env);
     if (argc != 1 || argv[1])
 		exit(printf("This program does not accept arguments\n"));
-    print_env(tools.env_lst);
     minishell(&tools);
     return (g_signals.exit_stat);
 }

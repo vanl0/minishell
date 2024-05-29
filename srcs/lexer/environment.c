@@ -92,11 +92,8 @@ t_env	*env_init(char **env)
 	env_lst = NULL;
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], "OLDPWD", 6))
-		{
-			printf("AAAASDAFFFAFSFS\n");
+		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 			i++;
-		}
 		else
 		{
 			line = ft_split(env[i], '=');
