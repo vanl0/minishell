@@ -16,7 +16,7 @@ t_env	*env_create(char *name, char *content)
 {
 	t_env	*new_env;
 
-	new_env = malloc(sizeof(t_env));
+	new_env = ft_malloc(sizeof(t_env));
 	new_env->name = name;
 	new_env->content = content;
 	new_env->next = NULL;

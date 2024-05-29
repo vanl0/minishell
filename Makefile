@@ -31,7 +31,7 @@ HISTORY_HEADER = $(HISTORY_DIR)
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_HEADER = $(LIBFT_DIR)
+LIBFT_HEADER = $(LIBFT_DIR)/libft.h
 
 SRCS_DIR = srcs/
 OBJS_DIR = objs/
@@ -100,7 +100,7 @@ $(OBJS_DIR):
 	@mkdir $@
 
 #LIBFT
-$(LIBFT):
+$(LIBFT): $(LIBFT_HEADER)
 	@echo "$(YELLOW)Compiling Libft$(NC)"
 	@make -s -C $(LIBFT_DIR)
 	@echo "$(GREEN)Libft compiled succesfully$(NC)"
