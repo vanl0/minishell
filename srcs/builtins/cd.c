@@ -81,7 +81,6 @@ void	update_wd(t_tools *tools, char *arg)
 {
 	char	*new_wd;
 	char	*old_wd;
-	t_env	*new;
 
 	old_wd = find_env("PWD", tools->env_lst);
 	new_wd = NULL;
@@ -92,9 +91,9 @@ void	update_wd(t_tools *tools, char *arg)
 	if (new_wd)
 	{
 		search_n_destroy("PWD", tools);
-		new = env_create(ft_strdup("PWD"), new_wd);
-		if (new)
-			add_env(&tools->env_lst, new);
+		add_env(&tools->env_lst, env_create(ft_strdup("PWD"), new_wd));
+		search_n_destroy("OLDPWD", tools);
+		add_env(&tools->env_lst, env_create(ft_strdup("OLDPWD"), old_wd));
 	}
 }
 

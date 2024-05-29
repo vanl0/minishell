@@ -64,18 +64,18 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
             exit(EXIT_FAILURE);
     }
     signal(SIGQUIT, handle_sigquit);
+    if (in_fd != INVALID_FD)
+    { // Redirect input if needed
+        dup2(in_fd, STDIN_FILENO);
+        close(in_fd);
+    }
+    if (out_fd != INVALID_FD && has_output(cmd))
+    { // Redirect output if needed
+        dup2(out_fd, STDOUT_FILENO);
+        close(out_fd);
+    }
     if (cmd->builtin == NULL)
     {
-        if (in_fd != INVALID_FD)
-        { // Redirect input if needed
-            dup2(in_fd, STDIN_FILENO);
-            close(in_fd);
-        }
-        if (out_fd != INVALID_FD && has_output(cmd))
-        { // Redirect output if needed
-            dup2(out_fd, STDOUT_FILENO);
-            close(out_fd);
-        }
         unlink(cmd->hd_file_name);
         execv(path, cmd->str);
         // if execv fails, handle error.

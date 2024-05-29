@@ -58,7 +58,6 @@ int export_elem(char *str, t_env *env_lst)
         return (EXIT_FAILURE);
     }
     add_env(&env_lst, env_create(name, content));
-    printf("export added\n");
     return (EXIT_SUCCESS);
 }
 

@@ -116,4 +116,3 @@ int main(int argc, char **argv, char **env)
     minishell(&tools);
     return (g_signals.exit_stat);
 }
-
