@@ -41,7 +41,7 @@ char	*get_next_path(char *arg)
 	i = 0;
 	while (arg[i] && arg[i] != '/')
 		++i;
-	path = malloc((i + 1) * sizeof(char));
+	path = ft_malloc((i + 1) * sizeof(char));
 	path[i] = '\0';
 	while (--i >= 0)
 		path[i] = arg[i];
@@ -92,22 +92,28 @@ void	update_wd(t_tools *tools, char *arg)
 	{
 		search_n_destroy("PWD", tools);
 		add_env(&tools->env_lst, env_create(ft_strdup("PWD"), new_wd));
-		search_n_destroy("OLDPWD", tools);
-		add_env(&tools->env_lst, env_create(ft_strdup("OLDPWD"), old_wd));
 	}
+	search_n_destroy("OLDPWD", tools);
+	add_env(&tools->env_lst, env_create(ft_strdup("OLDPWD"), old_wd));
 }
 
 int	cd(t_simple_cmds *cmd)
 {
-	int		ret;
 	char	*arg;
 
 	arg = cmd->str[1];
 	if (!arg)
 		arg = find_env("HOME", cmd->tools->env_lst);
-	ret = chdir(arg);
-	if (ret == EXIT_SUCCESS)
-		update_wd(cmd->tools, arg);
-	return (ret);
+	if (chdir(arg) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	update_wd(cmd->tools, arg);
+	return (EXIT_SUCCESS);
 }
 

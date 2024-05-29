@@ -33,6 +33,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
 #include "../readline-8.1/history.h"
 #include "../readline-8.1/readline.h"
 #include "../libft/libft.h"
