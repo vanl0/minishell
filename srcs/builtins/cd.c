@@ -41,7 +41,7 @@ char	*get_next_path(char *arg)
 	i = 0;
 	while (arg[i] && arg[i] != '/')
 		++i;
-	path = malloc((i + 1) * sizeof(char));
+	path = ft_malloc((i + 1) * sizeof(char));
 	path[i] = '\0';
 	while (--i >= 0)
 		path[i] = arg[i];
@@ -84,30 +84,43 @@ void	update_wd(t_tools *tools, char *arg)
 
 	old_wd = find_env("PWD", tools->env_lst);
 	new_wd = NULL;
-	if (arg[0] && arg[0] == '/')
+	if (arg && arg[0] && arg[0] == '/')
 		new_wd = ft_strdup(arg);
-	else if (ft_strncmp(".", arg, ft_strlen(arg)) != 0)
+	else if (ft_strncmp(".", arg, ft_strlen(arg)))
 		new_wd = get_new_wd(arg, old_wd);
 	if (new_wd)
 	{
 		search_n_destroy("PWD", tools);
 		add_env(&tools->env_lst, env_create(ft_strdup("PWD"), new_wd));
-		search_n_destroy("OLDPWD", tools);
-		add_env(&tools->env_lst, env_create(ft_strdup("OLDPWD"), old_wd));
 	}
+	search_n_destroy("OLDPWD", tools);
+	add_env(&tools->env_lst, env_create(ft_strdup("OLDPWD"), old_wd));
 }
 
 int	cd(t_simple_cmds *cmd)
 {
-	int		ret;
 	char	*arg;
 
 	arg = cmd->str[1];
-	if (!arg)
+	if (!cmd->str[1])
 		arg = find_env("HOME", cmd->tools->env_lst);
-	ret = chdir(arg);
-	if (ret == EXIT_SUCCESS)
-		update_wd(cmd->tools, arg);
-	return (ret);
+	else if (!ft_strncmp(cmd->str[1], "~", 1))
+	{
+		if (!ft_strncmp("/", cmd->str[1] + 1, 1))
+			arg = make_path(find_env("HOME", cmd->tools->env_lst), arg + 2);
+		else
+			arg = make_path(find_env("HOME", cmd->tools->env_lst), arg + 1);
+	}
+	if (ft_strncmp(cmd->str[1], "", 1) && chdir(arg) == -1)
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	update_wd(cmd->tools, arg);
+	return (EXIT_SUCCESS);
 }
 
