@@ -102,9 +102,16 @@ int	cd(t_simple_cmds *cmd)
 	char	*arg;
 
 	arg = cmd->str[1];
-	if (!arg || !ft_strncmp(arg, "~", 1))
+	if (!cmd->str[1])
 		arg = find_env("HOME", cmd->tools->env_lst);
-	if (ft_strncmp(arg, "", 1) && chdir(arg) == -1)
+	else if (!ft_strncmp(cmd->str[1], "~", 1))
+	{
+		if (!ft_strncmp("/", cmd->str[1] + 1, 1))
+			arg = make_path(find_env("HOME", cmd->tools->env_lst), arg + 2);
+		else
+			arg = make_path(find_env("HOME", cmd->tools->env_lst), arg + 1);
+	}
+	if (ft_strncmp(cmd->str[1], "", 1) && chdir(arg) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);

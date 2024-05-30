@@ -36,6 +36,8 @@ char	*make_path(char *dir, char *to_add)
 	while (to_add[++j])
 		path[i++] = to_add[j];
 	path[i] = '\0';
+    while (i > 0 && path[i - 1] == '/')
+        path[--i] = '\0';
 	return (path);
 }
 
