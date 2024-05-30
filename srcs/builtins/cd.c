@@ -84,9 +84,9 @@ void	update_wd(t_tools *tools, char *arg)
 
 	old_wd = find_env("PWD", tools->env_lst);
 	new_wd = NULL;
-	if (arg[0] && arg[0] == '/')
+	if (arg && arg[0] && arg[0] == '/')
 		new_wd = ft_strdup(arg);
-	else if (ft_strncmp(".", arg, ft_strlen(arg)) != 0)
+	else if (ft_strncmp(".", arg, ft_strlen(arg)))
 		new_wd = get_new_wd(arg, old_wd);
 	if (new_wd)
 	{
@@ -102,9 +102,9 @@ int	cd(t_simple_cmds *cmd)
 	char	*arg;
 
 	arg = cmd->str[1];
-	if (!arg)
+	if (!arg || !ft_strncmp(arg, "~", 1))
 		arg = find_env("HOME", cmd->tools->env_lst);
-	if (chdir(arg) == -1)
+	if (ft_strncmp(arg, "", 1) && chdir(arg) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
