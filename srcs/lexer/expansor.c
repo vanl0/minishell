@@ -21,7 +21,7 @@ char	*get_env_name(char *env_str)
 	i = 1;
 	if (!env_str[1])
 		return (NULL);
-	while (env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'')
+	while (env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'' && env_str[i] != '$')
 		i++;
 	name = ft_malloc(i * sizeof(char));
 	ft_strlcpy(name, env_str + 1, i);
@@ -32,8 +32,8 @@ int	get_env_name_len(char *env_str)
 {
 	int	i;
 
-	i = 0;
-	while (env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'')
+	i = 1;
+	while (env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'' && env_str[i] != '$')
 		i++;
 	return (i);
 }
@@ -46,7 +46,7 @@ char	*find_env(char *name, t_env *env_lst)
 	env_i = env_lst;
 	while (env_i)
 	{
-		if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) && !ft_strncmp(name, env_i->name, ft_strlen(name)))
+		if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) && !ft_strncmp(name, env_i->name, ft_strlen(name)) && env_i->content)
 			return (ft_strdup(env_i->content));
 		env_i = env_i->next;
 	}
@@ -60,11 +60,11 @@ char	*expand_env(char *env_str, t_env *env_lst)
 	char	*content;
 
 	env_name = get_env_name(env_str);
-	if (!env_name)
+	if (!env_name || env_name[0] == '\0')
 		return (ft_strdup("$"));
 	content = find_env(env_name, env_lst);
 	free(env_name);
-	if (!content)
+	if (!content || content[0] == '\0')
 		return (ft_strdup(""));
 	return (content);
 }
@@ -99,7 +99,7 @@ char	*replace_env(char *str, int *i, t_env *env_lst)
 	}
 	new_str[j] = '\0';
 	free(env_cont);
-	*i += ft_strlen(env_cont);
+	*i += ft_strlen(env_cont) - 1;
 	return (new_str);
 }
 

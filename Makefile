@@ -81,7 +81,7 @@ all: $(NAME)
 
 #MINISHELL
 $(NAME): $(LIBFT) $(READLINE) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
-	$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ $< 
+	$(CC) -g $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ $< 
 
 #OBJS
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
@@ -135,6 +135,6 @@ re: fclean all
 leaks:
 	leaks -atExit -- ./minishell
 valg:
-	valgrind --leak-check=full ./minishell
+	valgrind  --leak-check=full --show-leak-kinds=all ./minishell
 
 .PHONY: all clean fclean re

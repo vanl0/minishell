@@ -16,12 +16,23 @@
 If the command is a builtin, it returns the duplicated command.
 If the command is not found, it returns NULL.
 */
+
+void    to_lower_loop(char *str)
+{
+    while (*str)
+    {
+        ft_tolower(*str);
+        str++;
+    }
+}
+
 char    *find_executable(t_simple_cmds *cmd, char **paths)
 {
     int     i;
     char    *command;
     char    *full_path;
 
+    to_lower_loop(cmd->str[0]);
     command = cmd->str[0];
     set_builtin(cmd);
     if (access(command, F_OK) == 0 || cmd->builtin != NULL)
@@ -47,6 +58,7 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 {
     char    *path;
     int     og_stdout;
+    int     og_stdin;
     
     path = find_executable(cmd, cmd->tools->paths);
     if (!path)
@@ -63,6 +75,7 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
         if (cmd->redirections)
         {
             og_stdout = dup(STDOUT_FILENO);
+            og_stdin = dup(STDIN_FILENO);
             heredoc(cmd);
             if (check_redirections(cmd))
                 exit(EXIT_FAILURE);
@@ -71,7 +84,9 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
         if (cmd->redirections)
         {
             dup2(og_stdout, STDOUT_FILENO);
+            dup2(og_stdin, STDIN_FILENO);
             close(og_stdout);
+            close(og_stdin);
         }
     }
     free(path);

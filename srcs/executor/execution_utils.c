@@ -57,18 +57,20 @@ static int  has_output(t_simple_cmds *cmd)
 - pipefd[1] is the fd for the write end */
 static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
-    if (cmd->redirections)
-    {
-        heredoc(cmd);
-        if (check_redirections(cmd))
-            exit(EXIT_FAILURE);
-    }
     signal(SIGQUIT, handle_sigquit);
     if (in_fd != INVALID_FD)
     { // Redirect input if needed
         dup2(in_fd, STDIN_FILENO);
         close(in_fd);
     }
+
+    if (cmd->redirections)
+    {
+        heredoc(cmd);
+        if (check_redirections(cmd))
+            exit(EXIT_FAILURE);
+    }
+
     if (out_fd != INVALID_FD && has_output(cmd))
     { // Redirect output if needed
         dup2(out_fd, STDOUT_FILENO);

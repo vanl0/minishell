@@ -96,6 +96,9 @@ int minishell(t_tools *tools)
         clean_tools(tools);
         minishell(tools);
     }
+    if (ft_strchr(tools->line, '$'))
+		tools->line = search_env(tools->line, tools->env_lst);
+    clean_quotes(tools->line);
     lexer(tools);
     set_builtin_array(tools);
     tools->simple_cmds = parse(&tools->lexer_lst, tools);
