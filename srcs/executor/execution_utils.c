@@ -12,35 +12,6 @@
 
 #include "minishell.h"
 
-/*
-this is basically ft_strjoin with a '/' added between the 2 strings */
-char	*make_path(char *dir, char *to_add)
-{
-	char	*path;
-	int		n;
-	int		i;
-	int		j;
-
-	if (!dir || !to_add)
-		return (NULL);
-	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
-	path = malloc(n * sizeof(char));
-	if (path == NULL)
-		return (NULL);
-	i = -1;
-	while (dir[++i])
-		path[i] = dir[i];
-    if (i - 1 >= 0 && path[i - 1] != '/')
-        path[i++] = '/';
-    j = -1;
-	while (to_add[++j])
-		path[i++] = to_add[j];
-	path[i] = '\0';
-    while (i > 0 && path[i - 1] == '/')
-        path[--i] = '\0';
-	return (path);
-}
-
 static int  has_output(t_simple_cmds *cmd)
 {
     t_lexer *redir_i;
