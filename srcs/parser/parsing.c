@@ -53,7 +53,7 @@ void    setup_cmd(t_simple_cmds *cmd, t_lexer **lex_lst)
         }
         cmd->str[i] = NULL;
         if ((*lex_lst)->str)
-            cmd->str[i++] = ft_strdup((*lex_lst)->str);
+            cmd->str[i++] = return_expanded((*lex_lst)->str);
         else
         {
             new_redir = make_redir(lex_lst);
@@ -116,7 +116,6 @@ t_simple_cmds   *parse(t_lexer **lex_lst_p, t_tools *tools)
         current->tools = tools;
         add_cmd(&cmds_lst, current);
     }
-    //print_cmds(cmds_lst);
     *lex_lst_p = NULL;
     return (cmds_lst);
 }

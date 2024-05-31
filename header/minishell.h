@@ -40,6 +40,7 @@
 #include "parser.h"
 #include "lexer.h"
 #include "builtins.h"
+#include <dirent.h>
 
 typedef struct s_signals
 {
@@ -56,11 +57,9 @@ int minishell(t_tools *tools);
 int clean_tools(t_tools *tools);
 
 // EXECUTION UTILS
-char	*make_path(char *dir, char *to_add);
 void    execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
 
 // EXECUTION
-char	*make_path(char *dir, char *to_add);
 void    execute_all(t_simple_cmds *cmd);
 //SIGNALS
 void    start_signals(void);

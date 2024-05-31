@@ -68,6 +68,8 @@ t_simple_cmds   *parse(t_lexer **lexer_lst, t_tools *tools);
 void			setup_cmd(t_simple_cmds *cmd, t_lexer **lex_lst);
 
 // PARSER UTILS
+char			*make_path(char *dir, char *to_add);
+char			*return_expanded(char *arg);
 int				count_args(t_lexer *lex_lst);
 void			delete_first(t_lexer **lex_lst);
 t_lexer			*make_redir(t_lexer **rd_node);
