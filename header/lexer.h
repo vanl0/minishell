@@ -37,7 +37,7 @@ void	print_env(t_env *env_lst);
 t_lexer *expand(t_lexer *lexer_lst, t_env *env_lst);
 char    *search_env(char *str, t_env *env_lst);
 char	*find_env(char *name, t_env *env_lst);
-char    *expand_env(char *env_str, t_env *env_lst);
+char    *expand_env(char *env_str, t_env *env_lst, char quote);
 //PATHS
 char	*find_path(t_env *env_lst);
 void    get_paths(t_tools *tools, t_env *env_lst);

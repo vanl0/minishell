@@ -83,7 +83,7 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
     {
         unlink(cmd->hd_file_name);
         execv(path, cmd->str);
-        // if execv fails, handle error.
+        exit(EXIT_FAILURE);
     }
     else
         exit(cmd->builtin(cmd));

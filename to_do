@@ -38,3 +38,15 @@ ERROR RETURNS TO CHECK:
 - heredoc
 - redirections
 - builtins
+
+pipes✅
+syntax ✅
+quotes ✅ except ANA_VAR
+dollar✅
+exit
+export
+~
+redirections
+exit stat
+shlvl
+

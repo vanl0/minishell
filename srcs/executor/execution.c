@@ -32,7 +32,7 @@ char    *find_executable(t_simple_cmds *cmd, char **paths)
     char    *command;
     char    *full_path;
 
-    to_lower_loop(cmd->str[0]);
+    //to_lower_loop(cmd->str[0]);
     command = cmd->str[0];
     set_builtin(cmd);
     if (access(command, F_OK) == 0 || cmd->builtin != NULL)
@@ -60,13 +60,38 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
     int     og_stdout;
     int     og_stdin;
     
+    
+    if (!cmd->str[0])
+    {
+        if (cmd->redirections)
+        {
+            og_stdout = dup(STDOUT_FILENO);
+            og_stdin = dup(STDIN_FILENO);
+            heredoc(cmd);
+            if (check_redirections(cmd))
+            {
+                g_signals.exit_stat = EXIT_FAILURE;
+                //clean_tools(cmd->tools);
+                minishell(cmd->tools);
+            }
+        }
+        if (cmd->redirections)
+        {
+            dup2(og_stdout, STDOUT_FILENO);
+            dup2(og_stdin, STDIN_FILENO);
+            close(og_stdout);
+            close(og_stdin);
+        }
+        return (EXIT_SUCCESS);
+    }
     path = find_executable(cmd, cmd->tools->paths);
     if (!path)
     {
-        printf("%s: command not found\n", cmd->str[0]);
+        ft_putstr_fd(cmd->str[0], STDERR_FILENO);
+        ft_putstr_fd(": command not found\n", STDERR_FILENO);
         //set error code to 127
-        // handle error
-        return (EXIT_FAILURE); // idk
+        g_signals.exit_stat = 127;
+        return (127); // idk
     }
     if (cmd->prev || cmd->next || builtin_key(path) == NOT_BUILTIN)
         execute_normal(in_fd, out_fd, path, cmd);
@@ -78,7 +103,11 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
             og_stdin = dup(STDIN_FILENO);
             heredoc(cmd);
             if (check_redirections(cmd))
-                exit(EXIT_FAILURE);
+            {
+                g_signals.exit_stat = EXIT_FAILURE;
+                //clean_tools(cmd->tools);
+                minishell(cmd->tools);
+            }
         }
         g_signals.exit_stat = cmd->builtin(cmd);
         if (cmd->redirections)

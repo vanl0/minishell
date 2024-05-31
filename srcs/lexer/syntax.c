@@ -17,11 +17,22 @@ void    write_tk(int token)
     return ;
 }
 
+/*Checks
+First is token
+Double token
+*/
 int check_double_tk(t_tools *tools)
 {
     t_lexer *lexer_i;
 
     lexer_i = tools->lexer_lst;
+    if (lexer_i->token > 0)
+    {
+        ft_putstr_fd("minishell: syntax error near unexpected token ", STDERR_FILENO);
+        write_tk(lexer_i->token);
+        do_error(-1, tools);
+        return (EXIT_FAILURE);
+    }
     while (lexer_i->next)
     {
         if(lexer_i->token > 0 && lexer_i->next->token > 0)

@@ -52,7 +52,7 @@ int export_elem(char *str, t_env *env_lst)
     }
     if (check_name(name))
     {
-        printf("export: %s: bad variable name\n", name);
+        ft_putstr_fd("export: bad variable name\n", STDERR_FILENO);
         free(name);
         free(content);
         return (EXIT_FAILURE);
@@ -73,9 +73,9 @@ void	print_exp(t_env *env_lst)
 		else
 		{
             if (env_i->content)
-			    printf("export %s=%s\n", env_i->name, env_i->content);
+			    printf("declare -x %s=\"%s\"\n", env_i->name, env_i->content);
             else
-                printf("export %s\n", env_i->name);
+                printf("declare -x %s\n", env_i->name);
 			env_i = env_i->next;
 		}
 	}

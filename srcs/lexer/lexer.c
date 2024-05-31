@@ -36,16 +36,42 @@ void	*quote_err(void)
 
 int	quote_len2(char *str)
 {
-	int		len;
+	int		i;
 	char	quote;
 
-	len = 1;
+	i = 1;
 	quote = *str;
-	while (str[len] && str[len] != quote)
+	while (str[i])
 	{
-		len++;
+		if (str[i] == quote)
+		{
+			if (is_space(str[i + 1]) || str[i + 1] == '\0')
+			{
+				return (i + 1);
+			}
+			if (str[i + 1] == '"' || str[i + 1] == '\'')
+			{
+				quote = str[i + 1];
+				i++;
+			}
+			else
+				quote = 0;
+		}
+		else
+		{
+			if ((str[i] == '"' || str[i] == '\'') && quote == 0)
+			{
+				quote = str[i];
+				//i++;
+			}
+			if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
+			{
+				return (i + 1);
+			}
+		}
+		i++;
 	}
-	return (len + 1);
+	return (-1);
 }
 
 int	quote_len(char *str)
@@ -76,7 +102,7 @@ int	quote_len(char *str)
 			if ((str[i] == '"' || str[i] == '\'') && quote == 0)
 			{
 				quote = str[i];
-				i++;
+				//i++;
 			}
 			if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
 			{
@@ -163,7 +189,7 @@ t_lexer	*lexer(t_tools *tools)
 		}
 		i += skip_i(&tools->line[i]);
 	}
-	check_double_tk(tools);
+	//check_double_tk(tools);
 	//expand(tools->lexer_lst, tools->env_lst);
 	check_quotes(tools->lexer_lst);
 	

@@ -82,6 +82,17 @@ int clean_tools(t_tools *tools)
     return (EXIT_SUCCESS);
 }
 
+int is_all_space(char *str)
+{
+    while (*str)
+    {
+        if (*str != ' ' && *str != '\t')
+            return (0);
+        str++;
+    }
+    return (1);
+}
+
 int minishell(t_tools *tools)
 {
     tools->line = readline("minishell>");
@@ -98,7 +109,12 @@ int minishell(t_tools *tools)
     }
     if (ft_strchr(tools->line, '$'))
 		tools->line = search_env(tools->line, tools->env_lst);
-    clean_quotes(tools->line);
+    //tools->line = clean_quotes(tools->line);
+    if (tools->line[0] == '\0' || is_all_space(tools->line))
+    {
+        clean_tools(tools);
+        minishell(tools);
+    }
     lexer(tools);
     set_builtin_array(tools);
     tools->simple_cmds = parse(&tools->lexer_lst, tools);

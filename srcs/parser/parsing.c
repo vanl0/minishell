@@ -51,6 +51,7 @@ void    setup_cmd(t_simple_cmds *cmd, t_lexer **lex_lst)
             delete_first(lex_lst);
             break;
         }
+        cmd->str[i] = NULL;
         if ((*lex_lst)->str)
             cmd->str[i++] = ft_strdup((*lex_lst)->str);
         else
