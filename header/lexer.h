@@ -34,6 +34,7 @@ void    free_env(t_env **env_lst);
 int     update_exit(t_env *env_lst);
 void	print_env(t_env *env_lst);
 //EXPANSOR
+int     is_quote(char c);
 t_lexer *expand(t_lexer *lexer_lst, t_env *env_lst);
 char    *search_env(char *str, t_env *env_lst);
 char	*find_env(char *name, t_env *env_lst);

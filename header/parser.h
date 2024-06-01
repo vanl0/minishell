@@ -46,6 +46,7 @@ typedef struct s_tools
 	int                     heredoc;
 	void					*builtins[7];
 	int              		shlvl;
+	int						exit_code;
 }	t_tools;
 
 typedef struct s_simple_cmds

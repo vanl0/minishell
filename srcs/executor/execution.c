@@ -71,7 +71,7 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
             if (check_redirections(cmd))
             {
                 g_signals.exit_stat = EXIT_FAILURE;
-                //clean_tools(cmd->tools);
+                //clean_restart(cmd->tools);
                 minishell(cmd->tools);
             }
         }
@@ -105,7 +105,7 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
             if (check_redirections(cmd))
             {
                 g_signals.exit_stat = EXIT_FAILURE;
-                //clean_tools(cmd->tools);
+                //clean_restart(cmd->tools);
                 minishell(cmd->tools);
             }
         }

@@ -27,13 +27,6 @@ else
 	ERROR
 */
 
-void	*quote_err(void)
-{
-	printf("syntax error: open quotes\n");
-	exit(0);
-	return (NULL);
-}
-
 int	quote_len2(char *str)
 {
 	int		i;
@@ -190,7 +183,6 @@ t_lexer	*lexer(t_tools *tools)
 		i += skip_i(&tools->line[i]);
 	}
 	check_double_tk(tools);
-	//expand(tools->lexer_lst, tools->env_lst);
 	check_quotes(tools->lexer_lst);
 	return (tools->lexer_lst);
 }

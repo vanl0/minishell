@@ -27,6 +27,7 @@ t_tools tools_init(char **env)
     tools.pipes = 0;
     tools.pid = NULL;
     tools.simple_cmds = NULL;
+    tools.exit_code = 0;
     g_signals.exit_stat = 0;
     g_signals.in_cmd = 0;
     g_signals.in_hdoc = 0;
@@ -36,7 +37,7 @@ t_tools tools_init(char **env)
 }
 
 
-int clean_tools(t_tools *tools)
+int clean_restart(t_tools *tools)
 {
     if (tools->simple_cmds)
     {
@@ -52,7 +53,6 @@ int clean_tools(t_tools *tools)
     {
         free_matrix(tools->paths);
         tools->paths = ft_split(find_path(tools->env_lst), ':');
-        //printf("DDDDDDDD\n");
     }
     if (tools->lexer_lst)
         free_lexer(&tools->lexer_lst);
@@ -80,6 +80,7 @@ int clean_tools(t_tools *tools)
     g_signals.in_hdoc = 0;
     g_signals.stop_hdoc = 0;
     start_signals();
+    minishell(tools);
     return (EXIT_SUCCESS);
 }
 
@@ -101,27 +102,19 @@ int minishell(t_tools *tools)
     if (!tools->line)
     {
         printf("exit\n");
-        exit(g_signals.exit_stat);
+        exit(tools->exit_code);
     }
     if (tools->line[0] == '\0')
-    {
-        clean_tools(tools);
-        minishell(tools);
-    }
+        clean_restart(tools);
     if (ft_strchr(tools->line, '$'))
 		tools->line = search_env(tools->line, tools->env_lst);
-    //tools->line = clean_quotes(tools->line);
     if (tools->line[0] == '\0' || is_all_space(tools->line))
-    {
-        clean_tools(tools);
-        minishell(tools);
-    }
+        clean_restart(tools);
     lexer(tools);
     set_builtin_array(tools);
     tools->simple_cmds = parse(&tools->lexer_lst, tools);
     execute_all(tools->simple_cmds);
-    clean_tools(tools);
-    minishell(tools);
+    clean_restart(tools);
     return (EXIT_FAILURE);
 }
 

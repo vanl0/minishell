@@ -13,6 +13,11 @@
 #include "../header/minishell.h"
 // $ dentro de "" se expande
 /*Returns malloc'd string of the word in the $variable*/
+int	is_quote(char c)
+{
+	return (c == '"' || c == '\'');
+}
+
 char	*get_env_name(char *env_str, char quote)
 {
 	int		i;
@@ -21,9 +26,9 @@ char	*get_env_name(char *env_str, char quote)
 	i = 1;
 	if (!env_str[1] ) //if end of line
 		return (""); // prints $
-	if (env_str[1] == quote || ((env_str[1] == '"' || env_str[1] == '\'') && quote == 0)) //check if the current quote is closed or if new quote
+	if (env_str[1] == quote || (is_quote(env_str[1]) && quote == 0)) //check if the current quote is closed or if new quote
 		return (NULL); // prints ""
-	while (env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'' && env_str[i] != '$' && !is_token(env_str[i]))
+	while (env_str[i] && !is_space(env_str[i]) && !is_quote(env_str[i]) && !is_token(env_str[i]) && env_str[i] != '$')
 		i++;
 	name = ft_malloc(i * sizeof(char));
 	ft_strlcpy(name, env_str + 1, i);
@@ -35,7 +40,7 @@ int	get_env_name_len(char *env_str)
 	int	i;
 
 	i = 1;
-	while (env_str[i] && !is_space(env_str[i]) && env_str[i] != '"' && env_str[i] != '\'' && env_str[i] != '$'&& !is_token(env_str[i]))
+	while (env_str[i] && !is_space(env_str[i]) && !is_quote(env_str[i]) && !is_token(env_str[i]) && env_str[i] != '$')
 		i++;
 	return (i);
 }
@@ -73,7 +78,71 @@ char	*expand_env(char *env_str, t_env *env_lst, char quote)
 	return (content);
 }
 
+
 char	*replace_env(char *str, int *i, t_env *env_lst, char quote)
+{
+    char	*env_cont;
+    char	*new_str;
+    int		env_len;
+    int		len_after_env;
+
+    env_cont = expand_env(&str[*i], env_lst, quote);
+    len_after_env = ft_strlen(&str[*i + get_env_name_len(&str[*i])]);
+    env_len =  *i + ft_strlen(env_cont) + len_after_env;
+    new_str = ft_malloc((env_len + 1) * sizeof(char));
+    
+    ft_strlcpy(new_str, str,  *i + 1);
+    ft_strlcat(new_str, env_cont, env_len + 1);
+    ft_strlcat(new_str, &str[*i + get_env_name_len(&str[*i])], env_len + 1);
+    
+    *i += ft_strlen(env_cont) - 1;
+    free(env_cont);
+    free(str);
+    return new_str;
+}
+
+char	*search_env(char *str, t_env *env_lst)
+{
+	char	*new_str;
+	char	quote;
+	int		i;
+
+	new_str = NULL;
+	quote = 0;
+	i = 0;
+	if (!ft_strchr(str, '$'))
+		return (str);
+	while (str[i])
+	{
+		if (quote == 0 && is_quote(str[i]))
+			quote = str[i];
+		else if (quote != 0 && str[i] == quote)
+			quote = 0;
+		if (str[i] == '$' && quote != '\'')
+			str = replace_env(str, &i, env_lst, quote);
+		i++;
+	}
+	return (str);
+}
+
+/*t_lexer	*expand(t_lexer *lexer_lst, t_env *env_lst)
+{
+	t_lexer	*lexer_i;
+
+	lexer_i = lexer_lst;
+	while (lexer_i)
+	{
+		if (lexer_i->str)
+		{
+			if (ft_strchr(lexer_i->str, '$'))
+				lexer_i->str = search_env(lexer_i->str, env_lst);
+		}
+		lexer_i = lexer_i->next;
+	}
+	return (lexer_lst);
+}
+
+char	*replace_env2(char *str, int *i, t_env *env_lst, char quote)
 {
 	char	*new_str;
 	char	*env_cont;
@@ -104,50 +173,6 @@ char	*replace_env(char *str, int *i, t_env *env_lst, char quote)
 	new_str[j] = '\0';
 	free(env_cont);
 	*i += ft_strlen(env_cont) - 1;
+	free(str);
 	return (new_str);
-}
-
-char	*search_env(char *str, t_env *env_lst)
-{
-	char	*new_str;
-	char	quote;
-	int		i;
-
-	new_str = NULL;
-	quote = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (quote == 0 && (str[i] == '"' || str[i] == '\''))
-			quote = str[i];
-		else if (quote != 0 && str[i] == quote)
-			quote = 0;
-		if (str[i] == '$' && quote != '\'')
-		{
-			new_str = replace_env(str, &i, env_lst, quote);
-			free(str);
-			str = new_str;
-		}
-		i++;
-	}
-	if (!new_str)
-		return (str);
-	return (new_str);
-}
-
-t_lexer	*expand(t_lexer *lexer_lst, t_env *env_lst)
-{
-	t_lexer	*lexer_i;
-
-	lexer_i = lexer_lst;
-	while (lexer_i)
-	{
-		if (lexer_i->str)
-		{
-			if (ft_strchr(lexer_i->str, '$'))
-				lexer_i->str = search_env(lexer_i->str, env_lst);
-		}
-		lexer_i = lexer_i->next;
-	}
-	return (lexer_lst);
-}
+}*/

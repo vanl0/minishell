@@ -40,9 +40,9 @@ SRCS_LS =	main.c\
 			error.c\
 			lexer/lexer.c\
 			lexer/lexer_utils.c\
-			lexer/environment.c\
-			lexer/expansor.c\
-			lexer/paths.c\
+			expansor/environment.c\
+			expansor/expansor.c\
+			expansor/paths.c\
 			lexer/syntax.c\
 			parser/parsing.c\
 			parser/parsing_utils.c\
@@ -63,6 +63,7 @@ SRCS_LS =	main.c\
 		
 
 LEXER_PATH = srcs/lexer/
+EXPANSOR_PATH = srcs/expansor/
 PARSER_PATH = srcs/parser/
 EXECUTOR_PATH = srcs/executor/
 BUILTINS_PATH = srcs/builtins/
@@ -88,6 +89,8 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
 $(OBJS_DIR)%.o: $(LEXER_PATH)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
+$(OBJS_DIR)%.o: $(EXPANSOR_PATH)%.c $(HEADER) Makefile
+	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@
 $(OBJS_DIR)%.o: $(PARSER_PATH)%.c $(HEADER) Makefile
 	$(CC) -c $(CFLAGS) $(INCLUDES) $<  -o $@ 
 $(OBJS_DIR)%.o: $(EXECUTOR_PATH)%.c $(HEADER) Makefile
