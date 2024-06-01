@@ -54,6 +54,7 @@ extern t_signals   g_signals;
 
 int minishell(t_tools *tools);
 int clean_tools(t_tools *tools);
+int is_all_space(char *str);
 
 // EXECUTION UTILS
 char	*make_path(char *dir, char *to_add);

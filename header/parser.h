@@ -45,7 +45,7 @@ typedef struct s_tools
 	int						*pid;
 	int                     heredoc;
 	void					*builtins[7];
-	int                     reset;
+	int              		shlvl;
 }	t_tools;
 
 typedef struct s_simple_cmds

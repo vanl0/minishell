@@ -52,6 +52,7 @@ int clean_tools(t_tools *tools)
     {
         free_matrix(tools->paths);
         tools->paths = ft_split(find_path(tools->env_lst), ':');
+        //printf("DDDDDDDD\n");
     }
     if (tools->lexer_lst)
         free_lexer(&tools->lexer_lst);

@@ -1,6 +1,50 @@
 #include "minishell.h"
+#include <limits.h>
 
+long long int atolonglong(const char *str) {
+    // Manejar los espacios en blanco iniciales
+    
+    while (isspace((unsigned char)*str)) {
+        str++;
+    }
+    // Manejar el signo
+    int sign = 1;
+    if (*str == '-') {
+        sign = -1;
+        str++;
+    } else if (*str == '+') {
+        str++;
+    }
 
+    long long int result = 0;
+
+    // Convertir cada dígito a un número
+    while (isdigit((unsigned char)*str)) {
+        int digit = *str - '0';
+
+        // Verificar desbordamiento
+        if (result > (LLONG_MAX - digit) / 10) 
+        {
+            if (sign == 1)
+                return LLONG_MAX;
+            else
+                return LLONG_MIN;
+        }
+        result = result * 10 + digit;
+        str++;
+    }
+    if (sign == 1)
+        return (result);
+    else
+        return (-result);
+}
+
+void    exit_error(char *str)
+{
+    ft_putstr_fd("exit: ", STDERR_FILENO);
+    ft_putstr_fd(str, STDERR_FILENO);
+    ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+}
 
 int free_tools(t_tools *tools)
 {
@@ -36,30 +80,36 @@ int free_tools(t_tools *tools)
     return (EXIT_SUCCESS);
 }
 
-int exit_check(char *str)
+int get_exit_code(char *str)
 {
     int i;
+    long long code;
 
     i = 0;
+    if ((str[i] == '-' || str[i] == '+') && str[i + 1])
+        i++;
     while (str[i])
     {
-        if (!ft_isdigit(str[i]))
+        if ((!ft_isdigit(str[i]) && str[i] != ' ') || is_all_space(str))
         {
-            ft_putstr_fd("sh: exit: ", STDERR_FILENO);
-            ft_putstr_fd(str, STDERR_FILENO);
-            ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-            return (EXIT_FAILURE);
+            exit_error(str);
+            return (-1);
         }
         i++;
     }
-    return (EXIT_SUCCESS);
+    code = atolonglong(str);
+    if (code < 0 || code > 255)
+        code = code % 256;
+    if (code < 0)
+        code += 256;
+    return (code);
 }
 
 int ft_exit(t_simple_cmds *cmd)
 {
     int exit_code;
 
-    exit_code = 0;
+    exit_code = g_signals.exit_stat;
     if (cmd->str[1] && cmd->str[2])
     {
         ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
@@ -67,13 +117,9 @@ int ft_exit(t_simple_cmds *cmd)
     }
     if (cmd->str[1])
     {
-        if (exit_check(cmd->str[1]))
-            return (255);
-        else
-        {
-            exit_code = ft_atoi(cmd->str[1]);
-            //return (EXIT_SUCCESS);
-        }
+        exit_code = get_exit_code(cmd->str[1]);
+        if (exit_code < 0)
+            return (2);
     }
     free_tools(cmd->tools);
     exit(exit_code);

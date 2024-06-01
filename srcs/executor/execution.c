@@ -32,13 +32,13 @@ char    *find_executable(t_simple_cmds *cmd, char **paths)
     char    *command;
     char    *full_path;
 
-    //to_lower_loop(cmd->str[0]);
+    if (!paths)
+        return (NULL);
     command = cmd->str[0];
     set_builtin(cmd);
     if (access(command, F_OK) == 0 || cmd->builtin != NULL)
     {
         full_path = ft_strdup(command);
-        // handle malloc error
         return (full_path);
     }
     i = -1;

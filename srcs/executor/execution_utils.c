@@ -37,8 +37,10 @@ char	*make_path(char *dir, char *to_add)
 		path[i++] = to_add[j];
 	path[i] = '\0';
     while (i > 0 && path[i - 1] == '/')
+    {
         path[--i] = '\0';
-	return (path);
+    }
+    return (path);
 }
 
 static int  has_output(t_simple_cmds *cmd)
@@ -66,14 +68,12 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
         dup2(in_fd, STDIN_FILENO);
         close(in_fd);
     }
-
     if (cmd->redirections)
     {
         heredoc(cmd);
         if (check_redirections(cmd))
             exit(EXIT_FAILURE);
     }
-
     if (out_fd != INVALID_FD && has_output(cmd))
     { // Redirect output if needed
         dup2(out_fd, STDOUT_FILENO);
@@ -81,7 +81,6 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
     }
     if (cmd->builtin == NULL)
     {
-        unlink(cmd->hd_file_name);
         execv(path, cmd->str);
         exit(EXIT_FAILURE);
     }

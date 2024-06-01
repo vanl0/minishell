@@ -22,12 +22,12 @@ int do_great(t_lexer *redirection)
     fd = open_redir(redirection);
     if (fd < 0)
     {
-        perror("minishell");
+        perror(redirection->str);
         return (EXIT_FAILURE);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
-        perror("minishell");
+        perror(redirection->str);
         return (EXIT_FAILURE);
     }
     close(fd);
@@ -41,13 +41,13 @@ int do_less(char *file)
     fd = open(file, O_RDONLY);
     if (fd < 0)
     {
-        perror("minishell");
+        perror(file);
         return (EXIT_FAILURE);
     }
     if (dup2(fd, STDIN_FILENO) == -1)
     {
         close(fd);
-        perror("minishell");
+        perror(file);
         return (EXIT_FAILURE);
     }
     close(fd);
