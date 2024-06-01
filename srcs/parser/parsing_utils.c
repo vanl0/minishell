@@ -85,10 +85,9 @@ char    *return_expanded(char *arg)
         return (NULL);
     if (!ft_strncmp("~/", arg, 2))
         return (make_path(expand_home(), arg + 2));
-    else if (!ft_strncmp("~", arg, ft_strlen(arg)))
+    else if (arg[0] && !ft_strncmp("~", arg, ft_strlen(arg)))
         return (make_path(expand_home(), arg + 1));
-    else
-        return (ft_strdup(arg));
+    return (ft_strdup(arg));
 }
 
 /*
