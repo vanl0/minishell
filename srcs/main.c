@@ -102,7 +102,7 @@ int minishell(t_tools *tools)
     if (!tools->line)
     {
         printf("exit\n");
-        exit(tools->exit_code);
+        exit(g_signals.exit_stat);
     }
     if (tools->line[0] == '\0')
         clean_restart(tools);

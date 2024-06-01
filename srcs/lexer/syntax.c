@@ -11,7 +11,7 @@ void    write_tk(int token)
 	else if (token == LESSLESS)
 		ft_putstr_fd("'<<'\n", STDERR_FILENO);
 	else if (token == PIPE)
-		ft_putstr_fd("'|'\n", STDERR_FILENO);
+		ft_putstr_fd("`|'\n", STDERR_FILENO);
 	else
 		ft_putstr_fd("\n", STDERR_FILENO);
     return ;
