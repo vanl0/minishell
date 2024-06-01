@@ -55,6 +55,7 @@ extern t_signals   g_signals;
 
 int minishell(t_tools *tools);
 int clean_tools(t_tools *tools);
+int is_all_space(char *str);
 
 // EXECUTION UTILS
 void    execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);

@@ -61,6 +61,7 @@ static char	**allfree(char **split)
 	return (NULL);
 }
 
+#include <stdio.h>
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
@@ -70,6 +71,8 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	j = 0;
+	if (!s)
+		return (NULL);
 	n = words(s, c);
 	split = (char **)ft_malloc((n + 1) * sizeof(char *));
 	if (split == NULL)

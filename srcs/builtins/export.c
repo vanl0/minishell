@@ -8,6 +8,26 @@ export 1UNO DOS - won't create any variable, it stops as soon as it finds an err
 export UNO 2DOS TRES- will display error and only create UNO. $? will save the error value.
 */
 
+void    export_error(char *name,  char *content)
+{
+    if (content)
+    {
+        ft_putstr_fd("export: `", STDERR_FILENO);
+        ft_putstr_fd(name, STDERR_FILENO);
+        ft_putstr_fd("=", STDERR_FILENO);
+        ft_putstr_fd(content, STDERR_FILENO);
+        ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+    }
+    else
+    {
+        ft_putstr_fd("export: `", STDERR_FILENO);
+        ft_putstr_fd(name, STDERR_FILENO);
+        ft_putstr_fd("': bad variable name\n", STDERR_FILENO);
+    }
+    g_signals.exit_stat = 1;
+    return ;
+}
+
 void    split_env(char *str, char **name, char **content)
 {
     char    **split;
@@ -33,7 +53,7 @@ int check_name(char *name)
     return (EXIT_SUCCESS);
 }
 
-int export_elem(char *str, t_env *env_lst)
+int export_elem(char *str, t_tools *tools)
 {
     char    *name;
     char    *content;
@@ -52,12 +72,13 @@ int export_elem(char *str, t_env *env_lst)
     }
     if (check_name(name))
     {
-        ft_putstr_fd("export: bad variable name\n", STDERR_FILENO);
+        export_error(name, content);
         free(name);
         free(content);
         return (EXIT_FAILURE);
     }
-    add_env(&env_lst, env_create(name, content));
+    search_n_destroy(name, tools);
+    add_env(&tools->env_lst, env_create(name, content));
     return (EXIT_SUCCESS);
 }
 
@@ -104,10 +125,8 @@ int export(t_simple_cmds *cmd)
     }
     while (args[i])
     {
-        search_n_destroy(args[i], cmd->tools);
-        if (export_elem(args[i], cmd->tools->env_lst))
-            return (EXIT_FAILURE);
+        export_elem(args[i], cmd->tools);
         i++;
     }
-    return (EXIT_SUCCESS);
+    return (g_signals.exit_stat);
 }

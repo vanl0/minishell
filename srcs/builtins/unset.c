@@ -17,7 +17,7 @@ void    search_n_destroy(char *name, t_tools *tools)
     }
     while (env_i->next)
     {
-        if (!strncmp(name, env_i->next->name, ft_strlen(env_i->next->name)))
+        if (!strncmp(name, env_i->next->name, ft_strlen(env_i->next->name) + 1))
         {
             tmp_env = env_i->next;
             env_i->next = tmp_env->next;

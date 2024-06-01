@@ -134,7 +134,10 @@ void    free_cmds(t_simple_cmds **cmds)
         free(cmd_tmp->str);
         free_lexer(&(cmd_tmp->redirections));
         if (cmd_tmp->hd_file_name)
+        {
+            unlink(cmd_tmp->hd_file_name);
             free(cmd_tmp->hd_file_name);
+        }
         if (cmd_tmp->child_pid > 0)
         {
             waitpid(cmd_tmp->child_pid, &status, 0);
