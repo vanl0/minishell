@@ -36,7 +36,7 @@ int check_double_tk(t_tools *tools)
     {
         ft_putstr_fd("minishell: syntax error near unexpected token ", STDERR_FILENO);
         write_tk(lexer_i->token);
-        g_signals.exit_stat = 2;
+        tools->exit_code = 2;
         do_error(-1, tools);
         return (EXIT_FAILURE);
     }
@@ -50,7 +50,7 @@ int check_double_tk(t_tools *tools)
         {
             ft_putstr_fd("minishell: syntax error near unexpected token ", STDERR_FILENO);
             write_tk(lexer_i->next->token);
-            g_signals.exit_stat = 2;
+            tools->exit_code = 2;
             do_error(-1, tools);
             return (EXIT_FAILURE);
         }
@@ -58,7 +58,7 @@ int check_double_tk(t_tools *tools)
     }
     if (lexer_i->token > 0)
     {
-        g_signals.exit_stat = 2;
+        tools->exit_code = 2;
         do_error(1, tools);
         return (EXIT_FAILURE);
     }

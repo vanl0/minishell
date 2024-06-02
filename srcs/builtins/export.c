@@ -24,7 +24,6 @@ void    export_error(char *name,  char *content)
         ft_putstr_fd(name, STDERR_FILENO);
         ft_putstr_fd("': bad variable name\n", STDERR_FILENO);
     }
-    g_signals.exit_stat = 1;
     return ;
 }
 
@@ -73,6 +72,7 @@ int export_elem(char *str, t_tools *tools)
     if (check_name(name))
     {
         export_error(name, content);
+        tools->exit_code = 1;
         free(name);
         free(content);
         return (EXIT_FAILURE);
@@ -128,5 +128,5 @@ int export(t_simple_cmds *cmd)
         export_elem(args[i], cmd->tools);
         i++;
     }
-    return (g_signals.exit_stat);
+    return (cmd->tools->exit_code);
 }

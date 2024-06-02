@@ -70,7 +70,7 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
             heredoc(cmd);
             if (check_redirections(cmd))
             {
-                g_signals.exit_stat = EXIT_FAILURE;
+                cmd->tools->exit_code = EXIT_FAILURE;
                 //clean_restart(cmd->tools);
                 minishell(cmd->tools);
             }
@@ -90,7 +90,7 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
         ft_putstr_fd(cmd->str[0], STDERR_FILENO);
         ft_putstr_fd(": command not found\n", STDERR_FILENO);
         //set error code to 127
-        g_signals.exit_stat = 127;
+        cmd->tools->exit_code = 127;
         return (127); // idk
     }
     if (cmd->prev || cmd->next || builtin_key(path) == NOT_BUILTIN)
@@ -104,12 +104,12 @@ int execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
             heredoc(cmd);
             if (check_redirections(cmd))
             {
-                g_signals.exit_stat = EXIT_FAILURE;
+                cmd->tools->exit_code = EXIT_FAILURE;
                 //clean_restart(cmd->tools);
                 minishell(cmd->tools);
             }
         }
-        g_signals.exit_stat = cmd->builtin(cmd);
+        cmd->tools->exit_code = cmd->builtin(cmd);
         if (cmd->redirections)
         {
             dup2(og_stdout, STDOUT_FILENO);

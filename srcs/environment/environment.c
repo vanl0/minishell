@@ -18,7 +18,8 @@ t_env	*env_create(char *name, char *content)
 
 	new_env = ft_malloc(sizeof(t_env));
 	new_env->name = name;
-	new_env->content = content;
+
+		new_env->content = content;
 	new_env->next = NULL;
 	return (new_env);
 }
@@ -69,14 +70,9 @@ void	print_env(t_env *env_lst)
 	env_i = env_lst;
 	while (env_i)
 	{
-		if (!ft_strncmp(env_i->name, "?", 1))
-			env_i = env_i->next;
-		else
-		{
-			if (env_i->content)
-				printf("%s=%s\n", env_i->name, env_i->content);
-			env_i = env_i->next;
-		}
+		if (env_i->content && ft_strncmp(env_i->name, "?", 1))
+			printf("%s=%s\n", env_i->name, env_i->content);
+		env_i = env_i->next;
 	}
 }
 
@@ -87,11 +83,15 @@ t_env	*env_init(char **env)
 	int		i;
 	char	**line;
 	t_env	*env_lst;
+	int		first;
 
 	i = 0;
 	env_lst = NULL;
+	first = 0;
 	while (env[i])
 	{
+		if (!ft_strncmp(env[i], "?=", 2))
+			first = 1;
 		if (!ft_strncmp(env[i], "OLDPWD=", 7))
 			i++;
 		else
@@ -102,18 +102,22 @@ t_env	*env_init(char **env)
 			i++;
 		}
 	}
-	add_env(&env_lst, env_create(ft_strdup("?"), ft_itoa(g_signals.exit_stat)));
+	if (first == 0)
+		add_env(&env_lst, env_create(ft_strdup("?"), ft_itoa(0)));
 	return (env_lst);
 }
 
-int	update_exit(t_env *env_lst)
+int	update_exit(t_tools *tools)
 {
+	t_env *env_lst;
+
+	env_lst = tools->env_lst;
 	while (env_lst)
 	{
 		if (!ft_strncmp(env_lst->name, "?", 1))
 		{
 			free(env_lst->content);
-			env_lst->content = ft_itoa(g_signals.exit_stat);
+			env_lst->content = ft_itoa(tools->exit_code);
 			return (EXIT_SUCCESS);
 		}
 		env_lst = env_lst->next;

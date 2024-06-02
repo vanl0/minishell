@@ -10,16 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "minishell.h"
 
- t_signals   g_signals;
+t_signals   g_signals;
  
+
 t_tools tools_init(char **env)
 {
     t_tools tools;
 
     tools.line = NULL;
-    tools.env_lst = env_init(env);
+    tools.environ = increment_shlvl(env);
+    tools.env_lst = env_init(tools.environ);
     tools.paths = ft_split(find_path(tools.env_lst), ':');
     tools.lexer_lst = NULL;
     tools.pwd = NULL;
@@ -28,14 +31,13 @@ t_tools tools_init(char **env)
     tools.pid = NULL;
     tools.simple_cmds = NULL;
     tools.exit_code = 0;
-    g_signals.exit_stat = 0;
+    //g_signals.exit_stat = 0;
     g_signals.in_cmd = 0;
     g_signals.in_hdoc = 0;
     g_signals.stop_hdoc = 0;
     start_signals();
     return (tools);
 }
-
 
 int clean_restart(t_tools *tools)
 {
@@ -57,7 +59,7 @@ int clean_restart(t_tools *tools)
     if (tools->lexer_lst)
         free_lexer(&tools->lexer_lst);
    
-    update_exit(tools->env_lst);
+    update_exit(tools);
     if (tools->pwd)
     {
         free(tools->pwd);
@@ -102,7 +104,7 @@ int minishell(t_tools *tools)
     if (!tools->line)
     {
         printf("exit\n");
-        exit(g_signals.exit_stat);
+        exit(tools->exit_code);
     }
     if (tools->line[0] == '\0')
         clean_restart(tools);
@@ -118,14 +120,37 @@ int minishell(t_tools *tools)
     return (EXIT_FAILURE);
 }
 
+void	free_matrix_p(char **matrix)
+{
+	char	**t_matrix;
+
+	t_matrix = matrix;
+	while (*t_matrix)
+	{
+		printf("free: %s\n", *t_matrix);
+		free(*t_matrix++);
+	}
+	free(matrix);
+}
 
 int main(int argc, char **argv, char **env)
 {
     t_tools         tools;
-
+    //for (int i = 0; env[i] != NULL; i++) {
+    //    printf("%s\n", env[i]);
+    //}
     tools = tools_init(env);
     if (argc != 1 || argv[1])
 		exit(printf("This program does not accept arguments\n"));
+
     minishell(&tools);
-    return (g_signals.exit_stat);
+    return (tools.exit_code);
 }
+    //printf("////////////////////////////////////////////\n");
+    //update_environ(&tools);
+    //for (int i = 0; tools.environ[i] != NULL; i++) {
+    //    printf("%s\n", tools.environ[i]);
+    //}
+    //free_env(&tools.env_lst);
+    //free_matrix_p(tools.environ);
+    //free_matrix(tools.paths);

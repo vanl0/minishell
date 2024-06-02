@@ -146,7 +146,7 @@ void    free_cmds(t_simple_cmds **cmds)
             if (cmd_tmp->pipe_fd[1] != INVALID_FD)
                 close(cmd_tmp->pipe_fd[1]);
             if (WIFEXITED(status))
-		        g_signals.exit_stat = WEXITSTATUS(status);   
+		        cmd_tmp->tools->exit_code = WEXITSTATUS(status);   
         }
         *cmds = (*cmds)->next;
         if (*cmds)

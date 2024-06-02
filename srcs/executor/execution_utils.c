@@ -50,7 +50,8 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
     }
     if (cmd->builtin == NULL)
     {
-        execv(path, cmd->str);
+        update_environ(cmd->tools);
+        execve(path, cmd->str, cmd->tools->environ);
         exit(EXIT_FAILURE);
     }
     else

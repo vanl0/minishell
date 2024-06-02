@@ -26,13 +26,16 @@ int		is_space(char c);
 
 //SYNTAX
 int check_double_tk(t_tools *tools);
+//SHLVL
+char **increment_shlvl(char **env);
 //ENVIRONMENT
 t_env   *env_init(char **env);
 t_env	*env_create(char *name, char *content);
 t_env	*add_env(t_env **env_lst, t_env *new_env);
 void    free_env(t_env **env_lst);
-int     update_exit(t_env *env_lst);
+int     update_exit(t_tools *tools);
 void	print_env(t_env *env_lst);
+void    update_environ(t_tools *tools);
 //EXPANSOR
 int     is_quote(char c);
 t_lexer *expand(t_lexer *lexer_lst, t_env *env_lst);

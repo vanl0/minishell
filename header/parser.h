@@ -45,7 +45,7 @@ typedef struct s_tools
 	int						*pid;
 	int                     heredoc;
 	void					*builtins[7];
-	int              		shlvl;
+	char					**environ;
 	int						exit_code;
 }	t_tools;
 
