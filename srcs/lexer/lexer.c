@@ -27,7 +27,7 @@ else
 	ERROR
 */
 
-int	quote_len2(char *str)
+/* int	quote_len2(char *str)
 {
 	int		i;
 	char	quote;
@@ -66,7 +66,7 @@ int	quote_len2(char *str)
 	}
 	return (-1);
 }
-
+ */
 int	quote_len(char *str)
 {
 	int		i;
@@ -79,9 +79,7 @@ int	quote_len(char *str)
 		if (str[i] == quote)
 		{
 			if (is_space(str[i + 1]) || str[i + 1] == '\0')
-			{
 				return (i + 1);
-			}
 			if (str[i + 1] == '"' || str[i + 1] == '\'')
 			{
 				quote = str[i + 1];
@@ -93,10 +91,7 @@ int	quote_len(char *str)
 		else
 		{
 			if ((str[i] == '"' || str[i] == '\'') && quote == 0)
-			{
 				quote = str[i];
-				//i++;
-			}
 			if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
 			{
 				return (i + 1);

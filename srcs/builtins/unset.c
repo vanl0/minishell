@@ -1,67 +1,79 @@
+/* ************************************************************************** */
+/*																			  */
+/*														  :::	   ::::::::   */
+/*	 unset.c											:+:		 :+:	:+:   */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2024/06/02 18:33:06 by ilorenzo		   #+#	  #+#			  */
+/*	 Updated: 2024/06/02 18:33:06 by ilorenzo		  ###	########.fr		  */
+/*																			  */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void    search_n_destroy(char *name, t_tools *tools)
+void	search_n_destroy(char *name, t_tools *tools)
 {
-    t_env   *env_i;
-    t_env   *tmp_env;
+	t_env	*env_i;
+	t_env	*tmp_env;
 
-    env_i = tools->env_lst;
-    if (!strncmp(name, env_i->name, ft_strlen(env_i->name)))
-    {
-        tools->env_lst = env_i->next;
-        free(env_i->name);
-        if (env_i->content)
-            free(env_i->content);
-        free(env_i);
-        return ;
-    }
-    while (env_i->next)
-    {
-        if (!strncmp(name, env_i->next->name, ft_strlen(env_i->next->name) + 1))
-        {
-            tmp_env = env_i->next;
-            env_i->next = tmp_env->next;
-            free(tmp_env->name);
-            if (tmp_env->content)
-                free(tmp_env->content);
-            free(tmp_env);
-            return ;
-        }
-        env_i = env_i->next;
-    }
-    return ;
+	env_i = tools->env_lst;
+	if (!strncmp(name, env_i->name, ft_strlen(env_i->name)))
+	{
+		tools->env_lst = env_i->next;
+		free(env_i->name);
+		if (env_i->content)
+			free(env_i->content);
+		free(env_i);
+		return ;
+	}
+	while (env_i->next)
+	{
+		if (!strncmp(name, env_i->next->name, ft_strlen(env_i->next->name) + 1))
+		{
+			tmp_env = env_i->next;
+			env_i->next = tmp_env->next;
+			free(tmp_env->name);
+			if (tmp_env->content)
+				free(tmp_env->content);
+			free(tmp_env);
+			return ;
+		}
+		env_i = env_i->next;
+	}
+	return ;
 }
 
 //if name is wrong, it follows to the next one
-int unset_env(char *name, t_tools *tools)
+int	unset_env(char *name, t_tools *tools)
 {
-    if (check_name(name))
-    {
-        ft_putstr_fd("unset: '", STDERR_FILENO);
-        ft_putstr_fd(name, STDERR_FILENO);
-        ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-        return (EXIT_FAILURE);
-    }
-    search_n_destroy(name, tools);
-    return (EXIT_SUCCESS);
+	if (check_name(name))
+	{
+		ft_putstr_fd("unset: '", STDERR_FILENO);
+		ft_putstr_fd(name, STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	search_n_destroy(name, tools);
+	return (EXIT_SUCCESS);
 }
 
-int unset(t_simple_cmds *cmd)
+int	unset(t_simple_cmds *cmd)
 {
-    char    **str;
-    int     i;
+	char	**str;
+	int		i;
 
-    str = cmd->str;
-    i = 1;
-    if (!str[1])
-    {
-        ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
-        return (EXIT_FAILURE);
-    }
-    while (str[i])
-    {
-        unset_env(str[i], cmd->tools);
-        i++;
-    }
-    return (EXIT_SUCCESS);
+	str = cmd->str;
+	i = 1;
+	if (!str[1])
+	{
+		ft_putstr_fd("unset: not enough arguments\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	while (str[i])
+	{
+		unset_env(str[i], cmd->tools);
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }

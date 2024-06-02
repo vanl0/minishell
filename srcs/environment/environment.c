@@ -18,8 +18,10 @@ t_env	*env_create(char *name, char *content)
 
 	new_env = ft_malloc(sizeof(t_env));
 	new_env->name = name;
-
+	if (new_env->content)
 		new_env->content = content;
+	else
+		new_env->content = NULL;
 	new_env->next = NULL;
 	return (new_env);
 }
@@ -109,7 +111,7 @@ t_env	*env_init(char **env)
 
 int	update_exit(t_tools *tools)
 {
-	t_env *env_lst;
+	t_env	*env_lst;
 
 	env_lst = tools->env_lst;
 	while (env_lst)

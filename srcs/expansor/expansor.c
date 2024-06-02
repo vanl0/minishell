@@ -24,10 +24,10 @@ char	*get_env_name(char *env_str, char quote)
 	char	*name;
 
 	i = 1;
-	if (!env_str[1] ) //if end of line
-		return (""); // prints $
-	if (env_str[1] == quote || (is_quote(env_str[1]) && quote == 0)) //check if the current quote is closed or if new quote
-		return (NULL); // prints ""
+	if (!env_str[1])
+		return ("");
+	if (env_str[1] == quote || (is_quote(env_str[1]) && quote == 0))
+		return (NULL);
 	while (env_str[i] && !is_space(env_str[i]) && !is_quote(env_str[i]) && !is_token(env_str[i]) && env_str[i] != '$')
 		i++;
 	name = ft_malloc(i * sizeof(char));
@@ -78,27 +78,24 @@ char	*expand_env(char *env_str, t_env *env_lst, char quote)
 	return (content);
 }
 
-
 char	*replace_env(char *str, int *i, t_env *env_lst, char quote)
 {
-    char	*env_cont;
-    char	*new_str;
-    int		env_len;
-    int		len_after_env;
+	char	*env_cont;
+	char	*new_str;
+	int		env_len;
+	int		len_after_env;
 
-    env_cont = expand_env(&str[*i], env_lst, quote);
-    len_after_env = ft_strlen(&str[*i + get_env_name_len(&str[*i])]);
-    env_len =  *i + ft_strlen(env_cont) + len_after_env;
-    new_str = ft_malloc((env_len + 1) * sizeof(char));
-    
-    ft_strlcpy(new_str, str,  *i + 1);
-    ft_strlcat(new_str, env_cont, env_len + 1);
-    ft_strlcat(new_str, &str[*i + get_env_name_len(&str[*i])], env_len + 1);
-    
-    *i += ft_strlen(env_cont) - 1;
-    free(env_cont);
-    free(str);
-    return new_str;
+	env_cont = expand_env(&str[*i], env_lst, quote);
+	len_after_env = ft_strlen(&str[*i + get_env_name_len(&str[*i])]);
+	env_len = *i + ft_strlen(env_cont) + len_after_env;
+	new_str = ft_malloc((env_len + 1) * sizeof(char));
+	ft_strlcpy(new_str, str, *i + 1);
+	ft_strlcat(new_str, env_cont, env_len + 1);
+	ft_strlcat(new_str, &str[*i + get_env_name_len(&str[*i])], env_len + 1);
+	*i += ft_strlen(env_cont) - 1;
+	free(env_cont);
+	free(str);
+	return (new_str);
 }
 
 char	*search_env(char *str, t_env *env_lst)
