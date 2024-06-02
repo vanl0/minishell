@@ -50,11 +50,12 @@ long long int	atolonglong(const char *str)
 		return (-result);
 }
 
-void	exit_error(char *str)
+int	exit_error(char *str)
 {
 	ft_putstr_fd("exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+	return (-1);
 }
 
 int	free_tools(t_tools *tools)
@@ -97,15 +98,14 @@ int	get_exit_code(char *str)
 	long long	code;
 
 	i = 0;
+	if (str[0] == '\0')
+		return (exit_error(str));
 	if ((str[i] == '-' || str[i] == '+') && str[i + 1])
 		i++;
 	while (str[i])
 	{
 		if ((!ft_isdigit(str[i]) && str[i] != ' ') || is_all_space(str))
-		{
-			exit_error(str);
-			return (-1);
-		}
+			return (exit_error(str));
 		i++;
 	}
 	code = atolonglong(str);
@@ -130,7 +130,7 @@ int	ft_exit(t_simple_cmds *cmd)
 	{
 		exit_code = get_exit_code(cmd->str[1]);
 		if (exit_code < 0)
-			return (2);
+			return (255);
 	}
 	free_tools(cmd->tools);
 	exit(exit_code);

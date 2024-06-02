@@ -85,6 +85,8 @@ int	clean_restart(t_tools *tools)
 
 int	is_all_space(char *str)
 {
+	if (!*str)
+		return (1);
 	while (*str)
 	{
 		if (*str != ' ' && *str != '\t')
@@ -112,6 +114,7 @@ int	minishell(t_tools *tools)
 	lexer(tools);
 	set_builtin_array(tools);
 	tools->simple_cmds = parse(&tools->lexer_lst, tools);
+	//print_cmds(tools->simple_cmds);
 	execute_all(tools->simple_cmds);
 	clean_restart(tools);
 	return (EXIT_FAILURE);

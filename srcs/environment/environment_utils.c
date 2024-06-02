@@ -64,3 +64,22 @@ void	update_environ(t_tools *tools)
 	tools->environ = new_environ;
 	return ;
 }
+
+int	update_exit(t_tools *tools)
+{
+	t_env	*env_lst;
+
+	env_lst = tools->env_lst;
+	while (env_lst)
+	{
+		if (!ft_strncmp(env_lst->name, "?", 1))
+		{
+			free(env_lst->content);
+			//printf("exit code: %d\n", tools->exit_code);
+			env_lst->content = ft_itoa(tools->exit_code);
+			return (EXIT_SUCCESS);
+		}
+		env_lst = env_lst->next;
+	}
+	return (EXIT_FAILURE);
+}

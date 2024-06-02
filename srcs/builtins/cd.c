@@ -116,4 +116,3 @@ int	cd(t_simple_cmds *cmd)
 	update_wd(cmd->tools, arg);
 	return (EXIT_SUCCESS);
 }
-

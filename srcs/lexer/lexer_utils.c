@@ -55,7 +55,7 @@ t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex)
 	return (new_lex);
 }
 
-char	*token_print(int token)
+/* char	*token_print(int token)
 {
 	if (token > 0)
 	{
@@ -71,9 +71,9 @@ char	*token_print(int token)
 			return ("LESSLESS");
 	}
 	return ("");
-}
+} */
 
-void	print_lexer(t_lexer *lexer)
+/* void	print_lexer(t_lexer *lexer)
 {
 	t_lexer	*lexer_i;
 	char	*token;
@@ -86,7 +86,7 @@ void	print_lexer(t_lexer *lexer)
 		printf("-----------------------------------\n");
 		lexer_i = lexer_i->next;
 	}
-}
+} */
 
 void	free_lexer(t_lexer **lex_lst)
 {
@@ -109,41 +109,4 @@ void	free_lexer(t_lexer **lex_lst)
 		free(lexer_free->str);
 	free(lexer_free);
 	*lex_lst = NULL;
-}
-
-int	is_token(char c)
-{
-	if (c == '|')
-		return (1);
-	if (c == '>')
-		return (1);
-	if (c == '<')
-		return (1);
-	return (0);
-}
-
-/*Maybe here should add all isspace() definitions idk*/
-int	is_space(char c)
-{
-	if (c == '\t' || c == ' ')
-		return (1);
-	return (0);
-}
-
-int	get_token(char *str)
-{
-	if (str[1])
-	{
-		if (str[0] == '>' && str[1] == '>')
-			return (GREATGREAT);
-		if (str[0] == '<' && str[1] == '<')
-			return (LESSLESS);
-	}
-	if (str[0] == '|')
-		return (PIPE);
-	if (str[0] == '>')
-		return (GREAT);
-	if (str[0] == '<')
-		return (LESS);
-	return (0);
 }

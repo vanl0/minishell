@@ -44,7 +44,9 @@ SRCS_LS =	main.c\
 			lexer/lexer.c\
 			lexer/lexer_utils.c\
 			lexer/syntax.c\
+			lexer/tokens.c\
 			expansor/expansor.c\
+			expansor/expansor_utils.c\
 			expansor/paths.c\
 			parser/parsing.c\
 			parser/parsing_utils.c\
@@ -56,6 +58,7 @@ SRCS_LS =	main.c\
 			signals/signals.c\
 			builtins/builtins.c\
 			builtins/echo.c\
+			builtins/export_utils.c\
 			builtins/export.c\
 			builtins/pwd.c\
 			builtins/unset.c\

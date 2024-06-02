@@ -12,7 +12,7 @@
 
 #include "../header/minishell.h"
 
-void	print_mat(char **str)
+/*void	print_mat(char **str)
 {
 	while (*str != NULL)
 	{
@@ -22,7 +22,7 @@ void	print_mat(char **str)
 	printf("\n");
 }
 
-void	print_cmds(t_simple_cmds *cmds)
+oid	print_cmds(t_simple_cmds *cmds)
 {
 	t_simple_cmds	*cmds_i;
 	int				i;
@@ -47,7 +47,7 @@ void	print_cmds(t_simple_cmds *cmds)
 		cmds_i = cmds_i->next;
 		printf("-----------------------------------\n");
 	}
-}
+} */
 
 char	*expand_home(void)
 {
@@ -148,6 +148,7 @@ void	free_cmds(t_simple_cmds **cmds)
 			if (WIFEXITED(status))
 				cmd_tmp->tools->exit_code = WEXITSTATUS(status);
 		}
+		printf("exit code: %d\n", cmd_tmp->tools->exit_code);
 		*cmds = (*cmds)->next;
 		if (*cmds)
 			(*cmds)->prev = NULL;
