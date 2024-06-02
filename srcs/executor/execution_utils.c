@@ -31,6 +31,8 @@ static int	has_output(t_simple_cmds *cmd)
 - pipefd[1] is the fd for the write end */
 static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
+	if (!path)
+		exit(127);
 	signal(SIGQUIT, handle_sigquit);
 	if (in_fd != INVALID_FD)
 	{
@@ -50,6 +52,7 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 	}
 	if (cmd->builtin == NULL)
 	{
+		//printf("pipe\n");
 		update_environ(cmd->tools);
 		execve(path, cmd->str, cmd->tools->environ);
 		exit(EXIT_FAILURE);

@@ -28,6 +28,8 @@ void	set_builtin_array(t_tools *tools)
 /* Returns the command's builtin key. -1 if not a builtin. */
 int	builtin_key(char *command)
 {
+	if (!command)
+		return (NOT_BUILTIN);
 	if (!ft_strncmp(command, "echo", 5))
 		return (ECHO);
 	if (!ft_strncmp(command, "cd", 3))

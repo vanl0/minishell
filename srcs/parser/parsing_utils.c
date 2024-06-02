@@ -148,7 +148,7 @@ void	free_cmds(t_simple_cmds **cmds)
 			if (WIFEXITED(status))
 				cmd_tmp->tools->exit_code = WEXITSTATUS(status);
 		}
-		printf("exit code: %d\n", cmd_tmp->tools->exit_code);
+		//printf("exit code: %d\n", cmd_tmp->tools->exit_code);
 		*cmds = (*cmds)->next;
 		if (*cmds)
 			(*cmds)->prev = NULL;

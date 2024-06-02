@@ -13,49 +13,49 @@
 #include "minishell.h"
 #include <limits.h>
 
-long long int	atolonglong(const char *str)
-{
-	int				sign;
-	long long int	result;
-	int				digit;
-
-	sign = 1;
-	result = 0;
-	digit = 0;
-	while (isspace((unsigned char)*str))
-		str++;
-	if (*str == '-')
-	{
-		sign = -1;
-		str++;
-	}
-	else if (*str == '+')
-		str++;
-	while (isdigit((unsigned char)*str))
-	{
-		digit = *str - '0';
-		if (result > (LLONG_MAX - digit) / 10)
-		{
-			if (sign == 1)
-				return (LLONG_MAX);
-			else
-				return (LLONG_MIN);
-		}
-		result = result * 10 + digit;
-		str++;
-	}
-	if (sign == 1)
-		return (result);
-	else
-		return (-result);
-}
-
 int	exit_error(char *str)
 {
 	ft_putstr_fd("exit: ", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 	return (-1);
+}
+
+int	atolonglong(char *str)
+{
+	int				sign;
+	long long int	result;
+	int				digit;
+	int				i;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	digit = 0;
+	while (isspace((unsigned char)str[i]))
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while (isdigit((unsigned char)str[i]))
+	{
+		digit = str[i] - '0';
+		if (result > (LLONG_MAX - digit) / 10)
+			return (exit_error(str));
+		result = result * 10 + digit;
+		i++;
+	}
+	if (sign == -1)
+		result = -result;
+	if (result < 0 || result > 255)
+		result = result % 256;
+	if (result < 0)
+		result += 256;
+	return ((int)result);
 }
 
 int	free_tools(t_tools *tools)
@@ -109,10 +109,6 @@ int	get_exit_code(char *str)
 		i++;
 	}
 	code = atolonglong(str);
-	if (code < 0 || code > 255)
-		code = code % 256;
-	if (code < 0)
-		code += 256;
 	return (code);
 }
 
@@ -124,9 +120,9 @@ int	ft_exit(t_simple_cmds *cmd)
 	if (cmd->str[1] && cmd->str[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		return (EXIT_FAILURE);
+		return (1);
 	}
-	if (cmd->str[1])
+	if (cmd->str[1] && ft_strncmp(cmd->str[1], "-9223372036854775808", 21))
 	{
 		exit_code = get_exit_code(cmd->str[1]);
 		if (exit_code < 0)

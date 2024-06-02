@@ -21,7 +21,7 @@ char	*remove_quote(char *str, int start, int *end)
 
 	i = 0;
 	j = 0;
-	new_word = ft_malloc((ft_strlen(str) - 2) * sizeof(char));
+	new_word = ft_malloc((ft_strlen(str) - 2 + 1) * sizeof(char));
 	while (str[i])
 	{
 		if (i == start)

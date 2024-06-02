@@ -55,7 +55,7 @@ t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex)
 	return (new_lex);
 }
 
-/* char	*token_print(int token)
+char	*token_print(int token)
 {
 	if (token > 0)
 	{
@@ -71,9 +71,9 @@ t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex)
 			return ("LESSLESS");
 	}
 	return ("");
-} */
+}
 
-/* void	print_lexer(t_lexer *lexer)
+void	print_lexer(t_lexer *lexer)
 {
 	t_lexer	*lexer_i;
 	char	*token;
@@ -86,7 +86,7 @@ t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex)
 		printf("-----------------------------------\n");
 		lexer_i = lexer_i->next;
 	}
-} */
+}
 
 void	free_lexer(t_lexer **lex_lst)
 {
