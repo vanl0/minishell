@@ -42,11 +42,14 @@ int	do_great(t_lexer *redirection)
 	return (EXIT_SUCCESS);
 }
 
-int	do_less(char *file)
+int	do_less(char *file, int token)
 {
 	int	fd;
 
-	fd = open(file, O_RDONLY);
+	if (token == LESSGREAT)
+		fd = open(file, O_CREAT | O_RDWR, 0644);
+	else
+		fd = open(file, O_RDWR);
 	if (fd < 0)
 	{
 		perror(file);
@@ -78,14 +81,14 @@ int	check_redirections(t_simple_cmds *cmd)
 			if (do_great(redir_i))
 				return (EXIT_FAILURE);
 		}
-		if (redir_i->token == LESS)
+		if (redir_i->token == LESS || redir_i->token == LESSGREAT)
 		{
-			if (do_less(redir_i->str))
+			if (do_less(redir_i->str, redir_i->token))
 				return (EXIT_FAILURE);
 		}
 		if (redir_i->token == LESSLESS)
 		{
-			if (do_less(cmd->hd_file_name))
+			if (do_less(cmd->hd_file_name, redir_i->token))
 				return (EXIT_FAILURE);
 		}
 		redir_i = redir_i->next;

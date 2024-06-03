@@ -114,5 +114,6 @@ t_simple_cmds	*parse(t_lexer **lex_lst_p, t_tools *tools)
 		add_cmd(&cmds_lst, current);
 	}
 	*lex_lst_p = NULL;
+	//print_cmds(cmds_lst);
 	return (cmds_lst);
 }
