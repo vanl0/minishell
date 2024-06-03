@@ -39,6 +39,8 @@ int	get_token(char *str)
 			return (GREATGREAT);
 		if (str[0] == '<' && str[1] == '<')
 			return (LESSLESS);
+		if (str[0] == '<' && str[1] == '>')
+			return (LESSGREAT);
 	}
 	if (str[0] == '|')
 		return (PIPE);

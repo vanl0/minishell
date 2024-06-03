@@ -112,9 +112,10 @@ int	minishell(t_tools *tools)
 	if (tools->line[0] == '\0' || is_all_space(tools->line))
 		clean_restart(tools);
 	lexer(tools);
+	printf("ssdjf\n");
 	set_builtin_array(tools);
 	tools->simple_cmds = parse(&tools->lexer_lst, tools);
-	//print_cmds(tools->simple_cmds);
+	print_cmds(tools->simple_cmds);
 	execute_all(tools->simple_cmds);
 	clean_restart(tools);
 	return (EXIT_FAILURE);

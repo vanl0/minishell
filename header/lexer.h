@@ -8,6 +8,7 @@
 #define LESS 3
 #define GREATGREAT 4
 #define LESSLESS 5
+#define LESSGREAT 6
 
 #include "minishell.h"
 

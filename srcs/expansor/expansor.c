@@ -52,11 +52,11 @@ char	*replace_env(char *str, int *i, t_env *env_lst, char quote)
 
 char	*search_env(char *str, t_env *env_lst)
 {
-	char	*new_str;
+	//char	*new_str;
 	char	quote;
 	int		i;
 
-	new_str = NULL;
+	//new_str = NULL;
 	quote = 0;
 	i = 0;
 	if (!ft_strchr(str, '$'))

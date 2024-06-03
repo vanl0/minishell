@@ -12,7 +12,7 @@
 
 #include "../header/minishell.h"
 
-/*void	print_mat(char **str)
+void	print_mat(char **str)
 {
 	while (*str != NULL)
 	{
@@ -22,7 +22,7 @@
 	printf("\n");
 }
 
-oid	print_cmds(t_simple_cmds *cmds)
+void	print_cmds(t_simple_cmds *cmds)
 {
 	t_simple_cmds	*cmds_i;
 	int				i;
@@ -47,7 +47,7 @@ oid	print_cmds(t_simple_cmds *cmds)
 		cmds_i = cmds_i->next;
 		printf("-----------------------------------\n");
 	}
-} */
+} 
 
 char	*expand_home(void)
 {
