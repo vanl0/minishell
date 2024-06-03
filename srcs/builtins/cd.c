@@ -58,7 +58,8 @@ char	*get_new_wd(char *arg, char *old_wd)
 
 	new_wd = NULL;
 	i = 0;
-	new_wd = ft_strdup(old_wd);
+	if (old_wd)
+		new_wd = ft_strdup(old_wd);
 	while (arg[i])
 	{
 		to_add = get_next_path(arg + i);
