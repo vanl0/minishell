@@ -96,9 +96,6 @@ int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 		ft_putstr_fd(cmd->str[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		cmd->tools->exit_code = CMD_NOT_FOUND;
-		//if (!cmd->next)
-		//	clean_restart(cmd->tools);
-		//return (127);
 	}
     if (is_directory(path))
     {

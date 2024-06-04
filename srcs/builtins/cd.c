@@ -131,6 +131,18 @@ int	cd(t_simple_cmds *cmd)
 		perror("getcwd error");
 		return (EXIT_FAILURE);
 	}
+	if (cmd->str[1] && cmd->str[1][0] && !ft_strncmp(cmd->str[1], "-", ft_strlen(cmd->str[1])))
+	{
+		arg = find_env("OLDPWD", cmd->tools->env_lst);
+		if (!arg)
+		{
+			ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+			ft_putstr_fd("OLDPWD not set\n", STDERR_FILENO);
+			return (EXIT_FAILURE);
+		}
+		if (access(arg, F_OK) == 0)
+			printf("%s\n", arg);
+	}
 	if (chdir(arg) == -1 && ft_strncmp(cmd->str[1], "", 1))
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
