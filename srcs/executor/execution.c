@@ -12,10 +12,14 @@
 
 #include "minishell.h"
 #include <sys/wait.h>
-/* Allocates memory and returns the path to the command executable.
-If the command is a builtin, it returns the duplicated command.
-If the command is not found, it returns NULL.
-*/
+
+int is_directory(char *path)
+{
+    struct stat path_stat;
+    if (stat(path, &path_stat) != 0)
+        return (0);
+    return S_ISDIR(path_stat.st_mode);
+}
 
 void	to_lower_loop(char *str)
 {
@@ -26,6 +30,10 @@ void	to_lower_loop(char *str)
 	}
 }
 
+/* Allocates memory and returns the path to the command executable.
+If the command is a builtin, it returns the duplicated command.
+If the command is not found, it returns NULL.
+*/
 char	*find_executable(t_simple_cmds *cmd, char **paths)
 {
 	int		i;
@@ -36,7 +44,7 @@ char	*find_executable(t_simple_cmds *cmd, char **paths)
 		return (NULL);
 	command = cmd->str[0];
 	set_builtin(cmd);
-	if (access(command, F_OK) == 0 || cmd->builtin != NULL)
+	if (access(command, X_OK) == 0 || cmd->builtin != NULL)
 	{
 		full_path = ft_strdup(command);
 		return (full_path);
@@ -87,11 +95,17 @@ int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 	{
 		ft_putstr_fd(cmd->str[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		cmd->tools->exit_code = 127;
+		cmd->tools->exit_code = CMD_NOT_FOUND;
 		//if (!cmd->next)
 		//	clean_restart(cmd->tools);
 		//return (127);
 	}
+    if (is_directory(path))
+    {
+        ft_putstr_fd(path, STDERR_FILENO);
+		ft_putstr_fd(": is a directory\n", STDERR_FILENO);
+        cmd->tools->exit_code = IS_DIRECTORY;
+    }
 	if (cmd->prev || cmd->next || builtin_key(path) == NOT_BUILTIN)
 		execute_normal(in_fd, out_fd, path, cmd);
 	else

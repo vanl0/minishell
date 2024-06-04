@@ -14,12 +14,13 @@
 
 int	pwd(t_simple_cmds *cmd)
 {
-	char	*pwd;
+	char	cwd[PATH_MAX];
 
-	pwd = find_env("PWD", cmd->tools->env_lst);
-	if (!pwd)
-		return (do_error(-1, cmd->tools));
-	printf("%s\n", pwd);
-	free(pwd);
+	(void)cmd;
+	if (getcwd(cwd, sizeof(cwd)) == NULL) {
+		perror("getcwd error");
+		return (EXIT_FAILURE);
+	}
+	printf("%s\n", cwd);
 	return (EXIT_SUCCESS);
 }

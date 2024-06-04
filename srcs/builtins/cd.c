@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+/* looks if the env exists */
+int	env_exists(char *name, t_env *env_lst)
+{
+	t_env	*env_i;
+
+	env_i = env_lst;
+	while (env_i)
+	{
+		if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) && !ft_strncmp(name, env_i->name, ft_strlen(name)))
+			return (1);
+		env_i = env_i->next;
+	}
+	return (0);
+}
+
 /* Trims the last part of the directory path by removing the last '/' and everything after it */
 char	*trim_from_back(char *dir)
 {
@@ -20,7 +35,7 @@ char	*trim_from_back(char *dir)
 	if (!dir)
 		return (NULL);
 	i = ft_strlen(dir);
-	while (i--)
+	while (i-- > 1)
 	{
 		if (dir[i] == '/')
 		{
@@ -60,6 +75,8 @@ char	*get_new_wd(char *arg, char *old_wd)
 	i = 0;
 	if (old_wd)
 		new_wd = ft_strdup(old_wd);
+	else
+		new_wd = ft_strdup("/");
 	while (arg[i])
 	{
 		to_add = get_next_path(arg + i);
@@ -78,18 +95,16 @@ char	*get_new_wd(char *arg, char *old_wd)
 	return (new_wd);
 }
 
-void	update_wd(t_tools *tools, char *arg)
+void	update_wd(t_tools *tools, char *arg, char *old_wd)
 {
 	char	*new_wd;
-	char	*old_wd;
 
-	old_wd = find_env("PWD", tools->env_lst);
 	new_wd = NULL;
 	if (arg && arg[0] && arg[0] == '/')
-		new_wd = ft_strdup(arg);
+		new_wd = get_new_wd(arg, NULL);
 	else if (ft_strncmp(".", arg, ft_strlen(arg)))
 		new_wd = get_new_wd(arg, old_wd);
-	if (new_wd)
+	if (new_wd && env_exists("PWD", tools->env_lst))
 	{
 		search_n_destroy("PWD", tools);
 		add_env(&tools->env_lst, env_create(ft_strdup("PWD"), new_wd));
@@ -101,10 +116,21 @@ void	update_wd(t_tools *tools, char *arg)
 int	cd(t_simple_cmds *cmd)
 {
 	char	*arg;
+	char	cwd[PATH_MAX];
 
 	arg = cmd->str[1];
 	if (!cmd->str[1])
 		arg = find_env("HOME", cmd->tools->env_lst);
+	if (!arg)
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd("HOME not set\n", STDERR_FILENO);
+		return (EXIT_FAILURE);
+	}
+	if (getcwd(cwd, sizeof(cwd)) == NULL) {
+		perror("getcwd error");
+		return (EXIT_FAILURE);
+	}
 	if (chdir(arg) == -1 && ft_strncmp(cmd->str[1], "", 1))
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
@@ -114,6 +140,6 @@ int	cd(t_simple_cmds *cmd)
 		ft_putstr_fd("\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	update_wd(cmd->tools, arg);
+	update_wd(cmd->tools, arg, ft_strdup(cwd));
 	return (EXIT_SUCCESS);
 }

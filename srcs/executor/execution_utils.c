@@ -31,8 +31,8 @@ static int	has_output(t_simple_cmds *cmd)
 - pipefd[1] is the fd for the write end */
 static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
-	if (!path)
-		exit(127);
+	if (cmd->tools->exit_code != EXIT_SUCCESS)
+		exit(cmd->tools->exit_code);
 	signal(SIGQUIT, handle_sigquit);
 	if (in_fd != INVALID_FD)
 	{

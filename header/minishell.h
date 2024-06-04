@@ -23,7 +23,8 @@
 
 #define QUOTE_ERROR 0
 #define SYNTAX_ERROR 1
-#define CMD_NOT_FOUND 2
+#define IS_DIRECTORY 126
+#define CMD_NOT_FOUND 127
 #define FORK_ERROR 3
 #define EXECV_ERROR 4
 
@@ -33,6 +34,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <errno.h>
 #include "../readline-8.1/history.h"
 #include "../readline-8.1/readline.h"
@@ -41,6 +43,7 @@
 #include "lexer.h"
 #include "builtins.h"
 #include <dirent.h>
+#include <limits.h>
 
 typedef struct s_signals
 {
