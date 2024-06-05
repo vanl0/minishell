@@ -27,6 +27,8 @@
 #define CMD_NOT_FOUND 127
 #define FORK_ERROR 3
 #define EXECV_ERROR 4
+#define SYNTAX_ERR_MSG "minishell: syntax error near unexpected token "
+#define USER_DIR "/home"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,7 +60,6 @@ extern t_signals   g_signals;
 
 int minishell(t_tools *tools);
 int clean_restart(t_tools *tools);
-int is_all_space(char *str);
 
 // EXECUTION UTILS
 void    execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);

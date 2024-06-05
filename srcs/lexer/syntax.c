@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 syntax.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/06/02 18:11:26 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/06/02 18:11:26 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 12:53:41 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 12:53:42 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -36,7 +36,7 @@ int	is_great(int token)
 	return (0);
 }
 /*Checks
-First is token
+First is pipe
 Double token
 */
 
@@ -47,29 +47,22 @@ int	check_double_tk(t_tools *tools)
 	lexer_i = tools->lexer_lst;
 	if (lexer_i->token == PIPE)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token ", STDERR_FILENO);
+		ft_putstr_fd(SYNTAX_ERR_MSG, STDERR_FILENO);
 		write_tk(lexer_i->token);
-		tools->exit_code = 2;
-		do_error(-1, tools);
-		return (EXIT_FAILURE);
+		return (do_error(-1, tools));
 	}
 	while (lexer_i->next)
 	{
-		 if (lexer_i->token > 0 && lexer_i->next->token > 0 && !is_great(lexer_i->next->token) && lexer_i->next->next)
+		if (lexer_i->token > 0 && lexer_i->next->token > 0 \
+		&& !is_great(lexer_i->next->token) && lexer_i->next->next)
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token ", STDERR_FILENO);
+			ft_putstr_fd(SYNTAX_ERR_MSG, STDERR_FILENO);
 			write_tk(lexer_i->next->token);
-			tools->exit_code = 2;
-			do_error(-1, tools);
-			return (EXIT_FAILURE);
+			return (do_error(-1, tools));
 		}
 		lexer_i = lexer_i->next;
 	}
 	if (lexer_i->token > 0)
-	{
-		tools->exit_code = 2;
-		do_error(1, tools);
-		return (EXIT_FAILURE);
-	}
+		return (do_error(1, tools));
 	return (EXIT_SUCCESS);
 }

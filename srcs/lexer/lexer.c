@@ -1,101 +1,33 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 lexer.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/09 12:56:39 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/05/09 12:56:41 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 12:01:55 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 12:02:03 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-"1"2'3'4 4"1"2'3' '3'4"1"2 2'3'4"1" "1""1"2'4' '4''4'"1"2 "'" '"' "'$USER'" '"$USER"'
-
-if quote found
-	curr_quote = 0 -> curr_quote = new one: CONTINUE
-	curr_quote = new one: QUOTE CLOSED
-	curr_quote != new one: CONTINUE
-if quote closed
-	next one is SPACE/NULL: RETURN string
-	next one is NEW QUOTE: CONTINUE UNTIL NEW CLOSING QUOTE
-	next one is NOT QUOTE/SPACE/END: CONTINUE UNTIL SPACE/NULL/NEW QUOTE
-else
-	ERROR
-*/
-
-/* int	quote_len2(char *str)
-{
-	int		i;
-	char	quote;
-
-	i = 1;
-	quote = *str;
-	while (str[i])
-	{
-		if (str[i] == quote)
-		{
-			if (is_space(str[i + 1]) || str[i + 1] == '\0')
-			{
-				return (i + 1);
-			}
-			if (str[i + 1] == '"' || str[i + 1] == '\'')
-			{
-				quote = str[i + 1];
-				i++;
-			}
-			else
-				quote = 0;
-		}
-		else
-		{
-			if ((str[i] == '"' || str[i] == '\'') && quote == 0)
-			{
-				quote = str[i];
-				//i++;
-			}
-			if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
-			{
-				return (i + 1);
-			}
-		}
-		i++;
-	}
-	return (-1);
-}
- */
 int	quote_len(char *str)
 {
 	int		i;
 	char	quote;
 
-	i = 1;
-	quote = *str;
+	i = 0;
+	quote = 0;
 	while (str[i])
 	{
-		if (str[i] == quote)
+		if ((str[i] == '"' || str[i] == '\'') && quote == 0)
+			quote = str[i];
+		else if (str[i] == quote || quote == 0)
 		{
 			if (is_space(str[i + 1]) || str[i + 1] == '\0')
 				return (i + 1);
-			if (str[i + 1] == '"' || str[i + 1] == '\'')
-			{
-				quote = str[i + 1];
-				i++;
-			}
-			else
-				quote = 0;
-		}
-		else
-		{
-			if ((str[i] == '"' || str[i] == '\'') && quote == 0)
-				quote = str[i];
-			if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
-			{
-				return (i + 1);
-			}
+			quote = 0;
 		}
 		i++;
 	}
@@ -150,12 +82,6 @@ int	skip_i(char *str)
 	return (i);
 }
 
-/*this is not eficient at all but works for now
-
-Error ctrl: 
-- unclosed quotes
-- syntax
-- */
 t_lexer	*lexer(t_tools *tools)
 {
 	int		i;
@@ -181,3 +107,92 @@ t_lexer	*lexer(t_tools *tools)
 	check_quotes(tools->lexer_lst);
 	return (tools->lexer_lst);
 }
+
+/*
+"1"2'3'4 4"1"2'3' '3'4"1"2 2'3'4"1" "1""1"2'4' '4''4'"1"2
+ "'" '"' "'$USER'" '"$USER"'
+
+if quote found
+	curr_quote = 0 -> curr_quote = new one: CONTINUE
+	curr_quote = new one: QUOTE CLOSED
+	curr_quote != new one: CONTINUE
+if quote closed
+	next one is SPACE/NULL: RETURN string
+	next one is NEW QUOTE: CONTINUE UNTIL NEW CLOSING QUOTE
+	next one is NOT QUOTE/SPACE/END: CONTINUE UNTIL SPACE/NULL/NEW QUOTE
+else
+	ERROR
+*/
+
+/* int	quote_len2(char *str)
+{
+	int		i;
+	char	quote;
+
+	i = 1;
+	quote = *str;
+	while (str[i])
+	{
+		if (str[i] == quote)
+		{
+			if (is_space(str[i + 1]) || str[i + 1] == '\0')
+			{
+				return (i + 1);
+			}
+			if (str[i + 1] == '"' || str[i + 1] == '\'')
+			{
+				quote = str[i + 1];
+				i++;
+			}
+			else
+				quote = 0;
+		}
+		else
+		{
+			if ((str[i] == '"' || str[i] == '\'') && quote == 0)
+			{
+				quote = str[i];
+				//i++;
+			}
+			if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
+			{
+				return (i + 1);
+			}
+		}
+		i++;
+	}
+	return (-1);
+}
+ */
+// int	quote_len(char *str)
+// {
+// 	int		i;
+// 	char	quote;
+
+// 	i = 1;
+// 	quote = *str;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == quote)
+// 		{
+// 			if (is_space(str[i + 1]) || str[i + 1] == '\0')
+// 				return (i + 1);
+// 			if (str[i + 1] == '"' || str[i + 1] == '\'')
+// 			{
+// 				quote = str[i + 1];
+// 				i++;
+// 			}
+// 			else
+// 				quote = 0;
+// 		}
+// 		else
+// 		{
+// 			if ((str[i] == '"' || str[i] == '\'') && quote == 0)
+// 				quote = str[i];
+// 			if ((is_space(str[i + 1]) || str[i + 1] == '\0') && quote == 0)
+// 				return (i + 1);
+// 		}
+// 		i++;
+// 	}
+// 	return (-1);
+// }

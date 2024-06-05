@@ -24,6 +24,7 @@ int		get_token(char *str);
 void	print_lexer(t_lexer *lexer);
 void	free_lexer(t_lexer **lex_lst);
 int		is_space(char c);
+int     is_all_space(char *str);
 int	    is_token(char c);
 int	    get_token(char *str);
 

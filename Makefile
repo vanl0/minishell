@@ -37,6 +37,7 @@ SRCS_DIR = srcs/
 OBJS_DIR = objs/
 
 SRCS_LS =	main.c\
+			minishell.c\
 			error.c\
 			environment/environment.c\
 			environment/shlvl.c\
@@ -50,6 +51,7 @@ SRCS_LS =	main.c\
 			expansor/paths.c\
 			parser/parsing.c\
 			parser/parsing_utils.c\
+			parser/path_utils.c\
 			lexer/quotes.c\
 			executor/execution_utils.c\
 			executor/execution.c\

@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 parsing.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: pde-masc <pde-masc@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/24 17:12:34 by pde-masc		   #+#	  #+#			  */
-/*	 Updated: 2024/05/24 17:12:35 by pde-masc		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 13:18:16 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 13:18:19 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
@@ -77,7 +77,8 @@ t_lexer	*get_next_cmd(t_lexer *lex_lst)
 	return (NULL);
 }
 
-/* Adds a t_simple_cmds node to a t_simple_cmds list. If NULL, returns (new_cmd) */
+/* Adds a t_simple_cmds node to a t_simple_cmds list. 
+If NULL, returns (new_cmd) */
 void	add_cmd(t_simple_cmds **cmds_lst, t_simple_cmds *new_cmd)
 {
 	t_simple_cmds	*cmds_i;
@@ -94,8 +95,10 @@ void	add_cmd(t_simple_cmds **cmds_lst, t_simple_cmds *new_cmd)
 	new_cmd->prev = cmds_i;
 }
 
-/* Takes a t_lexer list and loops through all its elements until it finds a PIPE.
-All the elements before a PIPE are added as one node in a t_simple_cmds list. */
+/* Takes a t_lexer list and loops through
+all its elements until it finds a PIPE.
+All the elements before a PIPE are added
+as one node in a t_simple_cmds list. */
 t_simple_cmds	*parse(t_lexer **lex_lst_p, t_tools *tools)
 {
 	t_simple_cmds	*cmds_lst;

@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 lexer_utils.c										:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/15 17:38:05 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/05/15 17:38:07 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 12:38:58 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 12:39:00 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
@@ -73,21 +73,6 @@ char	*token_print(int token)
 	return ("");
 }
 
-void	print_lexer(t_lexer *lexer)
-{
-	t_lexer	*lexer_i;
-	char	*token;
-
-	lexer_i = lexer;
-	while (lexer_i)
-	{
-		token = token_print(lexer_i->token);
-		printf("lexer: %d\nstr: >%s<\ntoken: %s\nprev: %p | next: %p\n", lexer_i->i, lexer_i->str, token, lexer_i->prev, lexer_i->next);
-		printf("-----------------------------------\n");
-		lexer_i = lexer_i->next;
-	}
-}
-
 void	free_lexer(t_lexer **lex_lst)
 {
 	t_lexer	*lexer_i;
@@ -109,4 +94,19 @@ void	free_lexer(t_lexer **lex_lst)
 		free(lexer_free->str);
 	free(lexer_free);
 	*lex_lst = NULL;
+}
+
+void	print_lexer(t_lexer *lexer)
+{
+	t_lexer	*lexer_i;
+	char	*token;
+
+	lexer_i = lexer;
+	while (lexer_i)
+	{
+		token = token_print(lexer_i->token);
+		printf("lexer:\nstr: >%s<\ntoken: %s\n", lexer_i->str, token);
+		printf("----------\n");
+		lexer_i = lexer_i->next;
+	}
 }

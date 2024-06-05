@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 parsing_utils.c									:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: pde-masc <pde-masc@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/24 17:12:22 by pde-masc		   #+#	  #+#			  */
-/*	 Updated: 2024/05/24 17:12:25 by pde-masc		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 13:19:28 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 13:19:29 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
@@ -47,97 +47,29 @@ void	print_cmds(t_simple_cmds *cmds)
 		cmds_i = cmds_i->next;
 		printf("-----------------------------------\n");
 	}
-} 
-
-char	*expand_home(void)
-{
-	char			*users;
-	DIR				*dir;
-	struct dirent	*entry;
-	char			*full_path;
-
-	users = "/home";
-	dir = opendir(users);
-	if (dir == NULL)
-	{
-		perror("opendir");
-		return (NULL);
-	}
-	entry = readdir(dir);
-	while (entry)
-	{
-		if (entry->d_name[0] != '.' && ft_strncmp("Shared", entry->d_name, 6))
-		{
-			full_path = make_path(users, entry->d_name);
-			if (access(full_path, R_OK | W_OK | X_OK) == 0)
-				return (full_path);
-			free(full_path);
-		}
-		entry = readdir(dir);
-	}
-	closedir(dir);
-	return (NULL);
 }
 
-char	*return_expanded(char *arg)
+void	free_child(t_simple_cmds *cmd_tmp)
 {
-	if (!arg)
-		return (NULL);
-	if (!ft_strncmp("~/", arg, 2))
-		return (make_path(expand_home(), arg + 2));
-	else if (arg[0] && !ft_strncmp("~", arg, ft_strlen(arg)))
-		return (make_path(expand_home(), arg + 1));
-	return (ft_strdup(arg));
-}
+	int	status;
 
-/*
-this is basically ft_strjoin with a '/' added between the 2 strings */
-char	*make_path(char *dir, char *to_add)
-{
-	char	*path;
-	int		n;
-	int		i;
-	int		j;
-
-	if (!dir && to_add)
-	{
-		return (ft_strdup(to_add));
-	}
-    if (!dir || !to_add)
-	{
-        return (NULL);
-	}
-	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
-	path = malloc(n * sizeof(char));
-	if (path == NULL)
-		return (NULL);
-	i = -1;
-	while (dir[++i])
-		path[i] = dir[i];
-	if (i - 1 >= 0 && path[i - 1] != '/')
-		path[i++] = '/';
-	j = -1;
-	while (to_add[++j])
-		path[i++] = to_add[j];
-	path[i] = '\0';
-	while (i > 0 && path[i - 1] == '/')
-		path[--i] = '\0';
-	return (path);
+	waitpid(cmd_tmp->child_pid, &status, 0);
+	if (cmd_tmp->pipe_fd[0] != INVALID_FD)
+		close(cmd_tmp->pipe_fd[0]);
+	if (cmd_tmp->pipe_fd[1] != INVALID_FD)
+		close(cmd_tmp->pipe_fd[1]);
+	if (WIFEXITED(status))
+		cmd_tmp->tools->exit_code = WEXITSTATUS(status);
 }
 
 void	free_cmds(t_simple_cmds **cmds)
 {
 	t_simple_cmds	*cmd_tmp;
-	int				i;
-	int				status;
 
 	while (*cmds)
 	{
 		cmd_tmp = *cmds;
-		i = -1;
-		while (cmd_tmp->str && cmd_tmp->str[++i])
-			free(cmd_tmp->str[i]);
-		free(cmd_tmp->str);
+		free_matrix(cmd_tmp->str);
 		free_lexer(&(cmd_tmp->redirections));
 		if (cmd_tmp->hd_file_name)
 		{
@@ -145,16 +77,7 @@ void	free_cmds(t_simple_cmds **cmds)
 			free(cmd_tmp->hd_file_name);
 		}
 		if (cmd_tmp->child_pid > 0)
-		{
-			waitpid(cmd_tmp->child_pid, &status, 0);
-			if (cmd_tmp->pipe_fd[0] != INVALID_FD)
-				close(cmd_tmp->pipe_fd[0]);
-			if (cmd_tmp->pipe_fd[1] != INVALID_FD)
-				close(cmd_tmp->pipe_fd[1]);
-			if (WIFEXITED(status))
-				cmd_tmp->tools->exit_code = WEXITSTATUS(status);
-		}
-		//printf("exit code: %d\n", cmd_tmp->tools->exit_code);
+			free_child(cmd_tmp);
 		*cmds = (*cmds)->next;
 		if (*cmds)
 			(*cmds)->prev = NULL;
@@ -207,3 +130,38 @@ t_lexer	*make_redir(t_lexer **rd_node)
 	delete_first(rd_node);
 	return (rd);
 }
+// void	free_cmds(t_simple_cmds **cmds)
+// {
+// 	t_simple_cmds	*cmd_tmp;
+// 	int				i;
+// 	int				status;
+
+// 	while (*cmds)
+// 	{
+// 		cmd_tmp = *cmds;
+// 		i = -1;
+// 		while (cmd_tmp->str && cmd_tmp->str[++i])
+// 			free(cmd_tmp->str[i]);
+// 		free(cmd_tmp->str);
+// 		free_lexer(&(cmd_tmp->redirections));
+// 		if (cmd_tmp->hd_file_name)
+// 		{
+// 			unlink(cmd_tmp->hd_file_name);
+// 			free(cmd_tmp->hd_file_name);
+// 		}
+// 		if (cmd_tmp->child_pid > 0)
+// 		{
+// 			waitpid(cmd_tmp->child_pid, &status, 0);
+// 			if (cmd_tmp->pipe_fd[0] != INVALID_FD)
+// 				close(cmd_tmp->pipe_fd[0]);
+// 			if (cmd_tmp->pipe_fd[1] != INVALID_FD)
+// 				close(cmd_tmp->pipe_fd[1]);
+// 			if (WIFEXITED(status))
+// 				cmd_tmp->tools->exit_code = WEXITSTATUS(status);
+// 		}
+// 		*cmds = (*cmds)->next;
+// 		if (*cmds)
+// 			(*cmds)->prev = NULL;
+// 		free(cmd_tmp);
+// 	}
+// }

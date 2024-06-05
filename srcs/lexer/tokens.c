@@ -26,9 +26,18 @@ int	is_token(char c)
 /*Maybe here should add all isspace() definitions idk*/
 int	is_space(char c)
 {
-	if (c == '\t' || c == ' ')
-		return (1);
-	return (0);
+	return (c == '\t' || c == ' ');
+}
+
+int	is_all_space(char *str)
+{
+	while (*str)
+	{
+		if (!is_space(*str))
+			return (0);
+		str++;
+	}
+	return (1);
 }
 
 int	get_token(char *str)

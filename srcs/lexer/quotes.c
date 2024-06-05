@@ -1,19 +1,18 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 quotes.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/15 17:38:50 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/05/15 17:38:51 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 12:43:09 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 12:43:10 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-//"1"2'3'4 4"1"2'3' '3'4"1"2 2'3'4"1" "1""1"2'4' '4''4'"1"2 "'" '"' "'$USER'" '"$USER"'
-char	*remove_quote(char *str, int start, int *end)
+char	*remove_quote(char *str, int *start, int *end)
 {
 	char	*new_word;
 	int		i;
@@ -24,7 +23,7 @@ char	*remove_quote(char *str, int start, int *end)
 	new_word = ft_malloc((ft_strlen(str) - 2 + 1) * sizeof(char));
 	while (str[i])
 	{
-		if (i == start)
+		if (i == *start)
 			i++;
 		if (i == *end)
 			i++;
@@ -38,6 +37,7 @@ char	*remove_quote(char *str, int start, int *end)
 	new_word[j] = '\0';
 	free(str);
 	*end = *end - 1;
+	*start = *end;
 	return (new_word);
 }
 
@@ -56,15 +56,13 @@ char	*clean_quotes(char *str)
 	{
 		if (quote != 0 && str[i] == quote)
 		{
-			str = remove_quote(str, start, &i);
-			start = i;
+			str = remove_quote(str, &start, &i);
 			quote = 0;
 		}
 		else if (quote == 0 && (str[i] == '"' || str[i] == '\''))
 		{
 			quote = str[i];
-			start = i;
-			i++;
+			start = i++;
 		}
 		else
 			i++;
@@ -84,3 +82,34 @@ void	check_quotes(t_lexer *lexer_lst)
 		lexer_i = lexer_i->next;
 	}
 }
+
+// char	*clean_quotes(char *str)
+// {
+// 	char	quote;
+// 	int		i;
+// 	int		start;
+
+// 	i = 0;
+// 	quote = 0;
+// 	start = 0;
+// 	if (!ft_strchr(str, '"') && !ft_strchr(str, '\''))
+// 		return (str);
+// 	while (str[i])
+// 	{
+// 		if (quote != 0 && str[i] == quote)
+// 		{
+// 			str = remove_quote(str, start, &i);
+// 			start = i;
+// 			quote = 0;
+// 		}
+// 		else if (quote == 0 && (str[i] == '"' || str[i] == '\''))
+// 		{
+// 			quote = str[i];
+// 			start = i;
+// 			i++;
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	return (str);
+// }

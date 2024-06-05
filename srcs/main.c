@@ -36,104 +36,6 @@ t_tools	tools_init(char **env)
 	return (tools);
 }
 
-int	clean_restart(t_tools *tools)
-{
-	if (tools->simple_cmds)
-	{
-		free_cmds(&tools->simple_cmds);
-		tools->simple_cmds = NULL;
-	}
-	if (tools->line)
-	{
-		free(tools->line);
-		tools->line = NULL;
-	}
-	if (tools->paths)
-	{
-		free_matrix(tools->paths);
-		tools->paths = ft_split(find_path(tools->env_lst), ':');
-	}
-	if (tools->lexer_lst)
-		free_lexer(&tools->lexer_lst);
-	update_exit(tools);
-	if (tools->pwd)
-	{
-		free(tools->pwd);
-		tools->pwd = NULL;
-	}
-	if (tools->old_pwd)
-	{
-		free(tools->old_pwd);
-		tools->pwd = NULL;
-	}
-	g_signals.in_cmd = 0;
-	g_signals.in_hdoc = 0;
-	g_signals.stop_hdoc = 0;
-	start_signals();
-	minishell(tools);
-	return (EXIT_SUCCESS);
-}
-
-	/*if (tools->env_lst)
-	{
-	   free_env(&tools->env_lst);
-	   tools->env_lst = NULL;
-	}*/
-	//tools->pipes = 0;
-	//tools->pid = NULL;
-	//g_signals.exit_stat = 0;
-
-int	is_all_space(char *str)
-{
-	if (!*str)
-		return (1);
-	while (*str)
-	{
-		if (*str != ' ' && *str != '\t')
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-int	minishell(t_tools *tools)
-{
-	tools->line = readline("minishell>");
-	add_history(tools->line);
-	if (!tools->line)
-	{
-		printf("exit\n");
-		exit(tools->exit_code);
-	}
-	if (tools->line[0] == '\0')
-		clean_restart(tools);
-	if (ft_strchr(tools->line, '$'))
-		tools->line = search_env(tools->line, tools->env_lst);
-	if (tools->line[0] == '\0' || is_all_space(tools->line))
-		clean_restart(tools);
-	lexer(tools);
-	//printf("ssdjf\n");
-	set_builtin_array(tools);
-	tools->simple_cmds = parse(&tools->lexer_lst, tools);
-	//print_cmds(tools->simple_cmds);
-	execute_all(tools->simple_cmds);
-	clean_restart(tools);
-	return (EXIT_FAILURE);
-}
-
-void	free_matrix_p(char **matrix)
-{
-	char	**t_matrix;
-
-	t_matrix = matrix;
-	while (*t_matrix)
-	{
-		printf("free: %s\n", *t_matrix);
-		free(*t_matrix++);
-	}
-	free(matrix);
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_tools	tools;
@@ -152,3 +54,16 @@ int	main(int argc, char **argv, char **env)
 	//free_env(&tools.env_lst);
 	//free_matrix_p(tools.environ);
 	//free_matrix(tools.paths);
+
+// void	free_matrix_p(char **matrix)
+// {
+// 	char	**t_matrix;
+
+// 	t_matrix = matrix;
+// 	while (*t_matrix)
+// 	{
+// 		printf("free: %s\n", *t_matrix);
+// 		free(*t_matrix++);
+// 	}
+// 	free(matrix);
+// }
