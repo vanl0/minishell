@@ -1,18 +1,19 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 expansor.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/15 17:38:16 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/05/15 17:38:17 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 13:48:42 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 13:48:42 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-/*Returns malloc'd string with the content of the variable, if not found returns ""*/
+/*Returns malloc'd string with the 
+content of the variable, if not found returns ""*/
 char	*expand_env(char *env_str, t_env *env_lst, char quote)
 {
 	char	*env_name;
@@ -52,11 +53,9 @@ char	*replace_env(char *str, int *i, t_env *env_lst, char quote)
 
 char	*search_env(char *str, t_env *env_lst)
 {
-	//char	*new_str;
 	char	quote;
 	int		i;
 
-	//new_str = NULL;
 	quote = 0;
 	i = 0;
 	if (!ft_strchr(str, '$'))

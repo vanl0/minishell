@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 paths.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/15 17:38:38 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/05/15 17:38:39 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   paths.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 13:48:42 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 13:48:42 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
@@ -33,16 +33,12 @@ char	*find_path(t_env *env_lst)
 	t_env	*env_i;
 
 	env_i = env_lst;
-	//printf("aaaaaaaaa\n");
 	while (env_i && ft_strncmp(env_i->name, "PATH", 5) != 0)
 	{
-		//printf("name: %s\n", env_i->name);
 		env_i = env_i->next;
 	}
-	//printf("BBBBBBBBB ENVI=%p\n", env_i);
 	if (env_i == NULL)
 	{
-		//printf("CCCCCCCCCC\n");
 		return (NULL);
 	}
 	return (env_i->content);
