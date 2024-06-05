@@ -36,7 +36,6 @@ int     cd(t_simple_cmds *simple_cmd);
 int     export(t_simple_cmds *cmd);
 int     check_name(char *name);
 int     pwd(t_simple_cmds *cmd);
-int     ft_exit(t_simple_cmds *cmd);
 int     unset(t_simple_cmds *cmd);
 void    search_n_destroy(char *name, t_tools *tools);
 int     env(t_simple_cmds *cmd);
@@ -46,6 +45,10 @@ void	export_error(char *name, char *content);
 void	split_env(char *str, char **name, char **content);
 int     check_name(char *name);
 int     export(t_simple_cmds *cmd);
-
-
+//EXIT
+int             ft_exit(t_simple_cmds *cmd);
+long long int	get_longlong(char *str);
+int	            get_module(long long int result, int sign);
+int	            atolonglong(char *str);
+int             exit_error(char *str);
 #endif

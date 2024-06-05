@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 cd.c												:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: pde-masc <pde-masc@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/28 19:22:46 by pde-masc		   #+#	  #+#			  */
-/*	 Updated: 2024/05/28 19:22:47 by pde-masc		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 14:28:19 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 14:28:19 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -20,14 +20,16 @@ int	env_exists(char *name, t_env *env_lst)
 	env_i = env_lst;
 	while (env_i)
 	{
-		if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) && !ft_strncmp(name, env_i->name, ft_strlen(name)))
+		if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) \
+		&& !ft_strncmp(name, env_i->name, ft_strlen(name)))
 			return (1);
 		env_i = env_i->next;
 	}
 	return (0);
 }
 
-/* Trims the last part of the directory path by removing the last '/' and everything after it */
+/* Trims the last part of the directory path
+by removing the last '/' and everything after it */
 char	*trim_from_back(char *dir)
 {
 	int	i;

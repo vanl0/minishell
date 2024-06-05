@@ -6,7 +6,7 @@
 /*   By: ilorenzo <ilorenzo@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 20:17:56 by ilorenzo          #+#    #+#             */
-/*   Updated: 2024/06/02 20:17:58 by ilorenzo         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:28:19 by ilorenzo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
