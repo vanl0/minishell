@@ -30,7 +30,7 @@ int	    get_token(char *str);
 
 
 //SYNTAX
-int     check_double_tk(t_tools *tools);
+int     check_syntax(t_tools *tools);
 //SHLVL
 char    **increment_shlvl(char **env);
 //ENVIRONMENT

@@ -86,6 +86,6 @@ int 			open_redir(t_lexer *redir);
 //HEREDOC
 int 			heredoc(t_simple_cmds *cmd);
 char    		*get_hd_name(void);
-int				do_heredoc(char *hd_file_name,  char *end);
+int				do_heredoc(char *hd_file_name, char *end, t_env *env_lst);
 
 #endif

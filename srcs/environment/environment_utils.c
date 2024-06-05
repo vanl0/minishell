@@ -61,6 +61,7 @@ void	update_environ(t_tools *tools)
 		env_i = env_i->next;
 	}
 	free_matrix(tools->environ);
+	new_environ[i] = NULL;
 	tools->environ = new_environ;
 	return ;
 }

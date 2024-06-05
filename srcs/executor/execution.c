@@ -108,6 +108,7 @@ int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 		execute_normal(in_fd, out_fd, path, cmd);
 	else
 	{
+		free(path);
 		if (cmd->redirections)
 		{
 			og_stdout = dup(STDOUT_FILENO);
@@ -120,6 +121,7 @@ int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 				minishell(cmd->tools);
 			}
 		}
+		
 		cmd->tools->exit_code = cmd->builtin(cmd);
 		if (cmd->redirections)
 		{
@@ -129,7 +131,7 @@ int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 			close(og_stdin);
 		}
 	}
-	free(path);
+	
 	return (EXIT_SUCCESS);
 }
 

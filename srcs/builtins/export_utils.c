@@ -35,11 +35,12 @@ void	split_env(char *str, char **name, char **content)
 	char	**split;
 
 	split = ft_split(str, '=');
-	*name = split[0];
+	*name = ft_strdup(split[1]);
 	if (split[1])
-		*content = split[1];
+		*content = ft_strdup(split[1]);
 	else
 		*content = ft_strdup("");
+	free_matrix(split);
 }
 
 int	check_name(char *name)

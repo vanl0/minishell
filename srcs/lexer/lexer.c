@@ -103,7 +103,7 @@ t_lexer	*lexer(t_tools *tools)
 		}
 		i += skip_i(&tools->line[i]);
 	}
-	check_double_tk(tools);
+	check_syntax(tools);
 	check_quotes(tools->lexer_lst);
 	return (tools->lexer_lst);
 }

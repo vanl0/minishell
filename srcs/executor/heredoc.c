@@ -1,33 +1,29 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 heredoc.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/06/02 18:22:02 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/06/02 18:22:02 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 18:18:38 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 18:18:39 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
 
 /*writes inside the hidden file using readline till EOF is encountered*/
-int	do_heredoc(char *hd_file_name,	char *end)
+int	do_heredoc(char *hd_file_name,	char *end, t_env *env_lst)
 {
 	char	*line;
 	int		fd;
 
 	fd = open(hd_file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	line = readline("heredoc>");
-	while (line && ft_strncmp(end, line, ft_strlen(end)) && !g_signals.stop_hdoc)
+	while (line && ft_strncmp(end, line, ft_strlen(end)) \
+	&& !g_signals.stop_hdoc)
 	{
+		line = search_env(line, env_lst);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -73,7 +69,7 @@ int	heredoc(t_simple_cmds *cmd)
 		{
 			cmd->hd_file_name = get_hd_name();
 			g_signals.in_hdoc = 1;
-			do_heredoc(cmd->hd_file_name, redir_i->str);
+			do_heredoc(cmd->hd_file_name, redir_i->str, cmd->tools->env_lst);
 			g_signals.in_hdoc = 0;
 		}
 		redir_i = redir_i->next;
