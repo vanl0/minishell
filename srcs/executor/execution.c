@@ -90,6 +90,7 @@ int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 		}
 		return (EXIT_SUCCESS);
 	}
+	cmd->tools->exit_code = EXIT_SUCCESS;
 	path = find_executable(cmd, cmd->tools->paths);
 	if (!path)
 	{
