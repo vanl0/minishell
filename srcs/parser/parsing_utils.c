@@ -56,7 +56,7 @@ char	*expand_home(void)
 	struct dirent	*entry;
 	char			*full_path;
 
-	users = "/Users";
+	users = "/home";
 	dir = opendir(users);
 	if (dir == NULL)
 	{
@@ -100,9 +100,13 @@ char	*make_path(char *dir, char *to_add)
 	int		j;
 
 	if (!dir && to_add)
+	{
 		return (ft_strdup(to_add));
+	}
     if (!dir || !to_add)
+	{
         return (NULL);
+	}
 	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
 	path = malloc(n * sizeof(char));
 	if (path == NULL)
