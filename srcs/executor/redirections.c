@@ -95,3 +95,31 @@ int	check_redirections(t_simple_cmds *cmd)
 	}
 	return (EXIT_SUCCESS);
 }
+
+void	handle_redirections(t_simple_cmds *cmd)
+{
+	int		og_stdout;
+	int		og_stdin;
+
+	if (cmd->redirections)
+	{
+		og_stdin = dup(STDIN_FILENO);
+		og_stdout = dup(STDOUT_FILENO);
+		heredoc(cmd);
+		if (check_redirections(cmd))
+		{
+			cmd->tools->exit_code = EXIT_FAILURE;
+			clean_restart(cmd->tools);
+			minishell(cmd->tools);
+		}
+	}
+	if (!cmd->prev && !cmd->next && cmd->builtin)
+		cmd->tools->exit_code = cmd->builtin(cmd);
+	if (cmd->redirections)
+	{
+		dup2(og_stdout, STDOUT_FILENO);
+		dup2(og_stdin, STDIN_FILENO);
+		close(og_stdout);
+		close(og_stdin);
+	}
+}

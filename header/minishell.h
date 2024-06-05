@@ -57,15 +57,19 @@ typedef struct s_signals
 
 extern t_signals   g_signals;
 
-
+//MINISHELL
 int minishell(t_tools *tools);
 int clean_restart(t_tools *tools);
 
 // EXECUTION UTILS
-void    execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
+int     is_directory(char *path);
+void    to_lower_loop(char *str);
+void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
+void	handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd);
 
 // EXECUTION
 void    execute_all(t_simple_cmds *cmd);
+
 //SIGNALS
 void    start_signals(void);
 void    handle_sigquit(int sig);

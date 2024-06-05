@@ -66,6 +66,7 @@ SRCS_LS =	main.c\
 			builtins/unset.c\
 			builtins/exit.c\
 			builtins/exit_utils.c\
+			builtins/cd_utils.c\
 			builtins/cd.c\
 			builtins/env.c
 		

@@ -1,20 +1,35 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 execution_utils.c									:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: pde-masc <pde-masc@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/05/24 17:12:52 by pde-masc		   #+#	  #+#			  */
-/*	 Updated: 2024/05/24 17:12:54 by pde-masc		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pde-masc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 20:10:02 by pde-masc          #+#    #+#             */
+/*   Updated: 2024/06/05 20:10:04 by pde-masc         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	to_lower_loop(char *str)
+{
+	while (*str)
+	{
+		ft_tolower(*str);
+		str++;
+	}
+}
+
+static void	my_dup2(int fd, int fd2)
+{
+	dup2(fd, fd2);
+	close(fd);
+}
+
 static int	has_output(t_simple_cmds *cmd)
 {
-	t_lexer *redir_i;
+	t_lexer	*redir_i;
 
 	redir_i = cmd->redirections;
 	while (redir_i)
@@ -29,16 +44,13 @@ static int	has_output(t_simple_cmds *cmd)
 /* reminder: 
 - pipefd[0] is the fd for the read end
 - pipefd[1] is the fd for the write end */
-static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
+void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
 	if (cmd->tools->exit_code != EXIT_SUCCESS)
 		exit(cmd->tools->exit_code);
 	signal(SIGQUIT, handle_sigquit);
 	if (in_fd != INVALID_FD)
-	{
-		dup2(in_fd, STDIN_FILENO);
-		close(in_fd);
-	}
+		my_dup2(in_fd, STDIN_FILENO);
 	if (cmd->redirections)
 	{
 		heredoc(cmd);
@@ -46,13 +58,9 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 			exit(EXIT_FAILURE);
 	}
 	if (out_fd != INVALID_FD && has_output(cmd))
-	{
-		dup2(out_fd, STDOUT_FILENO);
-		close(out_fd);
-	}
+		my_dup2(out_fd, STDOUT_FILENO);
 	if (cmd->builtin == NULL)
 	{
-		//printf("pipe\n");
 		update_environ(cmd->tools);
 		execve(path, cmd->str, cmd->tools->environ);
 		exit(EXIT_FAILURE);
@@ -61,23 +69,8 @@ static void handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 		exit(cmd->builtin(cmd));
 }
 
-static void handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)
+void	handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)
 {
 	cmd->pipe_fd[0] = in_fd;
 	cmd->pipe_fd[1] = out_fd;
-}
-
-void	execute_normal(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
-{
-	cmd->child_pid = fork();
-	if (cmd->child_pid < 0)
-	{
-		free(path);
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	if (cmd->child_pid == 0)
-		handle_child(in_fd, out_fd, path, cmd);
-	else
-		handle_parent(in_fd, out_fd, cmd);
 }

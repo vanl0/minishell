@@ -83,6 +83,7 @@ void    		print_cmds(t_simple_cmds *cmds);
 int 			check_redirections(t_simple_cmds *cmd);
 int 			do_great(t_lexer *redirection);
 int 			open_redir(t_lexer *redir);
+void			handle_redirections(t_simple_cmds *cmd);
 //HEREDOC
 int 			heredoc(t_simple_cmds *cmd);
 char    		*get_hd_name(void);
