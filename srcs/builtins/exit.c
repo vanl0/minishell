@@ -45,6 +45,7 @@ int	free_tools(t_tools *tools)
 		free(tools->old_pwd);
 	if (tools->env_lst)
 		free_env(&tools->env_lst);
+	exit_nullify(tools);
 	return (EXIT_SUCCESS);
 }
 

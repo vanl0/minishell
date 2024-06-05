@@ -60,4 +60,5 @@ long long int	get_longlong(char *str);
 int	            get_module(long long int result, int sign);
 int	            atolonglong(char *str);
 int             exit_error(char *str);
+int             free_tools(t_tools *tools);
 #endif

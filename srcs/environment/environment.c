@@ -17,9 +17,9 @@ t_env	*env_create(char *name, char *content)
 	t_env	*new_env;
 
 	new_env = ft_malloc(sizeof(t_env));
-	new_env->name = name;
+	new_env->name = ft_strdup(name);
 	if (content)
-		new_env->content = content;
+		new_env->content = ft_strdup(content);
 	else
 		new_env->content = NULL;
 	new_env->next = NULL;
@@ -100,11 +100,11 @@ t_env	*env_init(char **env)
 		{
 			line = ft_split(env[i], '=');
 			add_env(&env_lst, env_create(line[0], line[1]));
-			free(line);
+			free_matrix(line);
 			i++;
 		}
 	}
 	if (first == 0)
-		add_env(&env_lst, env_create(ft_strdup("?"), ft_itoa(0)));
+		add_env(&env_lst, env_create("?", "0"));
 	return (env_lst);
 }

@@ -55,6 +55,7 @@ int	minishell(t_tools *tools)
 	if (!tools->line)
 	{
 		printf("exit\n");
+		free_tools(tools);
 		exit(tools->exit_code);
 	}
 	if (tools->line[0] == '\0')

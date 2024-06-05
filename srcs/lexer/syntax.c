@@ -40,7 +40,7 @@ First is pipe
 Double token
 */
 
-int	check_double_tk(t_tools *tools)
+int	check_syntax(t_tools *tools)
 {
 	t_lexer	*lexer_i;
 
@@ -53,8 +53,7 @@ int	check_double_tk(t_tools *tools)
 	}
 	while (lexer_i->next)
 	{
-		if (lexer_i->token > 0 && lexer_i->next->token > 0 \
-		&& !is_great(lexer_i->next->token) && lexer_i->next->next)
+		if (lexer_i->token > 0 && lexer_i->next->token > 0)
 		{
 			ft_putstr_fd(SYNTAX_ERR_MSG, STDERR_FILENO);
 			write_tk(lexer_i->next->token);

@@ -61,7 +61,6 @@ static char	**allfree(char **split)
 	return (NULL);
 }
 
-#include <stdio.h>
 char	**ft_split(char const *s, char c)
 {
 	char	**split;
