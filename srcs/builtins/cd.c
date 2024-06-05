@@ -68,10 +68,11 @@ static void	update_wd(t_tools *tools, char *arg, char *old_wd)
 	if (new_wd && env_exists("PWD", tools->env_lst))
 	{
 		search_n_destroy("PWD", tools);
-		add_env(&tools->env_lst, env_create(ft_strdup("PWD"), new_wd));
+		add_env(&tools->env_lst, env_create("PWD", new_wd));///////////////MODIFICACION
+		free(new_wd);////////////////
 	}
 	search_n_destroy("OLDPWD", tools);
-	add_env(&tools->env_lst, env_create(ft_strdup("OLDPWD"), old_wd));
+	add_env(&tools->env_lst, env_create("OLDPWD", old_wd));/////////////////MODIFICACION
 }
 
 int	cd(t_simple_cmds *cmd)
@@ -99,6 +100,6 @@ int	cd(t_simple_cmds *cmd)
 	}
 	if (chdir(arg) == -1 && ft_strncmp(cmd->str[1], "", 1))
 		return (cd_error(arg, errno));
-	update_wd(cmd->tools, arg, ft_strdup(cwd));
+	update_wd(cmd->tools, arg, cwd);/////////////////MODIFICACION
 	return (EXIT_SUCCESS);
 }

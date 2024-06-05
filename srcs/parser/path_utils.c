@@ -31,7 +31,10 @@ char	*expand_home(void)
 		{
 			full_path = make_path(USER_DIR, entry->d_name);
 			if (access(full_path, R_OK | W_OK | X_OK) == 0)
+			{
+				closedir(dir);/////////////////////MODIFICACION
 				return (full_path);
+			}
 			free(full_path);
 		}
 		entry = readdir(dir);
@@ -40,7 +43,7 @@ char	*expand_home(void)
 	return (NULL);
 }
 
-char	*return_expanded(char *arg)
+char	*return_expanded2(char *arg)
 {
 	if (!arg)
 		return (NULL);
@@ -48,6 +51,30 @@ char	*return_expanded(char *arg)
 		return (make_path(expand_home(), arg + 2));
 	else if (arg[0] && !ft_strncmp("~", arg, ft_strlen(arg)))
 		return (make_path(expand_home(), arg + 1));
+	return (ft_strdup(arg));
+}
+
+char	*return_expanded(char *arg)////////////////////////////NEW
+{
+	char	*home;
+	char	*path;
+
+	if (!arg)
+		return (NULL);
+	home = expand_home();
+	if (!ft_strncmp("~/", arg, 2))
+	{
+		path = make_path(home, arg + 2);
+		free(home);
+		return (path);
+	}
+	else if (arg[0] && !ft_strncmp("~", arg, ft_strlen(arg)))
+	{
+		path = make_path(home, arg + 1);
+		free(home);
+		return (path);
+	}
+	free(home);
 	return (ft_strdup(arg));
 }
 
@@ -65,7 +92,7 @@ char	*make_path(char *dir, char *to_add)
 	if (!dir || !to_add)
 		return (NULL);
 	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
-	path = malloc(n * sizeof(char));
+	path = ft_malloc(n * sizeof(char));
 	if (path == NULL)
 		return (NULL);
 	i = -1;

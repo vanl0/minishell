@@ -66,7 +66,10 @@ void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 		exit(EXIT_FAILURE);
 	}
 	else
+	{
+		//free(path);////////////////mofd
 		exit(cmd->builtin(cmd));
+	}
 }
 
 void	handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)

@@ -92,8 +92,10 @@ static int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 	if (cmd->prev || cmd->next || builtin_key(path) == NOT_BUILTIN)
 		execute_normal(in_fd, out_fd, path, cmd);
 	else
+	{
+		free(path);
 		handle_redirections(cmd);
-	free(path);
+	}
 	return (EXIT_SUCCESS);
 }
 
