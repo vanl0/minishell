@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 environment_utils.c								:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/06/02 18:07:41 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/06/02 18:07:41 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 13:52:32 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 13:52:32 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -75,7 +75,6 @@ int	update_exit(t_tools *tools)
 		if (!ft_strncmp(env_lst->name, "?", 1))
 		{
 			free(env_lst->content);
-			//printf("exit code: %d\n", tools->exit_code);
 			env_lst->content = ft_itoa(tools->exit_code);
 			return (EXIT_SUCCESS);
 		}

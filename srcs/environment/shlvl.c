@@ -1,16 +1,28 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::   */
-/*	 shlvl.c											:+:		 :+:	:+:   */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: ilorenzo <ilorenzo@student.42barcel>		+#+  +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2024/06/02 18:04:47 by ilorenzo		   #+#	  #+#			  */
-/*	 Updated: 2024/06/02 18:04:50 by ilorenzo		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/05 13:52:32 by ilorenzo          #+#    #+#             */
+/*   Updated: 2024/06/05 13:52:32 by ilorenzo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*create_shlvl(char *shlvl_str)
+{
+	char	*new_shlvl;
+
+	new_shlvl = ft_malloc(ft_strlen("SHLVL=") \
+	* sizeof(char) + sizeof(shlvl_str));
+	ft_strlcpy(new_shlvl, "SHLVL=", ft_strlen("SHLVL=") + 1);
+	ft_strlcat(new_shlvl, shlvl_str, ft_strlen("SHLVL=") \
+	* sizeof(char) + sizeof(shlvl_str));
+	return (new_shlvl);
+}
 
 char	*new_shlvl(char *str)
 {
@@ -34,30 +46,16 @@ char	*new_shlvl(char *str)
 	}
 	else
 		shlvl_str = ft_strdup("1");
-	new_shlvl = ft_malloc(ft_strlen("SHLVL=") * sizeof(char) + sizeof(shlvl_str));
-	ft_strlcpy(new_shlvl, "SHLVL=", ft_strlen("SHLVL=") + 1);
-	ft_strlcat(new_shlvl, shlvl_str, ft_strlen("SHLVL=") * sizeof(char) + sizeof(shlvl_str));
+	new_shlvl = create_shlvl(shlvl_str);
 	free(shlvl_str);
 	return (new_shlvl);
 }
 
-char	**increment_shlvl(char **env)
+void	cpy_env(char **env, char **new_env, int env_size)
 {
-	int		env_size;
-	char	**new_env;
-	int		i;
-	int		add;
+	int	i;
 
-	env_size = 0;
 	i = 0;
-	add = 1;
-	while (env[env_size])
-	{
-		if (!ft_strncmp(env[env_size], "SHLVL=", 6))
-			add = 0;
-		env_size++;
-	}
-	new_env = malloc((env_size + 1 + add) * sizeof(char *));
 	while (i < env_size)
 	{
 		if (!ft_strncmp(env[i], "SHLVL=", 6))
@@ -66,8 +64,25 @@ char	**increment_shlvl(char **env)
 			new_env[i] = ft_strdup(env[i]);
 		i++;
 	}
+}
+
+char	**increment_shlvl(char **env)
+{
+	int		env_size;
+	char	**new_env;
+	int		add;
+
+	env_size = 0;
+	add = 1;
+	while (env[env_size])
+	{
+		if (!ft_strncmp(env[env_size++], "SHLVL=", 6))
+			add = 0;
+	}
+	new_env = malloc((env_size + 1 + add) * sizeof(char *));
+	cpy_env(env, new_env, env_size);
 	if (add)
-		new_env[i++] = new_shlvl(NULL);
-	new_env[i] = NULL;
+		new_env[env_size] = new_shlvl(NULL);
+	new_env[env_size + add] = NULL;
 	return (new_env);
 }
