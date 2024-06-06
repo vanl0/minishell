@@ -47,11 +47,7 @@ static int	has_output(t_simple_cmds *cmd)
 void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
 	if (cmd->tools->exit_code != EXIT_SUCCESS)
-	{
-		free(path);
 		exit(cmd->tools->exit_code);
-	}
-	signal(SIGQUIT, handle_sigquit);
 	if (in_fd != INVALID_FD)
 		my_dup2(in_fd, STDIN_FILENO);
 	if (cmd->redirections)
@@ -69,10 +65,7 @@ void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 		exit(EXIT_FAILURE);
 	}
 	else
-	{
-		//free(path);////////////////mofd
 		exit(cmd->builtin(cmd));
-	}
 }
 
 void	handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)

@@ -30,9 +30,9 @@ int	do_heredoc(char *hd_file_name,	char *end, t_env *env_lst)
 		line = readline("heredoc>");
 	}
 	free(line);
+	close(fd);
 	if (g_signals.stop_hdoc || !line)
 		return (FAIL);
-	close(fd);
 	return (SUCCESS);
 }
 
@@ -69,10 +69,14 @@ int	heredoc(t_simple_cmds *cmd)
 		{
 			cmd->hd_file_name = get_hd_name();
 			g_signals.in_hdoc = 1;
-			do_heredoc(cmd->hd_file_name, redir_i->str, cmd->tools->env_lst);
+			if (do_heredoc(cmd->hd_file_name, redir_i->str, cmd->tools->env_lst))
+			{
+				printf("we out\n");
+				return (EXIT_FAILURE);
+			}
 			g_signals.in_hdoc = 0;
 		}
 		redir_i = redir_i->next;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
