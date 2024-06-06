@@ -19,7 +19,6 @@ t_lexer	*set_lexer(char	*str, int tkn);
 t_lexer	*add_lexer(t_lexer **lexer_lst, t_lexer *new_lex);
 int		is_token(char c);
 int		get_token(char *str);
-
 //UTILS
 void	print_lexer(t_lexer *lexer);
 void	free_lexer(t_lexer **lex_lst);
@@ -27,8 +26,6 @@ int		is_space(char c);
 int     is_all_space(char *str);
 int	    is_token(char c);
 int	    get_token(char *str);
-
-
 //SYNTAX
 int     check_syntax(t_tools *tools);
 //SHLVL
@@ -53,6 +50,7 @@ char    *expand_env(char *env_str, t_env *env_lst, char quote);
 char	*find_path(t_env *env_lst);
 void    get_paths(t_tools *tools, t_env *env_lst);
 void	free_matrix(char **matrix);
+char    *opendir_err(void);
 //QUOTES
 void    check_quotes(t_lexer *lexer_lst);
 char    *clean_quotes(char *str);

@@ -20,8 +20,6 @@ void	exit_nullify(t_tools *tools)
 	tools->lexer_lst = NULL;
 	tools->env_lst = NULL;
 	tools->environ = NULL;
-	tools->pwd = NULL;
-	tools->old_pwd = NULL;
 	g_signals.in_cmd = 0;
 	g_signals.in_hdoc = 0;
 	g_signals.stop_hdoc = 0;
@@ -39,10 +37,6 @@ int	free_tools(t_tools *tools)
 		free_matrix(tools->environ);
 	if (tools->lexer_lst)
 		free_lexer(&tools->lexer_lst);
-	if (tools->pwd)
-		free(tools->pwd);
-	if (tools->old_pwd)
-		free(tools->old_pwd);
 	if (tools->env_lst)
 		free_env(&tools->env_lst);
 	exit_nullify(tools);

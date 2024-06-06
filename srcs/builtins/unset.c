@@ -30,7 +30,6 @@ void	search_n_destroy(char *name, t_tools *tools)
 		tmp_env = env_i->next;
 		env_i->next = tmp_env->next;
 	}
-	//printf("free: %s, free: %s\n", tmp_env->name, tmp_env->content);
 	free(tmp_env->name);
 	if (tmp_env->content)
 		free(tmp_env->content);

@@ -88,7 +88,7 @@ content, also can set multiple variables
 in one line every declaration separated 
 by space.  
 */
-int	export(t_simple_cmds *cmd)
+int	ft_export(t_simple_cmds *cmd)
 {
 	char	**args;
 	int		i;

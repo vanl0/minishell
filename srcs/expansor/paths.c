@@ -12,10 +12,10 @@
 
 #include "../header/minishell.h"
 
-void	print_matrix(char **strings)
+char	*opendir_err(void)
 {
-	while (*strings)
-		printf("%s\n", *strings++);
+	perror("opendir");
+	return (NULL);
 }
 
 void	free_matrix(char **matrix)

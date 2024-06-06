@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+
+
 char	*expand_home(void)
 {
 	DIR				*dir;
@@ -20,10 +22,7 @@ char	*expand_home(void)
 
 	dir = opendir(USER_DIR);
 	if (dir == NULL)
-	{
-		perror("opendir");
-		return (NULL);
-	}
+		return (opendir_err());
 	entry = readdir(dir);
 	while (entry)
 	{
@@ -92,7 +91,7 @@ char	*make_path(char *dir, char *to_add)
 	if (!dir || !to_add)
 		return (NULL);
 	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
-	path = ft_malloc(n * sizeof(char));
+	path = malloc(n * sizeof(char));
 	if (path == NULL)
 		return (NULL);
 	i = -1;

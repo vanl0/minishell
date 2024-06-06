@@ -39,9 +39,6 @@ typedef struct s_tools
 	t_env					*env_lst;
 	struct s_simple_cmds	*simple_cmds;
 	t_lexer					*lexer_lst;
-	char					*pwd;
-	char					*old_pwd;
-	int						pipes;
 	int						*pid;
 	int                     heredoc;
 	void					*builtins[7];

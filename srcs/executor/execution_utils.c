@@ -47,7 +47,10 @@ static int	has_output(t_simple_cmds *cmd)
 void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
 	if (cmd->tools->exit_code != EXIT_SUCCESS)
+	{
+		free(path);
 		exit(cmd->tools->exit_code);
+	}
 	signal(SIGQUIT, handle_sigquit);
 	if (in_fd != INVALID_FD)
 		my_dup2(in_fd, STDIN_FILENO);

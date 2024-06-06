@@ -19,7 +19,7 @@ void	set_builtin_array(t_tools *tools)
 	tools->builtins[ECHO] = echo;
 	tools->builtins[CD] = cd;
 	tools->builtins[PWD] = pwd;
-	tools->builtins[EXPORT] = export;
+	tools->builtins[EXPORT] = ft_export;
 	tools->builtins[UNSET] = unset;
 	tools->builtins[ENV] = env;
 	tools->builtins[EXIT] = ft_exit;

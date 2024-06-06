@@ -26,7 +26,10 @@ static void	execute_normal(int in_fd, int out_fd, char *path,
 	if (cmd->child_pid == 0)
 		handle_child(in_fd, out_fd, path, cmd);
 	else
+	{
+		free(path);
 		handle_parent(in_fd, out_fd, cmd);
+	}
 }
 
 /* Allocates memory and returns the path to the command executable.
