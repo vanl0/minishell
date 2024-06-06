@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
+/*
 void	print_mat(char **str)
 {
 	while (*str != NULL)
@@ -48,7 +48,7 @@ void	print_cmds(t_simple_cmds *cmds)
 		printf("-----------------------------------\n");
 	}
 }
-
+*/
 void	free_child(t_simple_cmds *cmd_tmp)
 {
 	int	status;

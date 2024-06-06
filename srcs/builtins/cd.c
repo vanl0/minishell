@@ -6,7 +6,7 @@
 /*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 14:28:19 by ilorenzo          #+#    #+#             */
-/*   Updated: 2024/06/05 14:28:19 by ilorenzo         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:43:43 by pde-masc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	update_wd(t_tools *tools, char *arg, char *old_wd)
 	{
 		search_n_destroy("PWD", tools);
 		add_env(&tools->env_lst, env_create("PWD", new_wd));
-		free(new_wd);////////////////
+		free(new_wd);
 	}
 	search_n_destroy("OLDPWD", tools);
 	add_env(&tools->env_lst, env_create("OLDPWD", old_wd));

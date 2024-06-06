@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*									      */
-/*							  :::	   ::::::::   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
-/*						      +:+ +:+	      +:+     */
-/*   By: ilorenzo <ilorenzo@student.42barcel>	    +#+  +:+	   +#+	      */
-/*						  +#+#+#+#+#+	+#+	      */
-/*   Created: 2024/04/30 16:31:13 by ilorenzo	       #+#    #+#	      */
-/*   Updated: 2024/06/06 13:37:14 by ilorenzo         ###   ########.fr       */
-/*									      */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pde-masc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/06 16:30:48 by pde-masc          #+#    #+#             */
+/*   Updated: 2024/06/06 16:35:33 by pde-masc         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -48,20 +48,20 @@
 
 typedef struct s_signals
 {
-    int exit_stat;
-    int in_cmd;
-    int in_hdoc;
-    int stop_hdoc;
-}   t_signals;
+	int	exit_stat;
+	int	in_cmd;
+	int	in_hdoc;
+	int	stop_hdoc;
+}		t_signals;
 
-extern t_signals   g_signals;
+extern t_signals	g_signals;
 
 //MINISHELL
-int minishell(t_tools *tools);
-int clean_restart(t_tools *tools);
+int		minishell(t_tools *tools);
+int		clean_restart(t_tools *tools);
 
 // EXECUTION UTILS
-int	is_directory(char *path);
+int		is_directory(char *path);
 void	to_lower_loop(char *str);
 void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd);
 void	handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd);
@@ -75,5 +75,5 @@ void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
 
 //ERROR
-int    do_error(int flg, t_tools *tools);
+int		do_error(int flg, t_tools *tools);
 #endif

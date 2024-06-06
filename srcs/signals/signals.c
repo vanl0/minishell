@@ -14,8 +14,6 @@
 
 void	handle_sigint(int sig)
 {
-	if (g_signals.in_hdoc)
-		exit(0);
 	printf("\n");
 	if (g_signals.in_cmd)
 	{

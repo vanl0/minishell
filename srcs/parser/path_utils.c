@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_cmd.c                                         :+:      :+:    :+:   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilorenzo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 13:41:01 by ilorenzo          #+#    #+#             */
-/*   Updated: 2024/06/05 13:41:02 by ilorenzo         ###   ########.fr       */
+/*   Updated: 2024/06/06 16:45:20 by pde-masc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 char	*expand_home(void)
 {
@@ -31,7 +29,7 @@ char	*expand_home(void)
 			full_path = make_path(USER_DIR, entry->d_name);
 			if (access(full_path, R_OK | W_OK | X_OK) == 0)
 			{
-				closedir(dir);/////////////////////MODIFICACION
+				closedir(dir);
 				return (full_path);
 			}
 			free(full_path);
@@ -53,7 +51,7 @@ char	*return_expanded2(char *arg)
 	return (ft_strdup(arg));
 }
 
-char	*return_expanded(char *arg)////////////////////////////NEW
+char	*return_expanded(char *arg)
 {
 	char	*home;
 	char	*path;
