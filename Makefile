@@ -14,7 +14,7 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-LIB_FLAGS = -lreadline -lncurses -lft -L$(READLINE_DIR) -L$(LIBFT_DIR)
+LIB_FLAGS = -lreadline -lncurses -lft -L$(READLINE_DIR) -L$(LIBFT_DIR) $(CLEAKS)
 INCLUDES = -I./header
 
 HEADER = ./header/minishell.h
@@ -24,10 +24,7 @@ READLINE_TAR = readline-8.1.tar.gz
 READLINE_DIR = ./readline-8.1
 READLINE = $(READLINE_DIR)/libreadline.a
 READLINE_HEADER = $(READLINE_DIR)
-
-HISTORY_DIR = ./readline-8.1
-HISTORY = $(HISTORY_DIR)/libhistory.a
-HISTORY_HEADER = $(HISTORY_DIR)
+CLEAKS = -fsanitize=address
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -91,8 +88,8 @@ NC = \033[0m
 all: $(NAME)
 
 #MINISHELL
-$(NAME): $(LIBFT) $(READLINE) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile
-	$(CC) -g $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ $< 
+$(NAME): $(LIBFT) $(READLINE_DIR) $(OBJS_DIR) $(OBJS) $(HEADER) Makefile	
+	$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) $(INCLUDES) -o $@ $< 
 
 #OBJS
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADER) Makefile
@@ -121,11 +118,6 @@ $(LIBFT): $(LIBFT_HEADER)
 	@echo "$(GREEN)Libft compiled succesfully$(NC)"
 
 #READLINE
-$(READLINE): $(READLINE_DIR)
-	@echo "$(YELLOW)Compiling readline$(NC)"
-	@make -s -C $(READLINE_DIR)
-	@echo "$(GREEN)readline compiled succesfully$(NC)"
-
 $(READLINE_DIR):
 	@echo "$(YELLOW)Downloading readline$(NC)"
 	@curl -O $(READLINE_URL)
@@ -140,11 +132,12 @@ clean:
 	@rm -rf $(OBJS_DIR)
 	@echo "$(GREEN)Objects removed$(NC)"
 fclean: clean
-	@make -s -C $(READLINE_DIR) clean
+#	@make -s -C $(READLINE_DIR) clean
 	@rm -f $(LIBFT)
 	@rm -f $(NAME)
+	@rm -rf $(READLINE_DIR)
 	@echo "$(GREEN)Objects and executables removed$(NC)"
-
+	
 re: fclean all
 
 leaks:
