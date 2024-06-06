@@ -12,23 +12,35 @@
 
 #include "minishell.h"
 
-void	handle_sigint(int sig)
+int	event(void)
 {
-	if (g_signals.in_hdoc)
-		exit(0);
-	printf("\n");
-	if (g_signals.in_cmd)
-	{
-		g_signals.stop_hdoc = 1;
-		rl_replace_line("", 0);
+	return (EXIT_SUCCESS);
+}
+
+void handle_sigint(int sig)
+{
+    if (g_signals.in_hdoc)
+    {
+        g_signals.stop_hdoc = 1;
+        //ft_putstr_fd("\n", STDERR_FILENO);
+        rl_replace_line("", 0);
 		rl_redisplay();
-		rl_done = 1;
-		return ;
-	}
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	(void) sig;
+        rl_done = 1;
+        return;
+    }
+    printf("\n");
+    if (g_signals.in_cmd)
+    {
+        g_signals.stop_hdoc = 1;
+		ft_putstr_fd("\n", STDERR_FILENO);
+        rl_replace_line("", 0);
+        rl_done = 1;
+        return;
+    }
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    (void) sig;
 }
 
 void	handle_sigquit(int sig)
@@ -37,11 +49,12 @@ void	handle_sigquit(int sig)
 	ft_putnbr_fd(sig, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
 	rl_redisplay();
-	exit(0);
+	return ;
 }
 
 void	start_signals(void)
 {
+	rl_event_hook=event;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }

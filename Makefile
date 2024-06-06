@@ -14,7 +14,7 @@
 NAME = minishell
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-LIB_FLAGS = -lreadline -lncurses -lft -L$(READLINE_DIR) -L$(LIBFT_DIR) $(CLEAKS)
+LIB_FLAGS = -lreadline -lncurses -lft -L$(READLINE_DIR) -L$(LIBFT_DIR)
 INCLUDES = -I./header
 
 HEADER = ./header/minishell.h
@@ -24,8 +24,6 @@ READLINE_TAR = readline-8.1.tar.gz
 READLINE_DIR = ./readline-8.1
 READLINE = $(READLINE_DIR)/libreadline.a
 READLINE_HEADER = $(READLINE_DIR)
-CLEAKS = -fsanitize=address
-
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_HEADER = $(LIBFT_DIR)/libft.h

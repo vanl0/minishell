@@ -16,6 +16,7 @@
 static void	execute_normal(int in_fd, int out_fd, char *path,
 		t_simple_cmds *cmd)
 {
+	signal(SIGQUIT, handle_sigquit);
 	cmd->child_pid = fork();
 	if (cmd->child_pid < 0)
 	{
