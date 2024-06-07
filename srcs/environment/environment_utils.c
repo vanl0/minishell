@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+/* looks if the env exists */
+int	env_exists(char *name, t_env *env_lst)
+{
+	t_env	*env_i;
+
+	env_i = env_lst;
+	while (env_i)
+	{
+		if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) \
+		&& !ft_strncmp(name, env_i->name, ft_strlen(name)))
+			return (1);
+		env_i = env_i->next;
+	}
+	return (0);
+}
+
 char	*env_to_str(t_env *env)
 {
 	char	*str;

@@ -21,6 +21,7 @@ t_tools	tools_init(char **env)
 	tools.line = NULL;
 	tools.environ = increment_shlvl(env);
 	tools.env_lst = env_init(tools.environ);
+	//print_env(tools.env_lst);
 	tools.paths = ft_split(find_path(tools.env_lst), ':');
 	tools.lexer_lst = NULL;
 	tools.pid = NULL;

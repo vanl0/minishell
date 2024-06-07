@@ -12,20 +12,19 @@
 
 #include "minishell.h"
 
-/* looks if the env exists */
-int	env_exists(char *name, t_env *env_lst)
+/* better version of getcwd. It looks for PWD in env before using getcwd. */
+char	*my_getcwd(t_tools *tools)
 {
-	t_env	*env_i;
+	char	cwd[PATH_MAX];
 
-	env_i = env_lst;
-	while (env_i)
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		if (!ft_strncmp(name, env_i->name, ft_strlen(env_i->name)) \
-		&& !ft_strncmp(name, env_i->name, ft_strlen(name)))
-			return (1);
-		env_i = env_i->next;
+		if (env_exists("PWD", tools->env_lst))
+			return (find_env("PWD", tools->env_lst));
+		perror("getcwd error");
+		return (NULL);
 	}
-	return (0);
+	return (ft_strdup(cwd));
 }
 
 /* Trims the last part of the directory path

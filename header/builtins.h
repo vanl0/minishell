@@ -41,7 +41,7 @@ void			search_n_destroy(char *name, t_tools *tools);
 int				env(t_simple_cmds *cmd);
 
 // CD UTILS
-int				env_exists(char *name, t_env *env_lst);
+char            *my_getcwd(t_tools *tools);
 char			*trim_from_back(char *dir);
 char			*get_next_path(char *arg);
 int				env_not_set(char *env_name);
