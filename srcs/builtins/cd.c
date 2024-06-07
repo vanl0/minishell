@@ -78,18 +78,16 @@ static void	update_wd(t_tools *tools, char *arg, char *old_wd)
 int	cd(t_simple_cmds *cmd)
 {
 	char	*arg;
-	char	cwd[PATH_MAX];
+	char	*cwd;
 
 	arg = cmd->str[1];
 	if (!cmd->str[1])
 		arg = find_env("HOME", cmd->tools->env_lst);
 	if (!arg)
 		return (env_not_set("HOME"));
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
+	cwd = my_getcwd(cmd->tools);
+	if (!cwd)
 		return (EXIT_FAILURE);
-	}
 	if (is_hyphen(cmd->str[1]))
 	{
 		arg = find_env("OLDPWD", cmd->tools->env_lst);
@@ -101,5 +99,6 @@ int	cd(t_simple_cmds *cmd)
 	if (chdir(arg) == -1 && ft_strncmp(cmd->str[1], "", 1))
 		return (cd_error(arg, errno));
 	update_wd(cmd->tools, arg, cwd);
+	free(cwd);
 	return (EXIT_SUCCESS);
 }

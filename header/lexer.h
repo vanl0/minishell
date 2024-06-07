@@ -41,6 +41,7 @@ int		check_syntax(t_tools *tools);
 //SHLVL
 char	**increment_shlvl(char **env);
 //ENVIRONMENT
+int     env_exists(char *name, t_env *env_lst);
 t_env	*env_init(char **env);
 t_env	*env_create(char *name, char *content);
 t_env	*add_env(t_env **env_lst, t_env *new_env);
