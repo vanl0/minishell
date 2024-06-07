@@ -17,7 +17,10 @@ CFLAGS = -g -Wall -Wextra -Werror
 LIB_FLAGS = -lreadline -lncurses -lft -L$(READLINE_DIR) -L$(LIBFT_DIR)
 INCLUDES = -I./header
 
-HEADER = ./header/minishell.h
+HEADER =	./header/minishell.h\
+			./header/lexer.h\
+			./header/parser.h\
+			./header/builtins.h
 
 READLINE_URL = http://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
 READLINE_TAR = readline-8.1.tar.gz
@@ -135,12 +138,10 @@ fclean: clean
 	@rm -f $(NAME)
 	@rm -rf $(READLINE_DIR)
 	@echo "$(GREEN)Objects and executables removed$(NC)"
-	
-re: fclean all
 
-leaks:
-	leaks -atExit -- ./minishell
 valg:
 	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
+
+re: fclean all
 
 .PHONY: all clean fclean re

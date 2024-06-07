@@ -17,30 +17,29 @@ int	event(void)
 	return (EXIT_SUCCESS);
 }
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
-    if (g_signals.in_hdoc)
-    {
-        g_signals.stop_hdoc = 1;
-        //ft_putstr_fd("\n", STDERR_FILENO);
-        rl_replace_line("", 0);
+	if (g_signals.in_hdoc)
+	{
+		g_signals.stop_hdoc = 1;
+		rl_replace_line("", 0);
 		rl_redisplay();
-        rl_done = 1;
-        return;
-    }
-    printf("\n");
-    if (g_signals.in_cmd)
-    {
-        g_signals.stop_hdoc = 1;
+		rl_done = 1;
+		return ;
+	}
+	printf("\n");
+	if (g_signals.in_cmd)
+	{
+		g_signals.stop_hdoc = 1;
 		ft_putstr_fd("\n", STDERR_FILENO);
-        rl_replace_line("", 0);
-        rl_done = 1;
-        return;
-    }
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-    (void) sig;
+		rl_replace_line("", 0);
+		rl_done = 1;
+		return ;
+	}
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	(void) sig;
 }
 
 void	handle_sigquit(int sig)
@@ -54,7 +53,7 @@ void	handle_sigquit(int sig)
 
 void	start_signals(void)
 {
-	rl_event_hook=event;
+	rl_event_hook = event;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 }

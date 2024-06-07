@@ -89,7 +89,7 @@ char	*make_path(char *dir, char *to_add)
 	if (!dir || !to_add)
 		return (NULL);
 	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
-	path = malloc(n * sizeof(char));
+	path = ft_malloc(n * sizeof(char));
 	if (path == NULL)
 		return (NULL);
 	i = -1;

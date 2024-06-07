@@ -69,11 +69,9 @@ int	heredoc(t_simple_cmds *cmd)
 		{
 			cmd->hd_file_name = get_hd_name();
 			g_signals.in_hdoc = 1;
-			if (do_heredoc(cmd->hd_file_name, redir_i->str, cmd->tools->env_lst))
-			{
-				printf("we out\n");
+			if (do_heredoc(cmd->hd_file_name, \
+			redir_i->str, cmd->tools->env_lst))
 				return (EXIT_FAILURE);
-			}
 			g_signals.in_hdoc = 0;
 		}
 		redir_i = redir_i->next;
