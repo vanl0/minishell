@@ -53,12 +53,14 @@ void	free_child(t_simple_cmds *cmd_tmp)
 {
 	int	status;
 
-	waitpid(cmd_tmp->child_pid, &status, 0);
+	waitpid(cmd_tmp->child_pid, &status, 0);///if (waitpid(cmd_tmp->child_pid, &status, 0) == -1) perror
 	if (cmd_tmp->pipe_fd[0] != INVALID_FD)
 		close(cmd_tmp->pipe_fd[0]);
 	if (cmd_tmp->pipe_fd[1] != INVALID_FD)
 		close(cmd_tmp->pipe_fd[1]);
-	if (WIFEXITED(status))
+	if (WIFSIGNALED(status))
+		cmd_tmp->tools->exit_code = 128 + WTERMSIG(status);
+	else if (WIFEXITED(status))
 		cmd_tmp->tools->exit_code = WEXITSTATUS(status);
 }
 

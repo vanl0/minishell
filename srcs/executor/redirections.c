@@ -89,7 +89,7 @@ int	check_redirections(t_simple_cmds *cmd)
 		if (redir_i->token == LESSLESS)
 		{
 			if (do_less(cmd->hd_file_name, redir_i->token))
-				return (EXIT_FAILURE);
+				return (HEREDOC_ERR);
 		}
 		redir_i = redir_i->next;
 	}
@@ -107,7 +107,7 @@ void	handle_redirections(t_simple_cmds *cmd)
 		og_stdout = dup(STDOUT_FILENO);
 		if (heredoc(cmd) || check_redirections(cmd))
 		{
-			cmd->tools->exit_code = EXIT_FAILURE;
+			//cmd->tools->exit_code = EXIT_FAILURE;
 			clean_restart(cmd->tools);
 		}
 	}

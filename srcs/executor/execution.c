@@ -43,10 +43,10 @@ static char	*find_executable(t_simple_cmds *cmd, char **paths)
 	char	*command;
 	char	*full_path;
 
-	if (!paths)
-		return (NULL);
 	command = cmd->str[0];
 	set_builtin(cmd);
+	if (!paths && !cmd->builtin)
+		return (NULL);
 	if (access(command, X_OK) == 0 || cmd->builtin != NULL)
 	{
 		full_path = ft_strdup(command);
@@ -90,11 +90,13 @@ static int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 		handle_redirections(cmd);
 		return (EXIT_SUCCESS);
 	}
-	cmd->tools->exit_code = EXIT_SUCCESS;
 	path = find_executable(cmd, cmd->tools->paths);
-	check_path(cmd, path);
-	if (cmd->prev || cmd->next || builtin_key(path) == NOT_BUILTIN)
+	if (cmd->prev || cmd->next || !cmd->builtin)
+	{
+		cmd->tools->exit_code = EXIT_SUCCESS;
+		check_path(cmd, path);
 		execute_normal(in_fd, out_fd, path, cmd);
+	}
 	else
 	{
 		free(path);

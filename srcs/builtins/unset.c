@@ -19,18 +19,21 @@ void	search_n_destroy(char *name, t_tools *tools)
 
 	env_i = tools->env_lst;
 	if (!strncmp(name, env_i->name, ft_strlen(env_i->name)))
+	{
+		tmp_env = env_i;
 		tools->env_lst = env_i->next;
+	}
 	else
 	{
-		while (env_i->next && \
-		ft_strncmp(name, env_i->next->name, ft_strlen(env_i->next->name) + 1))
+		while (env_i->next && ft_strncmp(name, env_i->next->name, ft_strlen(env_i->next->name) + 1))
 			env_i = env_i->next;
 		if (!env_i->next)
 			return ;
 		tmp_env = env_i->next;
 		env_i->next = tmp_env->next;
 	}
-	free(tmp_env->name);
+	if (tmp_env->name)
+		free(tmp_env->name);
 	if (tmp_env->content)
 		free(tmp_env->content);
 	free(tmp_env);

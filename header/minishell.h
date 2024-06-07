@@ -24,6 +24,7 @@
 # define SYNTAX_ERROR 1
 # define IS_DIRECTORY 126
 # define CMD_NOT_FOUND 127
+# define HEREDOC_ERR 130
 # define FORK_ERROR 3
 # define EXECV_ERROR 4
 # define SYNTAX_ERR_MSG "minishell: syntax error near unexpected token "

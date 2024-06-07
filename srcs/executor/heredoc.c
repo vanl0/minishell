@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /*writes inside the hidden file using readline till EOF is encountered*/
-int	do_heredoc(char *hd_file_name,	char *end, t_env *env_lst)
+int	do_heredoc(char *hd_file_name,	char *end, t_tools *tools)
 {
 	char	*line;
 	int		fd;
@@ -23,7 +23,7 @@ int	do_heredoc(char *hd_file_name,	char *end, t_env *env_lst)
 	while (line && ft_strncmp(end, line, ft_strlen(end)) \
 	&& !g_signals.stop_hdoc)
 	{
-		line = search_env(line, env_lst);
+		line = search_env(line, tools->env_lst);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -32,8 +32,11 @@ int	do_heredoc(char *hd_file_name,	char *end, t_env *env_lst)
 	free(line);
 	close(fd);
 	if (g_signals.stop_hdoc || !line)
-		return (FAIL);
-	return (SUCCESS);
+	{
+		tools->exit_code = 130;
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 /*generates a hidden file name used as buffer for heredoc*/
@@ -70,7 +73,7 @@ int	heredoc(t_simple_cmds *cmd)
 			cmd->hd_file_name = get_hd_name();
 			g_signals.in_hdoc = 1;
 			if (do_heredoc(cmd->hd_file_name, \
-			redir_i->str, cmd->tools->env_lst))
+			redir_i->str, cmd->tools))
 				return (EXIT_FAILURE);
 			g_signals.in_hdoc = 0;
 		}

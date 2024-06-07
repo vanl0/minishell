@@ -27,7 +27,6 @@ void	handle_sigint(int sig)
 		rl_done = 1;
 		return ;
 	}
-	printf("\n");
 	if (g_signals.in_cmd)
 	{
 		g_signals.stop_hdoc = 1;
@@ -36,6 +35,7 @@ void	handle_sigint(int sig)
 		rl_done = 1;
 		return ;
 	}
+	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
