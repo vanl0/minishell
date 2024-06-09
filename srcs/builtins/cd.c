@@ -12,6 +12,35 @@
 
 #include "minishell.h"
 
+char	*make_path2(char *dir, char *to_add)
+{
+	char	*path;
+	int		n;
+	int		i;
+	int		j;
+
+	if (!dir && to_add)
+		return (ft_strdup(to_add));
+	if (!dir || !to_add)
+		return (NULL);
+	n = ft_strlen(dir) + ft_strlen(to_add) + 2;
+	path = ft_malloc(n * sizeof(char));
+	if (path == NULL)
+		return (NULL);
+	i = -1;
+	while (dir[++i])
+		path[i] = dir[i];
+	if (i - 1 >= 0 && path[i - 1] != '/')
+		path[i++] = '/';
+	j = -1;
+	while (to_add[++j])
+		path[i++] = to_add[j];
+	path[i] = '\0';
+	while (i > 0 && path[i - 1] == '/')
+		path[--i] = '\0';
+	return (free(dir), path);//////////////cd ~ 
+}
+
 /* checks if arg is a string consisting of only a hyphen (-)*/
 static int	is_hyphen(char *arg)
 {
@@ -48,7 +77,7 @@ static char	*get_new_wd(char *arg, char *old_wd)
 		if (!ft_strncmp("..", to_add, ft_strlen(to_add)))
 			new_wd = trim_from_back(new_wd);
 		else
-			new_wd = make_path(new_wd, to_add);
+			new_wd = make_path2(new_wd, to_add);
 		i += ft_strlen(to_add);
 		i += arg[i] == '/';
 		free(to_add);
@@ -70,6 +99,7 @@ static void	update_wd(t_tools *tools, char *arg, char *old_wd)
 		search_n_destroy("PWD", tools);
 		add_env(&tools->env_lst, env_create("PWD", new_wd));
 		free(new_wd);
+		free(arg);///////////////////////cd 
 	}
 	search_n_destroy("OLDPWD", tools);
 	add_env(&tools->env_lst, env_create("OLDPWD", old_wd));
@@ -97,7 +127,7 @@ int	cd(t_simple_cmds *cmd)
 			printf("%s\n", arg);
 	}
 	if (chdir(arg) == -1 && ft_strncmp(cmd->str[1], "", 1))
-		return (cd_error(arg, errno));
+		return (free(cwd), cd_error(arg, errno));//////////////////cd ...
 	update_wd(cmd->tools, arg, cwd);
 	free(cwd);
 	return (EXIT_SUCCESS);
