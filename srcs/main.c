@@ -40,7 +40,10 @@ int	main(int argc, char **argv, char **env)
 
 	tools = tools_init(env);
 	if (argc != 1 || argv[1])
-		exit(printf("This program does not accept arguments\n"));
+	{
+		printf("This program does not accept arguments\n");
+		exit(EXIT_FAILURE);
+	}
 	minishell(&tools);
 	return (tools.exit_code);
 }

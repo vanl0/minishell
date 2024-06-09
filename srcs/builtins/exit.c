@@ -40,7 +40,7 @@ int	free_tools(t_tools *tools)
 	if (tools->env_lst)
 		free_env(&tools->env_lst);
 	exit_nullify(tools);
-	return (EXIT_SUCCESS);
+	return (tools->exit_code);
 }
 
 int	get_exit_code(char *str)

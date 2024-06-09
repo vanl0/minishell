@@ -47,14 +47,14 @@ static int	has_output(t_simple_cmds *cmd)
 void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
 	if (cmd->tools->exit_code != EXIT_SUCCESS)
-		exit(cmd->tools->exit_code);
+		exit(free_tools(cmd->tools));//this is for still reachable leaks
 	if (in_fd != INVALID_FD)
 		my_dup2(in_fd, STDIN_FILENO);
-	if (cmd->redirections)
+	if (check_redirections(cmd))
 	{
-		heredoc(cmd);
-		if (check_redirections(cmd))
-			exit(EXIT_FAILURE);
+		free(path);
+		cmd->tools->exit_code = EXIT_FAILURE;
+		exit(free_tools(cmd->tools));
 	}
 	if (out_fd != INVALID_FD && has_output(cmd))
 		my_dup2(out_fd, STDOUT_FILENO);
@@ -62,7 +62,8 @@ void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 	{
 		update_environ(cmd->tools);
 		execve(path, cmd->str, cmd->tools->environ);
-		exit(EXIT_FAILURE);
+		perror("execve");
+		exit(errno);
 	}
 	else
 		exit(cmd->builtin(cmd));

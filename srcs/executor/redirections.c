@@ -105,9 +105,9 @@ void	handle_redirections(t_simple_cmds *cmd)
 	{
 		og_stdin = dup(STDIN_FILENO);
 		og_stdout = dup(STDOUT_FILENO);
-		if (heredoc(cmd) || check_redirections(cmd))
+		if (check_redirections(cmd))
 		{
-			//cmd->tools->exit_code = EXIT_FAILURE;
+			cmd->tools->exit_code = EXIT_FAILURE;
 			clean_restart(cmd->tools);
 		}
 	}

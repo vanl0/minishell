@@ -13,7 +13,7 @@
 
 NAME = minishell
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g  -Wall -Wextra -Werror
 LIB_FLAGS = -lreadline -lncurses -lft -L$(READLINE_DIR) -L$(LIBFT_DIR)
 INCLUDES = -I./header
 

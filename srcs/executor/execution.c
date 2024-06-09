@@ -105,6 +105,22 @@ static int	execute_cmd(t_simple_cmds *cmd, int in_fd, int out_fd)
 	return (EXIT_SUCCESS);
 }
 
+/*Before executing anything sets the 
+heredoc input file for each command*/
+int	check_heredoc(t_simple_cmds *cmds)
+{
+	t_simple_cmds *cmd_i;
+
+	cmd_i = cmds;
+	while (cmd_i)
+	{
+		if (heredoc(cmd_i))
+			return (HEREDOC_ERR);
+		cmd_i = cmd_i->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 void	execute_all(t_simple_cmds *cmds)
 {
 	t_simple_cmds	*tmp;
@@ -114,6 +130,8 @@ void	execute_all(t_simple_cmds *cmds)
 	in_fd = INVALID_FD;
 	tmp = cmds;
 	g_signals.in_cmd = 1;
+	if (check_heredoc(cmds))
+		return ;
 	while (tmp)
 	{
 		if (tmp->next)

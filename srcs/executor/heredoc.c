@@ -20,7 +20,7 @@ int	do_heredoc(char *hd_file_name,	char *end, t_tools *tools)
 
 	fd = open(hd_file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	line = readline("heredoc>");
-	while (line && ft_strncmp(end, line, ft_strlen(end)) \
+	while (line && ft_strncmp(end, line, ft_strlen(end) + 1) \
 	&& !g_signals.stop_hdoc)
 	{
 		line = search_env(line, tools->env_lst);

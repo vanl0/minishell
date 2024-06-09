@@ -53,7 +53,8 @@ void	free_child(t_simple_cmds *cmd_tmp)
 {
 	int	status;
 
-	waitpid(cmd_tmp->child_pid, &status, 0);///if (waitpid(cmd_tmp->child_pid, &status, 0) == -1) perror
+	if (waitpid(cmd_tmp->child_pid, &status, 0) == -1)
+		perror("fork");
 	if (cmd_tmp->pipe_fd[0] != INVALID_FD)
 		close(cmd_tmp->pipe_fd[0]);
 	if (cmd_tmp->pipe_fd[1] != INVALID_FD)
@@ -73,13 +74,13 @@ void	free_cmds(t_simple_cmds **cmds)
 		cmd_tmp = *cmds;
 		free_matrix(cmd_tmp->str);
 		free_lexer(&(cmd_tmp->redirections));
+		if (cmd_tmp->child_pid > 0)
+			free_child(cmd_tmp);
 		if (cmd_tmp->hd_file_name)
 		{
 			unlink(cmd_tmp->hd_file_name);
 			free(cmd_tmp->hd_file_name);
 		}
-		if (cmd_tmp->child_pid > 0)
-			free_child(cmd_tmp);
 		*cmds = (*cmds)->next;
 		if (*cmds)
 			(*cmds)->prev = NULL;
