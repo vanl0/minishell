@@ -30,7 +30,27 @@ void	export_error(char *name, char *content)
 	return ;
 }
 
-void	split_env(char *str, char **name, char **content)
+void split_env(char *str, char **name, char **content)
+{
+    char	*eq_pos;
+	int		name_len;
+	int		cont_len;
+	
+	eq_pos = strchr(str, '=');
+	if (!eq_pos || !eq_pos[1]) {
+        *name = ft_strdup(str);
+        *content = ft_strdup("");
+        return;
+    }
+	name_len = eq_pos - str;
+	cont_len = ft_strlen(eq_pos + 1);
+    *name = ft_malloc(name_len + 1);
+    *content = ft_malloc(cont_len + 1);
+    ft_strlcpy(*name, str, name_len + 1);
+    ft_strlcpy(*content, eq_pos + 1, cont_len + 1);
+}
+
+void	split_env2(char *str, char **name, char **content)
 {
 	char	**split;
 
