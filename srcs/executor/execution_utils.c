@@ -74,6 +74,8 @@ void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 
 void	handle_parent(int in_fd, int out_fd, t_simple_cmds *cmd)
 {
+	if (is_minshell(cmd->str[0]))
+		signal(SIGQUIT, SIG_IGN);
 	cmd->pipe_fd[0] = in_fd;
 	cmd->pipe_fd[1] = out_fd;
 }
