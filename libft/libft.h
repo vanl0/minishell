@@ -69,6 +69,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 //MINISHELL
-void *ft_malloc(size_t size);
+void	*ft_malloc(size_t size);
 
 #endif
