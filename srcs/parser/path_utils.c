@@ -26,7 +26,7 @@ char	*expand_home(void)
 	{
 		if (entry->d_name[0] != '.' && ft_strncmp("Shared", entry->d_name, 6))
 		{
-			full_path = make_path(USER_DIR, entry->d_name);
+			full_path = make_path(ft_strdup(USER_DIR), entry->d_name);
 			if (access(full_path, R_OK | W_OK | X_OK) == 0)
 			{
 				closedir(dir);
@@ -62,13 +62,13 @@ char	*return_expanded(char *arg)
 	if (!ft_strncmp("~/", arg, 2))
 	{
 		path = make_path(home, arg + 2);
-		free(home);
+		//free(home);
 		return (path);
 	}
 	else if (arg[0] && !ft_strncmp("~", arg, ft_strlen(arg)))
 	{
 		path = make_path(home, arg + 1);
-		free(home);
+		//free(home);
 		return (path);
 	}
 	free(home);
@@ -103,7 +103,7 @@ char	*make_path(char *dir, char *to_add)
 	path[i] = '\0';
 	while (i > 0 && path[i - 1] == '/')
 		path[--i] = '\0';
-	return (path);
+	return (free(dir), path);
 }
 
 int	is_directory(char *path)

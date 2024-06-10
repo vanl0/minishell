@@ -55,7 +55,7 @@ static char	*find_executable(t_simple_cmds *cmd, char **paths)
 	i = -1;
 	while (paths[++i])
 	{
-		full_path = make_path(paths[i], command);
+		full_path = make_path(ft_strdup(paths[i]), command);
 		if (access(full_path, X_OK) == 0)
 			return (full_path);
 		free(full_path);
