@@ -47,7 +47,10 @@ static int	has_output(t_simple_cmds *cmd)
 void	handle_child(int in_fd, int out_fd, char *path, t_simple_cmds *cmd)
 {
 	if (cmd->tools->exit_code != EXIT_SUCCESS)
-		exit(free_tools(cmd->tools));//this is for still reachable leaks
+	{
+		free(path);
+		exit(free_tools(cmd->tools));
+	}
 	if (in_fd != INVALID_FD)
 		my_dup2(in_fd, STDIN_FILENO);
 	if (check_redirections(cmd))

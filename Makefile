@@ -140,7 +140,7 @@ fclean: clean
 	@echo "$(GREEN)Objects and executables removed$(NC)"
 
 valg:
-	valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all ./minishell
 
 re: fclean all
 
