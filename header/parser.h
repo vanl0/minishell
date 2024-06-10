@@ -83,6 +83,7 @@ void			handle_redirections(t_simple_cmds *cmd);
 //HEREDOC
 int				heredoc(t_simple_cmds *cmd);
 char			*get_hd_name(void);
+int				check_heredoc(t_simple_cmds *cmds);
 int				do_heredoc(char *hd_file_name,	char *end, t_tools *tools);
 
 #endif

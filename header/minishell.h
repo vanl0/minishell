@@ -74,6 +74,7 @@ void	execute_all(t_simple_cmds *cmd);
 void	start_signals(void);
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
+int		is_minshell(char *str);
 
 //ERROR
 int		do_error(int flg, t_tools *tools);
