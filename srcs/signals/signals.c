@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+int	is_minshell(char *str)
+{
+	int	len;
+
+	if (!str)
+		return (0);
+	len = ft_strlen(str);
+	while (len > 0 && str[len] != '/')
+		len--;
+	if (!ft_strncmp(&str[len], "/minishell", 11))
+		return (1);
+	return (0);
+}
+
 int	event(void)
 {
 	return (EXIT_SUCCESS);

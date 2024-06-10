@@ -25,7 +25,8 @@ void	search_n_destroy(char *name, t_tools *tools)
 	}
 	else
 	{
-		while (env_i->next && ft_strncmp(name, env_i->next->name, ft_strlen(env_i->next->name) + 1))
+		while (env_i->next && \
+		ft_strncmp(name, env_i->next->name, ft_strlen(env_i->next->name) + 1))
 			env_i = env_i->next;
 		if (!env_i->next)
 			return ;

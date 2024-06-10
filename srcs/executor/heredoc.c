@@ -81,3 +81,19 @@ int	heredoc(t_simple_cmds *cmd)
 	}
 	return (EXIT_SUCCESS);
 }
+
+/*Before executing anything sets the 
+heredoc input file for each command*/
+int	check_heredoc(t_simple_cmds *cmds)
+{
+	t_simple_cmds	*cmd_i;
+
+	cmd_i = cmds;
+	while (cmd_i)
+	{
+		if (heredoc(cmd_i))
+			return (HEREDOC_ERR);
+		cmd_i = cmd_i->next;
+	}
+	return (EXIT_SUCCESS);
+}
