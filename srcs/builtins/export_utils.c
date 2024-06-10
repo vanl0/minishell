@@ -37,7 +37,7 @@ void	split_env(char *str, char **name, char **content)
 	int		cont_len;
 
 	eq_pos = strchr(str, '=');
-	if (!eq_pos || !eq_pos[1])
+	if (!eq_pos)
 	{
 		*name = ft_strdup(str);
 		*content = ft_strdup("");
