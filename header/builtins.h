@@ -6,7 +6,7 @@
 /*   By: pde-masc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:00:09 by pde-masc          #+#    #+#             */
-/*   Updated: 2024/06/06 16:25:08 by pde-masc         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:20:25 by pde-masc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define UNSET 4
 # define ENV 5
 # define EXIT 6
+
+# define ENV_NOT_SET 136
 
 // BUILTINS MANAGEMENT
 void			search_n_destroy(char *name, t_tools *tools);
@@ -41,10 +43,10 @@ void			search_n_destroy(char *name, t_tools *tools);
 int				env(t_simple_cmds *cmd);
 
 // CD UTILS
-char            *my_getcwd(t_tools *tools);
+char			*handle_hyphen(char *arg, t_env *env_lst);
+char			*my_getcwd(t_tools *tools);
 char			*trim_from_back(char *dir);
 char			*get_next_path(char *arg);
-int				env_not_set(char *env_name);
 int				cd_error(char *arg, int error);
 
 ////EXPORT

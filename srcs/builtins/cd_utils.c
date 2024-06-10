@@ -64,20 +64,30 @@ char	*get_next_path(char *arg)
 	return (path);
 }
 
-int	env_not_set(char *env_name)
+char	*handle_hyphen(char *arg, t_env *env_lst)
 {
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(env_name, STDERR_FILENO);
-	ft_putstr_fd(" not set\n", STDERR_FILENO);
-	return (EXIT_FAILURE);
+	free(arg);
+	arg = find_env("OLDPWD", env_lst);
+	if (arg && access(arg, F_OK) == 0)
+		printf("%s\n", arg);
+	return (arg);
 }
 
 int	cd_error(char *arg, int error)
 {
 	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(arg, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(strerror(error), STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	if (error == ENV_NOT_SET)
+	{
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(" not set\n", STDERR_FILENO);
+	}
+	else
+	{
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(strerror(error), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	free(arg);
 	return (EXIT_FAILURE);
 }

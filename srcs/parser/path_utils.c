@@ -40,7 +40,7 @@ char	*expand_home(void)
 	return (NULL);
 }
 
-char	*return_expanded2(char *arg)
+char	*return_expanded(char *arg)
 {
 	if (!arg)
 		return (NULL);
@@ -48,30 +48,6 @@ char	*return_expanded2(char *arg)
 		return (make_path(expand_home(), arg + 2));
 	else if (arg[0] && !ft_strncmp("~", arg, ft_strlen(arg)))
 		return (make_path(expand_home(), arg + 1));
-	return (ft_strdup(arg));
-}
-
-char	*return_expanded(char *arg)
-{
-	char	*home;
-	char	*path;
-
-	if (!arg)
-		return (NULL);
-	home = expand_home();
-	if (!ft_strncmp("~/", arg, 2))
-	{
-		path = make_path(home, arg + 2);
-		//free(home);
-		return (path);
-	}
-	else if (arg[0] && !ft_strncmp("~", arg, ft_strlen(arg)))
-	{
-		path = make_path(home, arg + 1);
-		//free(home);
-		return (path);
-	}
-	free(home);
 	return (ft_strdup(arg));
 }
 

@@ -71,7 +71,7 @@ static void	update_wd(t_tools *tools, char *arg, char *old_wd)
 		add_env(&tools->env_lst, env_create("PWD", new_wd));
 		free(new_wd);
 	}
-	free(arg);///////////////////////cd 
+	free(arg);
 	search_n_destroy("OLDPWD", tools);
 	add_env(&tools->env_lst, env_create("OLDPWD", old_wd));
 }
@@ -84,25 +84,22 @@ int	cd(t_simple_cmds *cmd)
 	if (!cmd->str[1])
 	{
 		if (!env_exists("HOME", cmd->tools->env_lst))
-			return (env_not_set("HOME"));
+			return (cd_error(ft_strdup("HOME"), ENV_NOT_SET));
 		arg = find_env("HOME", cmd->tools->env_lst);
-	} // slight change to logic so that arg always allocates memory
+	}
 	else
 		arg = ft_strdup(cmd->str[1]);
+	if (is_hyphen(cmd->str[1]))
+	{
+		arg = handle_hyphen(arg, cmd->tools->env_lst);
+		if (!arg)
+			return (cd_error(ft_strdup("OLDPWD"), ENV_NOT_SET));
+	}
 	cwd = my_getcwd(cmd->tools);
 	if (!cwd)
 		return (EXIT_FAILURE);
-	if (is_hyphen(cmd->str[1]))
-	{
-		free(arg); // added this
-		arg = find_env("OLDPWD", cmd->tools->env_lst);
-		if (!arg)
-			return (env_not_set("HOME"));
-		if (access(arg, F_OK) == 0)
-			printf("%s\n", arg);
-	}
 	if (chdir(arg) == -1 && ft_strncmp(cmd->str[1], "", 1))
-		return (free(cwd), cd_error(arg, errno));//////////////////cd ...
+		return (free(cwd), cd_error(arg, errno));
 	update_wd(cmd->tools, arg, cwd);
 	free(cwd);
 	return (EXIT_SUCCESS);

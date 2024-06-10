@@ -6,7 +6,7 @@
 /*   By: pde-masc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 16:26:00 by pde-masc          #+#    #+#             */
-/*   Updated: 2024/06/06 16:28:34 by pde-masc         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:20:45 by pde-masc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		check_syntax(t_tools *tools);
 //SHLVL
 char	**increment_shlvl(char **env);
 //ENVIRONMENT
-int     env_exists(char *name, t_env *env_lst);
+int		env_exists(char *name, t_env *env_lst);
 t_env	*env_init(char **env);
 t_env	*env_create(char *name, char *content);
 t_env	*add_env(t_env **env_lst, t_env *new_env);
