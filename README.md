@@ -8,3 +8,16 @@ This project takes a closer look at the functioning of the commands and interfac
 
 The work was divided into two main components: the lexer and the parser. The lexer is responsible for analyzing and validating the input provided by the user or from a file descriptor. It detects syntax errors, such as incorrect use of quotes (" or ') or other special symbols, and tokenizes the input into structured elements—typically separating the command from its arguments and redirections. This organization allows the parser to efficiently interpret and execute the commands, without worrying about low-level input validation.
 
+```
+Input: echo "Hello $USER" > greeting.txt
+     │
+     ▼
+┌───────────────┐     ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+│     Lexer     │ --> │     Parser    │ --> │   Executor    │     │   Output      │
+│---------------│     │---------------│     │---------------│     │---------------│
+│ - Tokenize    │     │ - Validate    │     │ - Run command │     │ greeting.txt  │
+│ - Detect ""   │     │ - Expand vars │     │ - Builtin     │     │ contains:     │
+│ - Separate    │     │ - Redirections│     │ - Redirect >  │     │ "Hello <USER>"│
+└───────────────┘     └───────────────┘     └───────────────┘     └───────────────┘
+
+```
